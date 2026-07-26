@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Component reference | IFFCO Kisan SEZ</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="images/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/theme.css">
+<link rel="stylesheet" href="assets/css/base.css">
+<link rel="stylesheet" href="assets/css/components.css">
+<style>
+  .sg-block { padding-block: var(--sp-8); border-top: 1px solid var(--color-border); }
+  .sg-block:first-of-type { border-top: 0; }
+  .sg-title { font-family: var(--font-display); font-size: var(--fs-sm); font-weight: 700;
+              letter-spacing: .12em; text-transform: uppercase; color: var(--brand-green);
+              margin-bottom: var(--sp-5); }
+  .sg-code { display: block; margin-top: var(--sp-4); padding: var(--sp-4) var(--sp-5);
+             background: var(--brand-indigo-900); color: #cfd3ff; border-radius: var(--radius);
+             font: 400 .8rem/1.65 ui-monospace, SFMono-Regular, Menlo, monospace;
+             white-space: pre; overflow-x: auto; }
+  .sg-swatches { display: grid; gap: var(--sp-3); grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+  .sg-swatch { border-radius: var(--radius); overflow: hidden; border: 1px solid var(--color-border); }
+  .sg-swatch i { display: block; height: 68px; }
+  .sg-swatch span { display: block; padding: .55rem .7rem; font-size: var(--fs-xs); color: var(--color-muted); }
+  .sg-swatch b { display: block; color: var(--ink-800); font-family: var(--font-display); }
+</style>
+</head>
+<body>
+
+<div data-include="components/header.html"></div>
+
+<main id="main">
+
+  <div data-include="components/page-hero.html"
+       data-title="Component reference"
+       data-subtitle="Every reusable block in the IKSEZ design system, with the markup to copy."
+       data-banner="images/about-us-banner.png"></div>
+
+  <section class="section">
+    <div class="container">
+
+      <!-- COLOURS -->
+      <div class="sg-block">
+        <p class="sg-title">Brand palette</p>
+        <div class="sg-swatches">
+          <div class="sg-swatch"><i style="background:var(--brand-indigo)"></i><span><b>Indigo</b>#2e3192 · --brand-indigo</span></div>
+          <div class="sg-swatch"><i style="background:var(--brand-indigo-900)"></i><span><b>Indigo 900</b>#16184a</span></div>
+          <div class="sg-swatch"><i style="background:var(--brand-indigo-400)"></i><span><b>Indigo 400</b>#4a4ec4</span></div>
+          <div class="sg-swatch"><i style="background:var(--brand-green)"></i><span><b>Green</b>#009b48 · --brand-green</span></div>
+          <div class="sg-swatch"><i style="background:var(--brand-green-700)"></i><span><b>Green 700</b>#007a3d</span></div>
+          <div class="sg-swatch"><i style="background:var(--brand-green-400)"></i><span><b>Green 400</b>#3fbf75</span></div>
+          <div class="sg-swatch"><i style="background:var(--brand-gold)"></i><span><b>Gold</b>#d9a441</span></div>
+          <div class="sg-swatch"><i style="background:var(--grad-brand)"></i><span><b>Gradient</b>--grad-brand</span></div>
+        </div>
+      </div>
+
+      <!-- BUTTONS -->
+      <div class="sg-block">
+        <p class="sg-title">Buttons</p>
+        <div class="flex">
+          <a class="btn btn--brand" href="#">Primary gradient</a>
+          <a class="btn" href="#">Indigo</a>
+          <a class="btn btn--green" href="#">Green</a>
+          <a class="btn btn--outline" href="#">Outline</a>
+          <a class="btn btn--brand btn--sm" href="#">Small</a>
+          <a class="btn btn--brand btn--lg" href="#">Large</a>
+          <a class="link-arrow" href="#">Text link</a>
+        </div>
+        <code class="sg-code">&lt;a class="btn btn--brand btn--lg" href="#"&gt;Label&lt;/a&gt;</code>
+      </div>
+
+      <!-- SECTION HEAD -->
+      <div class="sg-block">
+        <p class="sg-title">Section heading</p>
+        <div class="section-head">
+          <span class="eyebrow">Eyebrow</span>
+          <h2>Section headline goes here</h2>
+          <p>An optional supporting line of copy sits underneath.</p>
+        </div>
+        <code class="sg-code">&lt;div class="section-head section-head--center"&gt;
+  &lt;span class="eyebrow"&gt;Eyebrow&lt;/span&gt;
+  &lt;h2&gt;Headline&lt;/h2&gt;
+  &lt;p&gt;Support copy&lt;/p&gt;
+&lt;/div&gt;</code>
+      </div>
+
+      <!-- CARDS -->
+      <div class="sg-block">
+        <p class="sg-title">Cards</p>
+        <div class="grid grid--3">
+          <article class="card">
+            <div class="card__icon"><svg viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 9-12h-7l1-8z"/></svg></div>
+            <h4>Icon card</h4><p>Default card with a gradient icon tile and an animated top rule on hover.</p>
+          </article>
+          <article class="card card--flat"><h4>Flat card</h4><p>No shadow, tinted background. Good for dense grids.</p></article>
+          <article class="card card--dark"><h4>Dark card</h4><p>Inverted, for the last cell of a grid or a callout.</p>
+            <div class="card__foot"><a class="btn btn--green btn--sm" href="#">Action</a></div>
+          </article>
+        </div>
+        <code class="sg-code">&lt;article class="card"&gt;
+  &lt;div class="card__icon"&gt;&lt;svg …&gt;&lt;/svg&gt;&lt;/div&gt;
+  &lt;h4&gt;Title&lt;/h4&gt;&lt;p&gt;Copy&lt;/p&gt;
+&lt;/article&gt;</code>
+      </div>
+
+      <!-- STATS -->
+      <div class="sg-block">
+        <p class="sg-title">Stat band (animated counters)</p>
+        <div class="stats">
+          <div class="stat"><div class="stat__value"><span data-count="1900">1,900</span></div><p class="stat__label">Acres SEZ</p></div>
+          <div class="stat"><div class="stat__value"><span data-count="8">8</span> km</div><p class="stat__label">NH-16 frontage</p></div>
+          <div class="stat"><div class="stat__value"><span data-count="220">220</span> kV</div><p class="stat__label">Power station</p></div>
+        </div>
+        <code class="sg-code">&lt;span data-count="1900" data-suffix=""&gt;1,900&lt;/span&gt;</code>
+      </div>
+
+      <!-- CHECK LIST + CHIPS -->
+      <div class="sg-block">
+        <p class="sg-title">Check list &amp; chips</p>
+        <ul class="check-list" style="max-width:520px">
+          <li>Duty Free Import of machinery and raw material.</li>
+          <li>Zero rated GST on supplies to SEZ units.</li>
+        </ul>
+        <div class="chip-row mt-6">
+          <span class="chip">Indigo chip</span>
+          <span class="chip chip--green">Green chip</span>
+        </div>
+      </div>
+
+      <!-- ACCORDION -->
+      <div class="sg-block">
+        <p class="sg-title">Accordion</p>
+        <div class="accordion" data-single="true" style="max-width:640px">
+          <div class="accordion__item">
+            <button class="accordion__btn" type="button" aria-expanded="true" aria-controls="sg-a1">First panel</button>
+            <div class="accordion__panel is-open" id="sg-a1"><p>Panel content.</p></div>
+          </div>
+          <div class="accordion__item">
+            <button class="accordion__btn" type="button" aria-expanded="false" aria-controls="sg-a2">Second panel</button>
+            <div class="accordion__panel" id="sg-a2"><p>Panel content.</p></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TABLE -->
+      <div class="sg-block">
+        <p class="sg-title">Table</p>
+        <div class="table-wrap">
+          <table class="table">
+            <thead><tr><th>Area</th><th>Advantages</th></tr></thead>
+            <tbody>
+              <tr><td>Power</td><td>220 KV Substation to supply 100 MW of Power dedicated to Units in IKSEZ</td></tr>
+              <tr><td>SEZ Status</td><td>Notified Multi Product SEZ.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- DOC LINKS -->
+      <div class="sg-block">
+        <p class="sg-title">Document link</p>
+        <div class="grid grid--2" style="max-width:760px">
+          <a class="doc-link" href="images/EC-Compliance-Report-2025.pdf" target="_blank" rel="noopener">
+            <span class="doc-link__icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg></span>
+            <span class="doc-link__meta"><strong>Compliance Reports</strong><span>PDF</span></span>
+          </a>
+          <a class="doc-link" href="images/iksez-EC-complains-enviroment.pdf" target="_blank" rel="noopener">
+            <span class="doc-link__icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg></span>
+            <span class="doc-link__meta"><strong>Environment Clearance</strong><span>PDF</span></span>
+          </a>
+        </div>
+      </div>
+
+      <!-- PARTIALS -->
+      <div class="sg-block">
+        <p class="sg-title">Shared partials</p>
+        <code class="sg-code">&lt;div data-include="components/header.html"&gt;&lt;/div&gt;
+
+&lt;div data-include="components/page-hero.html"
+     data-title="About us"
+     data-subtitle="Optional one-liner"
+     data-banner="images/about-us-banner.png"&gt;&lt;/div&gt;
+
+&lt;div data-include="components/cta-band.html"&gt;&lt;/div&gt;
+&lt;div data-include="components/footer.html"&gt;&lt;/div&gt;</code>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<div data-include="components/footer.html"></div>
+
+<script src="assets/js/include.js"></script>
+<script src="assets/js/main.js"></script>
+</body>
+</html>
