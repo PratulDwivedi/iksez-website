@@ -51,7 +51,11 @@ export function PageviewTracker() {
     // keepalive lets the request survive a same-tick navigation/unload;
     // errors are swallowed on purpose — a tracking failure must never
     // surface to the visitor or block/slow the page.
-    fetch('/api/analytics', {
+    // Trailing slash matters here: this site runs with trailingSlash: true
+    // (next.config.ts), so a POST to the bare path gets a 308 redirect —
+    // which fetch() follows while preserving the method/body — meaning
+    // every pageview would otherwise be recorded twice.
+    fetch('/api/analytics/', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'x-api-key': apiKey },
       body: JSON.stringify({
