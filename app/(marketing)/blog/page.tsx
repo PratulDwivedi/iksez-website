@@ -7,7 +7,7 @@ import CtaBand from "@/components/CtaBand";
 import { BlogCard } from "@/components/blog/BlogCard";
 import { BlogPagination } from "@/components/blog/BlogPagination";
 import { TagFilter } from "@/components/blog/TagFilter";
-import { getPublishedBlogList, getPublishedBlogTags } from "@/lib/publicBlogs";
+import { getPublishedBlogCategories, getPublishedBlogList, getPublishedBlogTags } from "@/lib/publicBlogs";
 
 export const dynamic = "force-dynamic";
 
@@ -17,16 +17,10 @@ export const dynamic = "force-dynamic";
 // See /admin/settings ("Publishable API Key" card) to generate/reset it.
 const FIRST_PARTY_API_KEY = process.env.NEXT_PUBLIC_IKSEZ_PUBLISHABLE_KEY;
 
-// No category tabs here: website_blogs.category comes from an
-// admin-editable quick list (lib/quickLists.ts) readable only through a
-// session-scoped RPC — there's no public equivalent of
-// getPublishedBlogTags() for categories, so hardcoding tab labels here
-// would risk drifting from whatever the admin actually picks. Search + tag
-// filtering already cover discovery; category tabs can follow once a
-// public categories endpoint exists.
-function buildHref(params: { q?: string; tags?: string[]; page?: number }) {
+function buildHref(params: { q?: string; category?: string; tags?: string[]; page?: number }) {
   const sp = new URLSearchParams();
   if (params.q) sp.set("q", params.q);
+  if (params.category && params.category !== "All") sp.set("category", params.category);
   if (params.tags && params.tags.length > 0) sp.set("tags", params.tags.join(","));
   if (params.page && params.page > 1) sp.set("page", String(params.page));
   const qs = sp.toString();
@@ -34,7 +28,7 @@ function buildHref(params: { q?: string; tags?: string[]; page?: number }) {
 }
 
 interface PageProps {
-  searchParams: Promise<{ q?: string; tags?: string; page?: string }>;
+  searchParams: Promise<{ q?: string; category?: string; tags?: string; page?: string }>;
 }
 
 export async function generateMetadata({ searchParams }: PageProps): Promise<Metadata> {
@@ -50,8 +44,9 @@ export async function generateMetadata({ searchParams }: PageProps): Promise<Met
 }
 
 export default async function BlogPage({ searchParams }: PageProps) {
-  const { q, tags, page } = await searchParams;
+  const { q, category, tags, page } = await searchParams;
   const pageNum = Math.max(Number(page) || 1, 1);
+  const activeCategory = category && category !== "All" ? category : "All";
   const activeTags = tags ? tags.split(",").map((t) => t.trim()).filter(Boolean) : [];
 
   return (
@@ -62,11 +57,16 @@ export default async function BlogPage({ searchParams }: PageProps) {
         <div className="container">
           <div className="blog-toolbar" data-reveal="">
             <div className="blog-toolbar__row">
+              <Suspense fallback={<div className="blog-cats-skel" />}>
+                <CategoryTabs active={activeCategory} query={q} tags={activeTags} />
+              </Suspense>
+
               <Suspense fallback={<div className="blog-tagfilter-skel" />}>
                 <TagFilterField selectedTags={activeTags} />
               </Suspense>
 
               <form action="/blog/" method="GET" className="blog-search">
+                {activeCategory !== "All" && <input type="hidden" name="category" value={activeCategory} />}
                 {activeTags.length > 0 && <input type="hidden" name="tags" value={activeTags.join(",")} />}
                 <Search />
                 <input type="text" name="q" defaultValue={q} placeholder="Search articles..." />
@@ -78,7 +78,7 @@ export default async function BlogPage({ searchParams }: PageProps) {
                 {activeTags.map((tag) => (
                   <Link
                     key={tag}
-                    href={buildHref({ q, tags: activeTags.filter((t) => t !== tag) })}
+                    href={buildHref({ q, category: activeCategory, tags: activeTags.filter((t) => t !== tag) })}
                     className="chip"
                   >
                     {tag}
@@ -92,8 +92,11 @@ export default async function BlogPage({ searchParams }: PageProps) {
           </div>
 
           <div className="mt-8">
-            <Suspense key={`${q ?? ""}|${activeTags.join(",")}|${pageNum}`} fallback={<BlogGridSkeleton />}>
-              <BlogResults query={q ?? ""} selectedTags={activeTags} page={pageNum} />
+            <Suspense
+              key={`${q ?? ""}|${activeCategory}|${activeTags.join(",")}|${pageNum}`}
+              fallback={<BlogGridSkeleton />}
+            >
+              <BlogResults query={q ?? ""} category={activeCategory} selectedTags={activeTags} page={pageNum} />
             </Suspense>
           </div>
         </div>
@@ -101,6 +104,27 @@ export default async function BlogPage({ searchParams }: PageProps) {
 
       <CtaBand />
     </>
+  );
+}
+
+async function CategoryTabs({ active, query, tags }: { active: string; query?: string; tags: string[] }) {
+  const { data: categories } = await getPublishedBlogCategories(FIRST_PARTY_API_KEY);
+  if (categories.length === 0) return null;
+
+  const allCategories = ["All", ...categories];
+
+  return (
+    <div className="blog-cats">
+      {allCategories.map((cat) => (
+        <Link
+          key={cat}
+          href={buildHref({ q: query, category: cat, tags })}
+          className={`blog-cat${active === cat ? " is-active" : ""}`}
+        >
+          {cat}
+        </Link>
+      ))}
+    </div>
   );
 }
 
@@ -128,13 +152,15 @@ function BlogGridSkeleton() {
 
 interface BlogResultsProps {
   query: string;
+  category: string;
   selectedTags: string[];
   page: number;
 }
 
-async function BlogResults({ query, selectedTags, page }: BlogResultsProps) {
+async function BlogResults({ query, category, selectedTags, page }: BlogResultsProps) {
   const result = await getPublishedBlogList({
     search: query || undefined,
+    category: category !== "All" ? category : undefined,
     tags: selectedTags,
     page,
     apiKey: FIRST_PARTY_API_KEY,
@@ -164,7 +190,7 @@ async function BlogResults({ query, selectedTags, page }: BlogResultsProps) {
         <BlogPagination
           currentPage={currentPage}
           totalPages={totalPages}
-          buildHref={(p) => buildHref({ q: query, tags: selectedTags, page: p })}
+          buildHref={(p) => buildHref({ q: query, category, tags: selectedTags, page: p })}
         />
       </div>
     </>

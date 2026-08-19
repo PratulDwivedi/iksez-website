@@ -202,6 +202,30 @@ export async function getPublishedBlogTags(apiKey?: string): Promise<BlogTagsRes
   };
 }
 
+export interface BlogCategoriesResult {
+  is_success: boolean;
+  message: string;
+  data: string[];
+}
+
+// Derived, not a direct RPC passthrough like getPublishedBlogTags (which has
+// its own fn_get_website_blog_tags): there's no public categories RPC today
+// — fn_get_quick_lists (lib/quickLists.ts) is session-scoped, admin-only.
+// Distinct categories are extracted from a full published-post fetch
+// instead, going through the same fn_get_website_blogs RPC and
+// unstable_cache layer as getPublishedBlogList (fetchBlogList above) — a
+// separate cache entry (different args: no filters, pageSize 1000), not a
+// new round trip type. category is already visible per-post on both /blog
+// and /blog/[slug], so aggregating it here exposes nothing new.
+export async function getPublishedBlogCategories(apiKey?: string): Promise<BlogCategoriesResult> {
+  const result = await getPublishedBlogList({ apiKey, pageSize: 1000 });
+  if (!result.is_success) {
+    return { is_success: false, message: result.message, data: [] };
+  }
+  const categories = Array.from(new Set(result.data.map((post) => post.category))).sort();
+  return { is_success: true, message: 'Website blog categories retrieved successfully', data: categories };
+}
+
 export interface BlogPostResult {
   is_success: boolean;
   message: string;
