@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { Inter, Plus_Jakarta_Sans } from "next/font/google";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import SiteEffects from "@/components/SiteEffects";
 import ThemeScript from "@/components/ThemeScript";
+import { PageviewTracker } from "@/components/PageviewTracker";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -34,6 +36,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <ThemeScript />
       </head>
       <body>
+        <Suspense fallback={null}>
+          <PageviewTracker />
+        </Suspense>
         <a className="skip-link" href="#main">
           Skip to content
         </a>

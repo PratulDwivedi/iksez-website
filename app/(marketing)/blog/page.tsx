@@ -111,7 +111,7 @@ async function TagFilterField({ selectedTags }: { selectedTags: string[] }) {
 
 function BlogGridSkeleton() {
   return (
-    <div className="grid grid--3">
+    <div className="blog-grid">
       {Array.from({ length: 6 }).map((_, i) => (
         <div key={i} className="blog-skel-card">
           <div className="blog-skel-card__figure" />
@@ -154,7 +154,7 @@ async function BlogResults({ query, selectedTags, page }: BlogResultsProps) {
 
   return (
     <>
-      <div className="grid grid--3">
+      <div className="blog-grid">
         {posts.map((post) => (
           <BlogCard key={post.id} post={post} />
         ))}

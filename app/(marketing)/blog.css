@@ -5,6 +5,19 @@
    .accordion — this file only adds what's genuinely blog-specific.
    ========================================================================== */
 
+/* ---------- Card grid ----------
+   Not .grid--3 (base.css): that uses auto-fit, which collapses empty
+   tracks and lets a lone item's 1fr stretch to fill the whole row — with
+   only 1-2 published posts (the common case early on) that produced one
+   giant full-width card instead of a normal card-sized one. auto-fill
+   keeps the unused tracks in the layout (just empty) so a lone card stays
+   card-sized and left-aligned, matching the reference (portage_now_web_site's
+   fixed grid-cols-3). */
+.blog-grid {
+  display: grid; gap: var(--sp-6);
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+}
+
 /* ---------- Toolbar (category tabs + search + tag filter) ---------- */
 .blog-toolbar {
   padding: var(--sp-4);
