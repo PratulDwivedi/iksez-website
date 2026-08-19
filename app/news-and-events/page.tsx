@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 export default function NewsAndEvents() {
   return (
     <>
-      <PageHero title="Media" subtitle="News and Events" banner="/images/media-banner.png" />
+      <PageHero title="Media" subtitle="News and Events" banner="/images/media-banner.webp" />
 
       <section className="section section--tight">
         <div className="container">

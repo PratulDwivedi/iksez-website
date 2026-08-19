@@ -15,7 +15,7 @@ export default function AboutUs() {
       <PageHero
         title="About us"
         subtitle="A wholly owned subsidiary and a unique initiative of IFFCO, a globally acclaimed cooperative institution."
-        banner="/images/about-us-banner.png"
+        banner="/images/about-us-banner.webp"
       />
 
       {/* ================= INTRO ================= */}
@@ -24,7 +24,7 @@ export default function AboutUs() {
           <div className="split">
             <div className="split__figure split__figure--frame" data-reveal="">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/images/inner-image1.jpg" alt="IFFCO Kisan SEZ project site" loading="lazy" />
+              <img src="/images/inner-image1.webp" alt="IFFCO Kisan SEZ project site" loading="lazy" />
             </div>
             <div data-reveal="">
               <div className="section-head">

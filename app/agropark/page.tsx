@@ -14,7 +14,7 @@ export default function Agropark() {
       <PageHero
         title="Agropark"
         subtitle="A demand driven combination and integration of various agricultural activities."
-        banner="/images/agropark-banner.png"
+        banner="/images/agropark-banner.webp"
       />
 
       {/* ================= CONCEPT ================= */}
@@ -23,7 +23,7 @@ export default function Agropark() {
           <div className="split">
             <div className="split__figure" data-reveal="">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/images/agropark-image.jpg" alt="The Agropark concept" loading="lazy" />
+              <img src="/images/agropark-image.webp" alt="The Agropark concept" loading="lazy" />
             </div>
             <div data-reveal="">
               <div className="section-head">
@@ -51,7 +51,7 @@ export default function Agropark() {
           <div className="split">
             <div className="split__figure" data-reveal="">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/images/components.jpg" alt="Components of the Agropark" loading="lazy" />
+              <img src="/images/components.webp" alt="Components of the Agropark" loading="lazy" />
             </div>
             <div data-reveal="">
               <p>

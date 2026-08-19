@@ -15,7 +15,7 @@ export default function Tax() {
       <PageHero
         title="Benefits"
         subtitle="Tax concessions under the SEZ Act, plus the strategic advantages of the IKSEZ location."
-        banner="/images/benifit-banner.png"
+        banner="/images/benifit-banner.webp"
       />
 
       {/* ================= TABS ================= */}

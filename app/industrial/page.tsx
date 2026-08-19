@@ -9,16 +9,16 @@ export const metadata: Metadata = {
 };
 
 const ITEMS = [
-  { src: "/images/water-1.jpg", caption: "Water Storage Pond (79 Acres)" },
+  { src: "/images/water-1.webp", caption: "Water Storage Pond (79 Acres)" },
   {
-    src: "/images/pump-house.jpg",
+    src: "/images/pump-house.webp",
     caption: "Pump House with 13 km pipe line to draw water from approved Reservoir",
   },
   { src: "/images/power-station.jpg", caption: "220 kV Power Station for Power Supply" },
-  { src: "/images/security.jpg", caption: "Security with 27 km Boundary Wall" },
-  { src: "/images/internal-road.jpg", caption: "Internal Roads" },
+  { src: "/images/security.webp", caption: "Security with 27 km Boundary Wall" },
+  { src: "/images/internal-road.webp", caption: "Internal Roads" },
   { src: "/images/Peripheral-Roads.jpg", caption: "Peripheral Roads" },
-  { src: "/images/ready-space.jpg", caption: "Ready to Use Office Space" },
+  { src: "/images/ready-space.webp", caption: "Ready to Use Office Space" },
   { src: "/images/hall.jpg", caption: "Conference Hall and Amenities" },
 ];
 
@@ -28,7 +28,7 @@ export default function Industrial() {
       <PageHero
         title="Infrastructure"
         subtitle="Ready Availability of Infrastructure for New Industries"
-        banner="/images/infrastructur-banner.png"
+        banner="/images/infrastructur-banner.webp"
       />
 
       <section className="section">

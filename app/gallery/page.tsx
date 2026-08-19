@@ -45,7 +45,7 @@ const PHOTOS: { full: string; thumb: string; caption: string }[] = [
 export default function Gallery() {
   return (
     <>
-      <PageHero title="Media" subtitle="Image Gallery" banner="/images/media-banner.png" />
+      <PageHero title="Media" subtitle="Image Gallery" banner="/images/media-banner.webp" />
 
       <section className="section section--tight">
         <div className="container">

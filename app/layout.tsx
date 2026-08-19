@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Inter, Plus_Jakarta_Sans } from "next/font/google";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import SiteEffects from "@/components/SiteEffects";
@@ -9,20 +10,28 @@ export const metadata: Metadata = {
   icons: { icon: "/images/logo.png" },
 };
 
+// Self-hosted via next/font: fonts are downloaded at build time and served
+// from this origin, so there's no render-blocking request out to
+// fonts.googleapis.com/fonts.gstatic.com on every page load.
+const inter = Inter({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  display: "swap",
+  variable: "--font-inter",
+});
+
+const plusJakartaSans = Plus_Jakarta_Sans({
+  subsets: ["latin"],
+  weight: ["600", "700", "800"],
+  display: "swap",
+  variable: "--font-jakarta",
+});
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning className={`${inter.variable} ${plusJakartaSans.variable}`}>
       <head>
         <ThemeScript />
-        {/* App Router's documented pattern for third-party font CDNs (this
-            rule predates the App Router and doesn't apply to it here). */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        {/* eslint-disable-next-line @next/next/no-page-custom-font */}
-        <link
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
-          rel="stylesheet"
-        />
       </head>
       <body>
         <a className="skip-link" href="#main">

@@ -10,17 +10,22 @@ export const metadata: Metadata = {
 };
 
 const HERO_IMAGES = [
-  "/images/1.png",
-  "/images/2.png",
-  "/images/3.png",
-  "/images/4.png",
-  "/images/5.png",
-  "/images/6.png",
+  "/images/1.webp",
+  "/images/2.webp",
+  "/images/3.webp",
+  "/images/4.webp",
+  "/images/5.webp",
+  "/images/6.webp",
 ];
 
 export default function Home() {
   return (
     <>
+      {/* Preloaded as the likely LCP element — React 19 hoists this into
+          <head>, so the browser fetches it before it even parses the CSS
+          that references it as a background-image. */}
+      <link rel="preload" as="image" href={HERO_IMAGES[0]} fetchPriority="high" />
+
       {/* ================= HERO ================= */}
       <section className="hero">
         <div className="container">
@@ -93,7 +98,7 @@ export default function Home() {
           <div className="split">
             <div className="split__figure" data-reveal="">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/images/img1.png" alt="IFFCO Kisan SEZ" loading="lazy" />
+              <img src="/images/img1.webp" alt="IFFCO Kisan SEZ" loading="lazy" />
             </div>
             <div data-reveal="">
               <div className="section-head">
@@ -233,7 +238,7 @@ export default function Home() {
             <div className="split__figure" data-reveal="">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src="/images/agropark-image.jpg"
+                src="/images/agropark-image.webp"
                 alt="The Agropark concept at IFFCO Kisan SEZ"
                 loading="lazy"
               />

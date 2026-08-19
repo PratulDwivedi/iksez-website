@@ -14,7 +14,7 @@ export default function ExistingUnits() {
       <PageHero
         title="Existing units"
         subtitle="Many other companies of National repute are also expected to set up their units very soon."
-        banner="/images/infrastructur-banner.png"
+        banner="/images/infrastructur-banner.webp"
       />
 
       <section className="section">
@@ -76,13 +76,13 @@ export default function ExistingUnits() {
             <article className="media-card" data-reveal="">
               <a
                 className="media-card__figure"
-                href="/images/existing-1.jpg"
+                href="/images/existing-1.webp"
                 data-lightbox=""
                 data-caption="Wind mill blade of Siemen’s Gamesa being transported"
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src="/images/existing-1.jpg"
+                  src="/images/existing-1.webp"
                   alt="Wind mill blade of Siemen’s Gamesa being transported"
                   loading="lazy"
                 />
@@ -95,13 +95,13 @@ export default function ExistingUnits() {
             <article className="media-card" data-reveal="">
               <a
                 className="media-card__figure"
-                href="/images/existing-2.png"
+                href="/images/existing-2.webp"
                 data-lightbox=""
                 data-caption="An export consignments of ADJ & Brothers"
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src="/images/existing-2.png"
+                  src="/images/existing-2.webp"
                   alt="An export consignments of ADJ & Brothers"
                   loading="lazy"
                 />

@@ -14,7 +14,7 @@ export default function InvitationForInvestors() {
       <PageHero
         title="Business Opportunities"
         subtitle="The business opportunities that invite you to IFFCO Kisan SEZ"
-        banner="/images/business-opp-banner.png"
+        banner="/images/business-opp-banner.webp"
       />
 
       {/* ================= GROUPED SECTORS ================= */}

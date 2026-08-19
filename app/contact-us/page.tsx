@@ -15,7 +15,7 @@ export default function ContactUs() {
       <PageHero
         title="Contact us"
         subtitle="Talk to the IKSEZ team about setting up your unit."
-        banner="/images/contact-banner.png"
+        banner="/images/contact-banner.webp"
       />
 
       <section className="section">

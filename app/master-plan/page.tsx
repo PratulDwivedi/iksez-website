@@ -15,14 +15,14 @@ export default function MasterPlan() {
       <PageHero
         title="Master Plan"
         subtitle="Click the plan to view it full size."
-        banner="/images/master-plan-banner.png"
+        banner="/images/master-plan-banner.webp"
       />
 
       <section className="section">
         <div className="container">
           <figure style={{ margin: 0 }} data-reveal="">
             <a
-              href="/images/map-iksez.png"
+              href="/images/map-iksez.webp"
               data-lightbox=""
               data-caption="IFFCO Kisan SEZ — Master Plan"
               style={{
@@ -35,7 +35,7 @@ export default function MasterPlan() {
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src="/images/map-iksez.png"
+                src="/images/map-iksez.webp"
                 alt="IFFCO Kisan SEZ master plan"
                 loading="lazy"
                 style={{ width: "100%" }}

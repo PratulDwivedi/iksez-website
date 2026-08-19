@@ -6,6 +6,10 @@ const DELAY = 6000;
 
 export default function HeroSlider({ images }: { images: string[] }) {
   const [index, setIndex] = useState(0);
+  // Only the first slide's background loads eagerly (it's preloaded as the
+  // LCP candidate); the rest load once the browser is idle so they don't
+  // compete with critical-path requests during initial page load.
+  const [revealed, setRevealed] = useState(1);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const go = (i: number) => setIndex(((i % images.length) + images.length) % images.length);
@@ -33,6 +37,20 @@ export default function HeroSlider({ images }: { images: string[] }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [images.length]);
 
+  useEffect(() => {
+    const idle =
+      typeof window.requestIdleCallback === "function"
+        ? window.requestIdleCallback
+        : (cb: () => void) => setTimeout(cb, 200);
+    idle(() => setRevealed(images.length));
+  }, [images.length]);
+
+  // Defensive: make sure the active slide is always loaded even if autoplay
+  // reaches it before the idle callback above has fired.
+  useEffect(() => {
+    setRevealed((r) => Math.max(r, index + 1));
+  }, [index]);
+
   return (
     <div className="hero__media">
       <div
@@ -45,7 +63,7 @@ export default function HeroSlider({ images }: { images: string[] }) {
           <div
             key={src}
             className={`hero__slide${i === index ? " is-active" : ""}`}
-            style={{ backgroundImage: `url('${src}')` }}
+            style={i < revealed ? { backgroundImage: `url('${src}')` } : undefined}
           />
         ))}
       </div>

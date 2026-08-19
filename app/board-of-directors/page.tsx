@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 export default function BoardOfDirectors() {
   return (
     <>
-      <PageHero title="Management Team" banner="/images/about-us-banner.png" />
+      <PageHero title="Management Team" banner="/images/about-us-banner.webp" />
 
       <section className="section">
         <div className="container">

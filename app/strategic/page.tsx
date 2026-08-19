@@ -15,7 +15,7 @@ export default function Strategic() {
       <PageHero
         title="Strategic"
         subtitle="Area by area, the advantages that come with locating at IFFCO Kisan SEZ."
-        banner="/images/benifit-banner.png"
+        banner="/images/benifit-banner.webp"
       />
 
       <section className="section section--tight">
