@@ -1,205 +1,144 @@
-# IFFCO Kisan SEZ — static site rebuild
+# IFFCO Kisan SEZ — Next.js site
 
-Pure HTML / CSS / vanilla JS. No build step, no `node_modules`, no server-side
-code. Upload the folder to any static host (cPanel, Apache, Nginx, IIS, S3,
-Netlify, GitHub Pages) and it runs.
+Migrated from the previous static HTML/CSS/JS rebuild to Next.js (App
+Router), keeping every page's content, images, navigation structure and URL
+exactly as before. This was a **pure tech migration** — no redesign, no
+content changes, no wording changes.
 
----
-
-## 1. Before you deploy — copy the images across
-
-The image and PDF files were **not** touched by this rebuild. The new pages
-reference them at exactly the same paths as the old site, so:
-
-```
-copy  <old site>/images/        →  iksez/images/
-copy  <old site>/admin/upload/  →  iksez/admin/upload/
-```
-
-That's the only manual step. Files referenced (all pre-existing):
-
-| Folder | Used for |
-|---|---|
-| `images/logo.png` | header, footer, favicon |
-| `images/1.png` … `6.png` | homepage hero slider |
-| `images/img1.png`, `inner-image1.jpg` | About |
-| `images/agropark-image.jpg`, `components.jpg` | Agropark |
-| `images/water-1.jpg`, `pump-house.jpg`, `power-station.jpg`, `security.jpg`, `internal-road.jpg`, `Peripheral-Roads.jpg`, `ready-space.jpg`, `hall.jpg` | Infrastructure |
-| `images/map-iksez.png` | Master Plan |
-| `images/existing-1.jpg`, `existing-2.png` | Existing units |
-| `images/medical-*.jpg`, `camp-*.jpg`, `new-*.jpg`, `district-*.jpg`, `Layer 1-8.png` | News and Events |
-| `images/board-of-directors/rakesh2.jpg` | Management Team |
-| `images/*-banner.png` | page banners |
-| `images/EC-Compliance-Report-2025.pdf`, `iksez-EC-complains-enviroment.pdf` | EC compliance menu |
-| `admin/upload/*` | Image Gallery |
+The site still ships as plain static HTML/CSS/JS (`next build` with
+`output: 'export'`), because the client's hosting (IIS, see `web.config`) has
+no Node.js runtime. Deploying is still "copy files to the server."
 
 ---
 
-## 2. Local preview
-
-The header/footer are loaded with `fetch()`, which browsers block on
-`file://`. Serve over http:
+## 1. Local development
 
 ```bash
-python3 -m http.server 8080      # then open http://localhost:8080
-# or
-npx serve .
+npm install
+npm run dev          # http://localhost:3020
 ```
 
-Opening `index.html` by double-clicking will show a red "could not load"
-notice where the header should be. That is expected — it works once served.
+Routes are clean URLs (`/about-us/`) that work identically in `next dev` and
+in the deployed static export — click through the site directly under
+`npm run dev`, no build step needed for day-to-day work. To preview the
+*exact* production artifact (including the legacy `.html` redirects, §3),
+build and serve it instead:
 
----
-
-## 3. Structure
-
-```
-iksez/
-├── index.html                     Home
-├── about-us.html                  About us
-├── board-of-directors.html        Management Team
-├── agropark.html                  Agropark
-├── tax.html                       Benefits → Tax
-├── strategic.html                 Benefits → Strategic
-├── invitation-for-investors.html  Business Opportunities
-├── industrial.html                Infrastructure
-├── master-plan.html               Master Plan
-├── existing-units.html            Existing units
-├── news-and-events.html           Media → News and Events   (was .php)
-├── gallery.html                   Media → Image Gallery     (was .php)
-├── contact-us.html                Contact us
-├── 404.html
-├── components.html                Living style guide / component reference
-├── .htaccess                      301s from the old .php URLs, caching, gzip
-│
-├── components/                    ← shared, edit once
-│   ├── header.html                top bar + sticky nav + mobile drawer
-│   ├── footer.html                4-column footer
-│   ├── page-hero.html             inner-page banner (parameterised)
-│   └── cta-band.html              closing call-to-action
-│
-├── assets/css/
-│   ├── theme.css                  design tokens — colours, type, spacing
-│   ├── base.css                   reset, layout primitives, utilities
-│   └── components.css             the component library
-│
-└── assets/js/
-    ├── include.js                 the partial loader (~90 lines)
-    └── main.js                    nav, slider, reveal, counters,
-                                   accordion, lightbox, back-to-top
+```bash
+npm run build         # writes the static site to out/, then runs postbuild
+npm start               # serves out/ at http://localhost:3000
 ```
 
----
+## 2. Deploying
 
-## 4. How the components work
-
-Drop a placeholder anywhere; it is replaced by the partial's markup:
-
-```html
-<div data-include="components/header.html"></div>
+```bash
+npm run build
 ```
 
-Partials can take parameters via `data-*` attributes, substituted into
-`{{token}}` placeholders in both text and attributes:
+Upload the contents of `out/` to the web root — the same way the old static
+site was deployed. No Node.js, no build step, no server process required on
+the host.
 
-```html
-<div data-include="components/page-hero.html"
-     data-title="About us"
-     data-subtitle="Optional one-liner"
-     data-banner="images/about-us-banner.png"></div>
+## 3. URLs: clean now, old `.html` links still work
+
+Every page's canonical URL is now a clean, trailing-slash path —
+`/about-us/`, `/gallery/`, etc. — matching the App Router route
+(`app/about-us/page.tsx`) exactly, in both `next dev` and the static export
+(`trailingSlash: true` in `next.config.ts` makes the export write
+`about-us/index.html`, served correctly by any static host with zero config).
+
+The previous site's URLs (`/about-us.html`, …) may still be bookmarked,
+backlinked, or indexed by search engines, so they keep working too:
+`scripts/generate-legacy-redirects.mjs` runs after every build (`postbuild`
+in package.json) and writes a small static redirect stub for each old
+filename straight into `out/` — e.g. `out/about-us.html` instantly redirects
+to `/about-us/` via `<meta http-equiv="refresh">` + a JS fallback. Add a new
+page's legacy filename to that script's `LEGACY_ROUTES` map if you ever
+rename a route.
+
+## 4. Structure
+
+```
+app/
+├── layout.tsx              Root layout — header, footer, fonts, global CSS
+├── globals.css              @imports theme.css, base.css, components.css
+├── theme.css / base.css / components.css   Design tokens, reset, components
+├── page.tsx                 Home
+├── not-found.tsx             404 (exported as 404.html automatically)
+├── about-us/page.tsx
+├── board-of-directors/page.tsx
+├── agropark/page.tsx
+├── tax/page.tsx
+├── strategic/page.tsx
+├── invitation-for-investors/page.tsx
+├── industrial/page.tsx
+├── master-plan/page.tsx
+├── existing-units/page.tsx
+├── news-and-events/page.tsx
+├── gallery/page.tsx
+└── contact-us/page.tsx
+
+components/
+├── Header.tsx        Sticky nav, mobile drawer, active-link highlighting
+├── Footer.tsx / FooterYear.tsx
+├── PageHero.tsx        Inner-page banner + breadcrumb
+├── CtaBand.tsx          Closing call-to-action
+├── HeroSlider.tsx        Homepage image slider
+├── ContactForm.tsx        mailto: form (no backend, same as before)
+├── SiteEffects.tsx        Scroll reveal, animated counters, accordion,
+│                            lightbox, back-to-top — ported from the old
+│                            assets/js/main.js
+├── ThemeScript.tsx        Blocking pre-paint script — applies the stored/
+│                            system theme before first paint (no flash)
+└── ThemeToggle.tsx        Header sun/moon button; persists choice to
+                             localStorage
+
+public/
+├── images/            Same files, same paths, as the old images/ folder
+└── admin/upload/       Same files, same paths (used by the Image Gallery)
+
+scripts/
+└── generate-legacy-redirects.mjs   Writes the old *.html redirect stubs
+                                      into out/ after every build — see §3
 ```
 
-An element marked `data-if="subtitle"` is removed when that parameter is
-absent, so optional bits disappear cleanly.
+`data-reveal`, `data-count`, `data-lightbox`, `data-caption` etc. are the
+same markup hooks as before — `SiteEffects.tsx` wires them up the same way
+`main.js` did, adapted for React's lifecycle instead of a full page reload.
 
-Nested includes work — a partial may itself contain `data-include`.
-When everything has resolved, `include.js` fires `components:loaded` on
-`document`; `main.js` waits for that before wiring up behaviour.
+## 5. Theming — light & dark mode
 
-**Adding a menu item** → edit `components/header.html` once. Every page
-picks it up. The active item highlights itself from the URL, so there is
-nothing per-page to maintain.
+Colors live in `app/theme.css` as OKLCH custom properties, in two layers:
 
----
+- **Scale tokens** (`--color-primary-*`, `--color-secondary-*`, `--color-accent`,
+  `--color-neutral-*`) — the brand palette. `primary`/`secondary`/`accent`
+  are the exact IKSEZ indigo/green/gold, converted 1:1 from the original hex
+  values to OKLCH (same colors, just a different color function), and stay
+  **identical between light and dark mode** — buttons, gradients and badges
+  keep their full brand vividness in both themes. The `neutral` scale
+  *does* change: its ten steps invert in dark mode (same variable names,
+  dark-tuned values), so every consumer — body text, borders, subtle tints —
+  adapts automatically without touching component CSS.
+- **Semantic tokens** (`--color-bg`, `--color-surface`, `--color-text`,
+  `--color-heading`, `--color-muted`, `--color-border`, `--color-link`, …) —
+  what components actually reference. These are redefined per theme (light
+  on bare `:root`; dark under `@media (prefers-color-scheme: dark)` and
+  `:root[data-theme="dark"]`) and are what makes the toggle work. Chrome
+  that was always meant to be dark regardless of site theme — the footer,
+  the page-hero banner, the CTA band — intentionally stays on the fixed
+  scale tokens, not the semantic ones, since it doesn't need to change.
 
-## 5. Re-theming
+**Switching themes:** the header's sun/moon button (`ThemeToggle.tsx`) sets
+`data-theme="light"` / `"dark"` on `<html>` and persists it to
+`localStorage`; with nothing stored, the OS/browser preference decides.
+`ThemeScript.tsx` is a blocking script in `<head>` that applies whatever was
+stored *before* the page paints, so there's no flash of the wrong theme on
+load.
 
-Everything visual keys off CSS variables in `assets/css/theme.css`.
-Change these four and the whole site follows:
+## 6. Content
 
-```css
---brand-indigo: #2e3192;   /* logo diamond */
---brand-green:  #009b48;   /* logo leaf */
---brand-gold:   #d9a441;   /* sparing accent */
---font-display: "Plus Jakarta Sans", ...;
-```
-
-The palette was sampled from the IKSEZ logo — indigo `#2e3192` for the
-diamond, green `#009b48` for the leaf, with tints and shades derived from
-each. Gradients (`--grad-brand`, `--grad-deep`, `--grad-rule`) run indigo →
-green, echoing the mark.
-
-Open `components.html` in a browser for a live catalogue of every component
-with its markup.
-
----
-
-## 6. Behaviour reference
-
-| Feature | Markup hook |
-|---|---|
-| Scroll reveal | `data-reveal` on any element (auto-staggered by sibling order) |
-| Animated number | `<span data-count="1900" data-suffix=" km">` |
-| Lightbox | `<a href="big.jpg" data-lightbox data-caption="…">` — arrows + Esc work |
-| Accordion | `.accordion` wrapper; add `data-single="true"` to close others |
-| Hero slider | `.hero__slide` children of `.hero__slides`; dots auto-generated |
-| Footer year | `<span data-year>` |
-
-All of it degrades gracefully — with JS disabled the content is still
-readable, though the header/footer will not render (they are fetched).
-If that matters for SEO, see §7.
-
----
-
-## 7. If you'd rather not fetch the header/footer
-
-Two options, both still node-free:
-
-1. **Server-side include** — if the host runs Apache with `mod_include`,
-   rename pages to `.shtml` and use `<!--#include virtual="components/header.html" -->`.
-   Zero JS, fully crawlable.
-2. **Paste it in** — copy the contents of `components/header.html` and
-   `footer.html` into each page. You lose edit-once, gain full static HTML.
-
-Search engines do execute JavaScript, so the current approach indexes fine
-in practice; option 1 is the belt-and-braces choice.
-
----
-
-## 8. Contact form
-
-`contact-us.html` has no backend. By default it composes a message in the
-visitor's mail client addressed to `ceooffice@iffcosez.in`.
-
-To post it properly instead, give the form an `action` and `method` — the
-inline script stands down automatically when an `action` is present:
-
-```html
-<form id="contact-form" action="https://formspree.io/f/XXXX" method="POST">
-```
-
----
-
-## 9. Content
-
-Body copy, headings, vision, mission, facts, figures and captions are carried
-over verbatim from iksez.com. No wording was rewritten and no images were
-replaced. The only text that is new is navigation labels, section eyebrows
-and button labels — presentation chrome, not content. Every figure shown in
-a stat block (1,900 acres, 877 acres, 2,776.23 acres, 8 km frontage, 220 kV,
-100 MW, 45 MLD, 79 acres, 27 km, 60 km) appears in the original site copy.
-
-
-
-Prompt:
-migrate below website with new advance looks, having logo color theme as attached, keep the content image, vision , facts . strict no change on that, wanted to have reusable component and app should be deploy as pure html/css/css because client hosting is like that, can afford node module hosting, ask me any clarification if required.
+Body copy, headings, stats, captions and images are unchanged from the
+previous site. A handful of Image Gallery entries reference files that were
+already missing from `admin/upload` before this migration (see the comment
+in `app/gallery/page.tsx`) — preserved as-is rather than "fixed", since
+fixing content wasn't in scope.

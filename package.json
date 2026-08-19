@@ -1,0 +1,25 @@
+{
+  "name": "iksez-website",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev -p 3020",
+    "build": "next build",
+    "postbuild": "node scripts/generate-legacy-redirects.mjs",
+    "start": "npx serve@latest out",
+    "lint": "eslint"
+  },
+  "dependencies": {
+    "next": "^16.3.1",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "^16.3.1",
+    "typescript": "^5"
+  }
+}
