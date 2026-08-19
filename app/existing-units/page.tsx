@@ -32,7 +32,7 @@ export default function ExistingUnits() {
                   <circle cx="12" cy="10" r="2.2" />
                 </svg>
               </div>
-              <h4 style={{ fontSize: "var(--fs-base)" }}>Siemens Gamesa Renewable Energy Pvt Ltd</h4>
+              <h3 style={{ fontSize: "var(--fs-base)" }}>Siemens Gamesa Renewable Energy Pvt Ltd</h3>
             </article>
             <article className="card" data-reveal="">
               <div className="card__icon">
@@ -41,7 +41,7 @@ export default function ExistingUnits() {
                   <path d="M8 8V6a4 4 0 0 1 8 0v2" />
                 </svg>
               </div>
-              <h4 style={{ fontSize: "var(--fs-base)" }}>ADJ</h4>
+              <h3 style={{ fontSize: "var(--fs-base)" }}>ADJ</h3>
             </article>
             <article className="card" data-reveal="">
               <div className="card__icon">
@@ -49,7 +49,7 @@ export default function ExistingUnits() {
                   <path d="M13 2 4 14h7l-1 8 9-12h-7l1-8z" />
                 </svg>
               </div>
-              <h4 style={{ fontSize: "var(--fs-base)" }}>APTRANSCO</h4>
+              <h3 style={{ fontSize: "var(--fs-base)" }}>APTRANSCO</h3>
             </article>
             <article className="card" data-reveal="">
               <div className="card__icon">
@@ -57,9 +57,9 @@ export default function ExistingUnits() {
                   <path d="M8 2h8l-1 4H9L8 2zM7 6h10l1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L7 6z" />
                 </svg>
               </div>
-              <h4 style={{ fontSize: "var(--fs-base)" }}>
+              <h3 style={{ fontSize: "var(--fs-base)" }}>
                 HCCB <span className="muted" style={{ fontWeight: 500 }}>(coming up)</span>
-              </h4>
+              </h3>
             </article>
           </div>
         </div>
@@ -88,7 +88,7 @@ export default function ExistingUnits() {
                 />
               </a>
               <div className="media-card__body">
-                <h4>Wind mill blade of Siemen&rsquo;s Gamesa being transported</h4>
+                <h3>Wind mill blade of Siemen&rsquo;s Gamesa being transported</h3>
               </div>
             </article>
 
@@ -107,7 +107,7 @@ export default function ExistingUnits() {
                 />
               </a>
               <div className="media-card__body">
-                <h4>An export consignments of ADJ &amp; Brothers</h4>
+                <h3>An export consignments of ADJ &amp; Brothers</h3>
               </div>
             </article>
           </div>

@@ -73,6 +73,8 @@ export default function HeroSlider({ images }: { images: string[] }) {
             <button
               key={src}
               type="button"
+              role="tab"
+              aria-selected={i === index}
               className={`hero__dot${i === index ? " is-active" : ""}`}
               aria-label={`Show slide ${i + 1}`}
               onClick={() => {

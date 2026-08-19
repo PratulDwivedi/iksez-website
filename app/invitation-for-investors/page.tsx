@@ -90,55 +90,55 @@ export default function InvitationForInvestors() {
 
           <div className="grid grid--4">
             <div className="card" data-reveal="">
-              <h4 style={{ margin: 0, fontSize: "var(--fs-base)" }}>Meat &amp; Poultry</h4>
+              <h3 style={{ margin: 0, fontSize: "var(--fs-base)" }}>Meat &amp; Poultry</h3>
             </div>
             <div className="card" data-reveal="">
-              <h4 style={{ margin: 0, fontSize: "var(--fs-base)" }}>Dairy Processing</h4>
+              <h3 style={{ margin: 0, fontSize: "var(--fs-base)" }}>Dairy Processing</h3>
             </div>
             <div className="card" data-reveal="">
-              <h4 style={{ margin: 0, fontSize: "var(--fs-base)" }}>Medicinal &amp; Aromatic plants</h4>
+              <h3 style={{ margin: 0, fontSize: "var(--fs-base)" }}>Medicinal &amp; Aromatic plants</h3>
             </div>
             <div className="card" data-reveal="">
-              <h4 style={{ margin: 0, fontSize: "var(--fs-base)" }}>Feed Manufacturing</h4>
+              <h3 style={{ margin: 0, fontSize: "var(--fs-base)" }}>Feed Manufacturing</h3>
             </div>
             <div className="card" data-reveal="">
-              <h4 style={{ margin: 0, fontSize: "var(--fs-base)" }}>
+              <h3 style={{ margin: 0, fontSize: "var(--fs-base)" }}>
                 Nutraceuticals &amp; Food Additives (ex. Pectin)
-              </h4>
+              </h3>
             </div>
             <div className="card" data-reveal="">
-              <h4 style={{ margin: 0, fontSize: "var(--fs-base)" }}>Spices</h4>
+              <h3 style={{ margin: 0, fontSize: "var(--fs-base)" }}>Spices</h3>
             </div>
             <div className="card" data-reveal="">
-              <h4 style={{ margin: 0, fontSize: "var(--fs-base)" }}>Agri Implements and Automobiles</h4>
+              <h3 style={{ margin: 0, fontSize: "var(--fs-base)" }}>Agri Implements and Automobiles</h3>
             </div>
             <div className="card" data-reveal="">
-              <h4 style={{ margin: 0, fontSize: "var(--fs-base)" }}>Renewable Energy</h4>
+              <h3 style={{ margin: 0, fontSize: "var(--fs-base)" }}>Renewable Energy</h3>
             </div>
             <div className="card" data-reveal="">
-              <h4 style={{ margin: 0, fontSize: "var(--fs-base)" }}>
+              <h3 style={{ margin: 0, fontSize: "var(--fs-base)" }}>
                 Electric Mobility and Associated Products and Batteries
-              </h4>
+              </h3>
             </div>
             <div className="card" data-reveal="">
-              <h4 style={{ margin: 0, fontSize: "var(--fs-base)" }}>Circular Economy</h4>
+              <h3 style={{ margin: 0, fontSize: "var(--fs-base)" }}>Circular Economy</h3>
             </div>
             <div className="card" data-reveal="">
-              <h4 style={{ margin: 0, fontSize: "var(--fs-base)" }}>Nano and Other Innovative Technologies</h4>
+              <h3 style={{ margin: 0, fontSize: "var(--fs-base)" }}>Nano and Other Innovative Technologies</h3>
             </div>
             <div className="card" data-reveal="">
-              <h4 style={{ margin: 0, fontSize: "var(--fs-base)" }}>Other Light and Heavy Engineering Industries</h4>
+              <h3 style={{ margin: 0, fontSize: "var(--fs-base)" }}>Other Light and Heavy Engineering Industries</h3>
             </div>
             <div className="card" data-reveal="">
-              <h4 style={{ margin: 0, fontSize: "var(--fs-base)" }}>IT/BPO</h4>
+              <h3 style={{ margin: 0, fontSize: "var(--fs-base)" }}>IT/BPO</h3>
             </div>
             <div className="card" data-reveal="">
-              <h4 style={{ margin: 0, fontSize: "var(--fs-base)" }}>Warehouses and Logistics.</h4>
+              <h3 style={{ margin: 0, fontSize: "var(--fs-base)" }}>Warehouses and Logistics.</h3>
             </div>
             <div className="card card--dark" data-reveal="">
-              <h4 style={{ margin: 0, fontSize: "var(--fs-base)" }}>
+              <h3 style={{ margin: 0, fontSize: "var(--fs-base)" }}>
                 Any other manufacturing/services industries feasible at IKSEZ location
-              </h4>
+              </h3>
             </div>
           </div>
         </div>

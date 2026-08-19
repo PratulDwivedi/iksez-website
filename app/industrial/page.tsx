@@ -46,7 +46,7 @@ export default function Industrial() {
                   <img src={item.src} alt={item.caption} loading="lazy" />
                 </a>
                 <div className="media-card__body">
-                  <h4>{item.caption}</h4>
+                  <h3>{item.caption}</h3>
                 </div>
               </article>
             ))}

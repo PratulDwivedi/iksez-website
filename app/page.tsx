@@ -137,7 +137,7 @@ export default function Home() {
                   <path d="M3 9h18M9 21V9" />
                 </svg>
               </div>
-              <h4>Multiproduct SEZ</h4>
+              <h3>Multiproduct SEZ</h3>
               <p>A Multiproduct Special Economic Zone (SEZ) spanning approximately 1,900 acres.</p>
             </article>
 
@@ -147,7 +147,7 @@ export default function Home() {
                   <path d="M3 21h18M5 21V8l7-5 7 5v13M9 21v-6h6v6" />
                 </svg>
               </div>
-              <h4>Domestic Tariff Area</h4>
+              <h3>Domestic Tariff Area</h3>
               <p>
                 A Domestic Tariff Area (DTA) covering about 877 acres which is designated for
                 initiatives focused on domestic Indian market.
@@ -161,7 +161,7 @@ export default function Home() {
                   <path d="M3 12h18M12 3c2.5 2.7 3.8 5.7 3.8 9s-1.3 6.3-3.8 9c-2.5-2.7-3.8-5.7-3.8-9S9.5 5.7 12 3z" />
                 </svg>
               </div>
-              <h4>Multimodal Connectivity</h4>
+              <h3>Multimodal Connectivity</h3>
               <p>The location is well connected by Road, Rail, Air and Sea.</p>
             </article>
 
@@ -172,7 +172,7 @@ export default function Home() {
                   <path d="M10 19v-5h4v5" />
                 </svg>
               </div>
-              <h4>NH 16 Frontage</h4>
+              <h3>NH 16 Frontage</h3>
               <p>The site is on NH 16 with 8 km frontage and adjacent to a trunk rail link.</p>
             </article>
 
@@ -183,7 +183,7 @@ export default function Home() {
                   <path d="m9 12 2 2 4-4" />
                 </svg>
               </div>
-              <h4>Industrial Corridor</h4>
+              <h3>Industrial Corridor</h3>
               <p>
                 The site falls in the Visakhapatnam-Chennai industrial corridor being actively
                 developed by the state government.
@@ -196,7 +196,7 @@ export default function Home() {
                   <path d="M13 2 4 14h7l-1 8 9-12h-7l1-8z" />
                 </svg>
               </div>
-              <h4>Ready Infrastructure</h4>
+              <h3>Ready Infrastructure</h3>
               <p>
                 The site is equipped with the major infrastructural facilities with ready
                 availability of water, power, office space and security.
@@ -211,12 +211,12 @@ export default function Home() {
                   <path d="M22 21v-2a4 4 0 0 0-3-3.9" />
                 </svg>
               </div>
-              <h4>Skilled Manpower</h4>
+              <h3>Skilled Manpower</h3>
               <p>Ready availability of skilled manpower.</p>
             </article>
 
             <article className="card card--dark" data-reveal="" style={{ justifyContent: "center" }}>
-              <h4>Explore the full list of benefits</h4>
+              <h3>Explore the full list of benefits</h3>
               <p>
                 Tax concessions under the SEZ Act plus strategic advantages across power, water,
                 connectivity and manpower.
@@ -280,20 +280,20 @@ export default function Home() {
           </div>
           <div className="grid grid--4">
             <div className="card card--flat text-center" data-reveal="">
-              <h4 style={{ margin: 0, fontSize: "var(--fs-base)" }}>
+              <h3 style={{ margin: 0, fontSize: "var(--fs-base)" }}>
                 Siemens Gamesa Renewable Energy Pvt Ltd
-              </h4>
+              </h3>
             </div>
             <div className="card card--flat text-center" data-reveal="">
-              <h4 style={{ margin: 0, fontSize: "var(--fs-base)" }}>ADJ</h4>
+              <h3 style={{ margin: 0, fontSize: "var(--fs-base)" }}>ADJ</h3>
             </div>
             <div className="card card--flat text-center" data-reveal="">
-              <h4 style={{ margin: 0, fontSize: "var(--fs-base)" }}>APTRANSCO</h4>
+              <h3 style={{ margin: 0, fontSize: "var(--fs-base)" }}>APTRANSCO</h3>
             </div>
             <div className="card card--flat text-center" data-reveal="">
-              <h4 style={{ margin: 0, fontSize: "var(--fs-base)" }}>
+              <h3 style={{ margin: 0, fontSize: "var(--fs-base)" }}>
                 HCCB <span className="muted" style={{ fontWeight: 500 }}>(coming up)</span>
-              </h4>
+              </h3>
             </div>
           </div>
           <div className="text-center mt-8" data-reveal="">

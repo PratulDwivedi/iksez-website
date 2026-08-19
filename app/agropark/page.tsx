@@ -91,7 +91,7 @@ export default function Agropark() {
                   <path d="M10 21v-5h4v5" />
                 </svg>
               </div>
-              <h4>Rural Transformation Centres</h4>
+              <h3>Rural Transformation Centres</h3>
               <p>
                 A collection point for raw materials supplied by the farmers, also offering
                 agriculture extension services, warehousing, banking and cold storage facilities.
@@ -106,7 +106,7 @@ export default function Agropark() {
                   <circle cx="18" cy="19" r="2" />
                 </svg>
               </div>
-              <h4>Export Oriented Centres</h4>
+              <h3>Export Oriented Centres</h3>
               <p>
                 Part of the Intelligent Agro-logistics Network alongside the Agropark and the
                 Domestic Tariff Area.
@@ -119,7 +119,7 @@ export default function Agropark() {
                   <path d="m4 7 8 4 8-4M12 11v10" />
                 </svg>
               </div>
-              <h4>Domestic Tariff Area (DTA)</h4>
+              <h3>Domestic Tariff Area (DTA)</h3>
               <p>
                 Designated for initiatives focused on the domestic Indian market, with better
                 supply-chain linkages for ancillary units.
