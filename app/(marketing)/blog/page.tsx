@@ -55,7 +55,11 @@ export default async function BlogPage({ searchParams }: PageProps) {
 
       <section className="section" style={{ paddingTop: "var(--sp-9)" }}>
         <div className="container">
-          <div className="blog-toolbar" data-reveal="">
+          {/* No data-reveal here (unlike most other content blocks): that
+              rule's `will-change: opacity, transform` creates a stacking
+              context, which trapped the tag-filter dropdown's z-index
+              below the card grid painted after it. */}
+          <div className="blog-toolbar">
             <div className="blog-toolbar__row">
               <Suspense fallback={<div className="blog-cats-skel" />}>
                 <CategoryTabs active={activeCategory} query={q} tags={activeTags} />
