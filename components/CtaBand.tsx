@@ -5,9 +5,7 @@ export default function CtaBand() {
     <section className="section section--tight">
       <div className="container">
         <div className="cta-band" data-reveal="">
-          <span className="eyebrow" style={{ color: "var(--color-secondary-400)" }}>
-            Invest with IKSEZ
-          </span>
+          <span className="eyebrow">Invest with IKSEZ</span>
           <h2>Ready to set up at IFFCO Kisan SEZ?</h2>
           <p>
             Duty free imports, zero rated GST on supplies to SEZ units, assured power and water,
@@ -17,7 +15,7 @@ export default function CtaBand() {
             <Link className="btn btn--green btn--lg" href="/contact-us/">
               Talk to our team
             </Link>
-            <Link className="btn btn--ghost-light btn--lg" href="/invitation-for-investors/">
+            <Link className="btn btn--outline btn--lg" href="/invitation-for-investors/">
               Business Opportunities
             </Link>
           </div>

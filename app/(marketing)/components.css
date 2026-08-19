@@ -634,23 +634,16 @@
    14. CTA BAND
    ========================================================================== */
 .cta-band {
-  position: relative; isolation: isolate; overflow: hidden;
-  background: var(--grad-deep); border-radius: var(--radius-xl);
+  position: relative; overflow: hidden;
+  background: var(--grad-brand-soft);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-xs);
   padding: clamp(2.5rem, 1.5rem + 4vw, 4.5rem);
   text-align: center;
 }
-.cta-band::before {
-  content: ""; position: absolute; left: -80px; bottom: -120px; width: 380px; height: 380px;
-  border-radius: 50%; z-index: -1;
-  background: radial-gradient(circle, rgba(0, 155, 72, .4), transparent 66%);
-}
-.cta-band::after {
-  content: ""; position: absolute; right: -60px; top: -140px; width: 340px; height: 340px;
-  border-radius: 50%; z-index: -1;
-  background: radial-gradient(circle, rgba(74, 78, 196, .45), transparent 68%);
-}
-.cta-band h2 { color: var(--color-white); margin-bottom: var(--sp-4); }
-.cta-band p { color: rgba(255, 255, 255, .82); font-size: var(--fs-lg); max-width: 62ch; margin-inline: auto; margin-bottom: var(--sp-7); }
+.cta-band h2 { margin-bottom: var(--sp-4); }
+.cta-band p { color: var(--color-muted); font-size: var(--fs-lg); max-width: 62ch; margin-inline: auto; margin-bottom: var(--sp-7); }
 .cta-band .flex { justify-content: center; }
 
 /* ==========================================================================
