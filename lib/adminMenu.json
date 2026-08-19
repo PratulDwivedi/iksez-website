@@ -15,6 +15,7 @@
     "children": [
       { "name": "Logs", "route": "/admin/logs", "icon": "ScrollText" },
       { "name": "Blogs", "route": "/admin/blogs", "icon": "FileText" },
+      { "name": "News & Events", "route": "/admin/news-events", "icon": "Newspaper" },
       { "name": "Testimonial", "route": "/admin/testimonials", "icon": "Quote" },
       { "name": "Leads", "route": "/admin/leads", "icon": "Users" },
       { "name": "Tickets", "route": "/admin/tickets", "icon": "LifeBuoy" },
