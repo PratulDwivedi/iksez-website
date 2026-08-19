@@ -86,6 +86,9 @@ export default function Footer() {
                 <Link href="/gallery/">Image Gallery</Link>
               </li>
               <li>
+                <Link href="/blog/">Blog</Link>
+              </li>
+              <li>
                 <Link href="/board-of-directors/">Management Team</Link>
               </li>
               <li>

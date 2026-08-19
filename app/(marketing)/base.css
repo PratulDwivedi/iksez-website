@@ -98,6 +98,8 @@ hr {
 
 /* ---------- Utilities ---------- */
 .text-center { text-align: center; }
+.text-right { text-align: right; }
+.truncate { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .mx-auto { margin-inline: auto; }
 .muted { color: var(--color-muted); }
 .lead { font-size: var(--fs-lg); line-height: 1.65; color: var(--color-neutral-600); }

@@ -39,6 +39,7 @@ const NAV: NavItem[] = [
     submenu: [
       { label: "News and Events", href: "/news-and-events/" },
       { label: "Image Gallery", href: "/gallery/" },
+      { label: "Blog", href: "/blog/" },
     ],
   },
 ];
