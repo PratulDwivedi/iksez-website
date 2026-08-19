@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { useRouter } from 'next/navigation';
-import { Loader2, Lock, Eye, EyeOff, LayoutDashboard, ShieldCheck, Zap, Building2 } from 'lucide-react';
+import { Loader2, Lock, Eye, EyeOff, LayoutDashboard, FolderKanban, Sprout, ShieldCheck, Building2 } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
 import { ThemeToggleButton } from '@/components/admin/ThemeToggleButton';
 
@@ -14,18 +14,23 @@ function IksezLogo({ size = 40 }: { size?: number }) {
 const FEATURES = [
   {
     icon: LayoutDashboard,
-    title: 'One console, the whole business',
-    description: 'Dashboard, blogs, testimonials, leads, tickets, and media — everything lives here, changes go live immediately.',
+    title: 'Dashboards',
+    description: 'CMS Dashboard and Agri Dashboard — a real-time overview of content and agribusiness operations.',
+  },
+  {
+    icon: FolderKanban,
+    title: 'Content Management',
+    description: 'Blogs, testimonials, leads, tickets, and media — everything on the public site, changes go live immediately.',
+  },
+  {
+    icon: Sprout,
+    title: 'Agri Business',
+    description: 'Farmers, crops, crop seasons, crop calendar, queries, factsheets, and crop sell slots.',
   },
   {
     icon: ShieldCheck,
-    title: 'Access is scoped, not open',
-    description: 'Row-level security enforces who can read and write every record, per tenant.',
-  },
-  {
-    icon: Zap,
-    title: 'Built for a two-person team',
-    description: 'No sales pitch here — this is the same internal tool you already use, just faster.',
+    title: 'User Management',
+    description: 'Users, roles, access control, settings, and profile — row-level security enforces who can read and write every record.',
   },
 ];
 
