@@ -112,8 +112,8 @@ export default function Home() {
                 activity.
               </p>
               <div className="mt-6">
-                <Link className="btn btn--outline" href="/about-us/" aria-label="Read more about IFFCO Kisan SEZ">
-                  Read More
+                <Link className="btn btn--outline" href="/about-us/">
+                  Read About IKSEZ
                 </Link>
               </div>
             </div>
@@ -222,8 +222,8 @@ export default function Home() {
                 connectivity and manpower.
               </p>
               <div className="card__foot">
-                <Link className="btn btn--green btn--sm" href="/tax/" aria-label="Read more about tax and other SEZ benefits">
-                  Read More
+                <Link className="btn btn--green btn--sm" href="/tax/">
+                  See All Benefits
                 </Link>
               </div>
             </article>
