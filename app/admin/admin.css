@@ -1,0 +1,43 @@
+@import "tailwindcss";
+
+@variant dark (&:where(.dark, .dark *));
+
+/* Brand tokens for the admin console only — derived from the same IKSEZ
+   OKLCH values as app/(marketing)/theme.css, filled out to the
+   primary-400/500/600/700 and secondary-400/500/600 steps the admin
+   components (copied from another tenant's admin console) reference.
+   Primary here is the site's GREEN (the logo leaf) — the admin console's
+   own accent — with the indigo (the logo diamond) demoted to secondary,
+   the reverse of theme.css's own primary/secondary. Keep in sync with
+   theme.css if the brand palette changes. */
+@theme {
+  --color-primary-700: oklch(50.77% 0.1328 152.26);
+  --color-primary-600: oklch(60.29% 0.1645 150.39);
+  --color-primary-500: oklch(66.00% 0.1600 152.15);
+  --color-primary-400: oklch(71.67% 0.1554 153.90);
+
+  --color-secondary-600: oklch(37.75% 0.1559 274.67);
+  --color-secondary-500: oklch(43.40% 0.1680 275.35);
+  --color-secondary-400: oklch(49.14% 0.1803 276.03);
+}
+
+/* Native date/time inputs render their calendar/clock picker icon using the
+   browser's default *light* control chrome regardless of dark: classes, so
+   on dark input backgrounds (LeadForm's "Converted at", etc.) the icon is a
+   near-invisible dark-grey-on-near-black glyph. color-scheme tells the
+   browser which chrome to draw. */
+input[type='date'],
+input[type='datetime-local'],
+input[type='time'],
+input[type='month'],
+input[type='week'] {
+  color-scheme: light;
+}
+
+.dark input[type='date'],
+.dark input[type='datetime-local'],
+.dark input[type='time'],
+.dark input[type='month'],
+.dark input[type='week'] {
+  color-scheme: dark;
+}

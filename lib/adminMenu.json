@@ -1,0 +1,48 @@
+[
+  {
+    "name": "CMS Dashboard",
+    "route": "/admin/dashboard",
+    "icon": "BarChart3"
+  },
+  {
+    "name": "Agri Dashboard",
+    "route": "/admin/agri/dashboard",
+    "icon": "LayoutDashboard"
+  },
+  {
+    "name": "Content Management",
+    "icon": "FolderKanban",
+    "children": [
+      { "name": "Logs", "route": "/admin/logs", "icon": "ScrollText" },
+      { "name": "Blogs", "route": "/admin/blogs", "icon": "FileText" },
+      { "name": "Testimonial", "route": "/admin/testimonials", "icon": "Quote" },
+      { "name": "Leads", "route": "/admin/leads", "icon": "Users" },
+      { "name": "Tickets", "route": "/admin/tickets", "icon": "LifeBuoy" },
+      { "name": "Media", "route": "/admin/media", "icon": "Image" }
+    ]
+  },
+  {
+    "name": "Agri Business",
+    "icon": "Sprout",
+    "children": [
+      { "name": "Farmers", "route": "/admin/agri/farmers", "icon": "UserRound" },
+      { "name": "Crops", "route": "/admin/agri/crops", "icon": "Wheat" },
+      { "name": "Crop Season", "route": "/admin/agri/crop-seasons", "icon": "CalendarRange" },
+      { "name": "Crop Calendar", "route": "/admin/agri/crop-calendar", "icon": "CalendarDays" },
+      { "name": "Queries", "route": "/admin/agri/queries", "icon": "HelpCircle" },
+      { "name": "Factsheets", "route": "/admin/agri/factsheets", "icon": "FileSpreadsheet" },
+      { "name": "Crop Sell Slots", "route": "/admin/agri/sell-slots", "icon": "ShoppingCart" }
+    ]
+  },
+  {
+    "name": "User Management",
+    "icon": "ShieldCheck",
+    "children": [
+      { "name": "User", "route": "/admin/users", "icon": "UserCog" },
+      { "name": "Role", "route": "/admin/roles", "icon": "KeyRound" },
+      { "name": "Access Control", "route": "/admin/access-control", "icon": "Lock" },
+      { "name": "Settings", "route": "/admin/settings", "icon": "Settings" },
+      { "name": "Profile", "route": "/admin/profile", "icon": "User" }
+    ]
+  }
+]

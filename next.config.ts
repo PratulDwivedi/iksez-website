@@ -1,22 +1,54 @@
 import type { NextConfig } from "next";
 
 /**
- * Static export: the client's IIS hosting has no Node.js runtime, so the
- * build output must be plain HTML/CSS/JS (`out/`), deployable exactly like
- * the previous site.
+ * Runs as a normal Next.js server on Vercel (not a static export) so the
+ * admin console (Server Actions, Supabase session cookies, dynamic route
+ * handlers under app/api/) can work — none of those run under
+ * `output: 'export'`. The public marketing pages are unaffected: they were
+ * already plain Server Components with no dynamic behavior, so they render
+ * identically either way.
  *
- * trailingSlash: true gives clean canonical URLs (/about-us/) that export as
- * /about-us/index.html — works with next dev (no dev/prod URL mismatch) and
- * needs zero server config to serve on IIS (default-document resolution
- * handles the rest). The site's old *.html URLs (bookmarks, backlinks,
- * indexed search results) still work too: scripts/generate-legacy-redirects.mjs
- * runs after every build and writes a redirect stub (e.g. about-us.html ->
- * /about-us/) for each old filename into out/.
+ * trailingSlash: true keeps the clean canonical URLs (/about-us/) the site
+ * already shipped with under the old static export.
  */
 const nextConfig: NextConfig = {
-  output: "export",
-  images: { unoptimized: true },
   trailingSlash: true,
+
+  images: {
+    // Admin-only: blog cover images and media library thumbnails are stored
+    // in this Supabase project's Storage buckets and rendered via next/image.
+    remotePatterns: [
+      { protocol: "https", hostname: "wirkzblhhfrqbywrtoze.supabase.co", pathname: "/storage/v1/object/**" },
+    ],
+  },
+
+  async redirects() {
+    // The previous static site's *.html URLs may still be bookmarked,
+    // backlinked, or indexed by search engines. Previously handled by
+    // scripts/generate-legacy-redirects.mjs writing meta-refresh stubs into
+    // out/ after build (required under static export, no server to redirect
+    // with); now a real 308 redirect since we have one.
+    const LEGACY_ROUTES: Record<string, string> = {
+      "/about-us.html": "/about-us/",
+      "/board-of-directors.html": "/board-of-directors/",
+      "/agropark.html": "/agropark/",
+      "/tax.html": "/tax/",
+      "/strategic.html": "/strategic/",
+      "/invitation-for-investors.html": "/invitation-for-investors/",
+      "/industrial.html": "/industrial/",
+      "/master-plan.html": "/master-plan/",
+      "/existing-units.html": "/existing-units/",
+      "/news-and-events.html": "/news-and-events/",
+      "/gallery.html": "/gallery/",
+      "/contact-us.html": "/contact-us/",
+    };
+
+    return Object.entries(LEGACY_ROUTES).map(([source, destination]) => ({
+      source,
+      destination,
+      permanent: true,
+    }));
+  },
 };
 
 export default nextConfig;
