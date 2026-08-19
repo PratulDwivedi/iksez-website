@@ -38,6 +38,10 @@ const inputCls =
 const labelCls =
   'text-[11px] font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400 mb-1.5 block';
 
+// Marks a label's field as required — kept as one shared span so every
+// required field gets the same mark rather than each label hand-rolling it.
+const Required = () => <span className="text-red-500 normal-case">&nbsp;*</span>;
+
 const FORM_ID = 'blog-form';
 
 export function BlogForm({ post, categories }: { post?: BlogFormPost; categories: QuickListItem[] }) {
@@ -96,11 +100,11 @@ export function BlogForm({ post, categories }: { post?: BlogFormPost; categories
             <div className="space-y-4">
               <div className="grid sm:grid-cols-2 gap-4">
                 <div>
-                  <label className={labelCls} htmlFor="title">Title</label>
+                  <label className={labelCls} htmlFor="title">Title<Required /></label>
                   <input id="title" name="title" required defaultValue={post?.title} className={inputCls} />
                 </div>
                 <div>
-                  <label className={labelCls} htmlFor="name">Slug (URL)</label>
+                  <label className={labelCls} htmlFor="name">Slug (URL)<Required /></label>
                   <input
                     id="name"
                     name="name"
@@ -115,7 +119,7 @@ export function BlogForm({ post, categories }: { post?: BlogFormPost; categories
 
               <div>
                 <label className={labelCls} htmlFor="excerpt">
-                  Excerpt (meta description — 120–165 chars)
+                  Excerpt (meta description — 120–165 chars)<Required />
                 </label>
                 <textarea
                   id="excerpt"
@@ -129,7 +133,7 @@ export function BlogForm({ post, categories }: { post?: BlogFormPost; categories
 
               <div className="grid sm:grid-cols-2 gap-4">
                 <div>
-                  <label className={labelCls} htmlFor="category">Category</label>
+                  <label className={labelCls} htmlFor="category">Category<Required /></label>
                   <select
                     id="category"
                     name="category_id"
@@ -181,7 +185,7 @@ export function BlogForm({ post, categories }: { post?: BlogFormPost; categories
                 <CoverImageField name="cover_url" defaultValue={post?.cover_url} />
               </div>
               <div>
-                <label className={labelCls} htmlFor="cover_alt">Cover alt text</label>
+                <label className={labelCls} htmlFor="cover_alt">Cover alt text<Required /></label>
                 <input id="cover_alt" name="cover_alt" required defaultValue={post?.cover_alt} className={inputCls} />
               </div>
             </div>
@@ -282,7 +286,7 @@ function BodyEditor({ defaultValue }: { defaultValue: string }) {
     <div className="space-y-2">
       <div className="flex items-center justify-between gap-2 flex-wrap">
         <label className={labelCls} htmlFor="body">
-          Body — blank line between paragraphs, prefix a line with{' '}
+          Body<Required /> — blank line between paragraphs, prefix a line with{' '}
           <code className="text-primary-600 dark:text-primary-500 normal-case">### </code> for a subheading.{' '}
           Inline <code className="text-primary-600 dark:text-primary-500 normal-case">**bold**</code>,{' '}
           <code className="text-primary-600 dark:text-primary-500 normal-case">*italic*</code>,{' '}
