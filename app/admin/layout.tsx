@@ -17,6 +17,9 @@ export const metadata: Metadata = {
     index: false,
     follow: false,
   },
+  // This layout doesn't inherit app/(marketing)/layout.tsx's metadata (it's
+  // its own root layout), so the favicon has to be set here too.
+  icons: { icon: '/images/logo.png' },
 };
 
 // Own storage key (iksez_admin_theme) so it can't collide with the marketing
