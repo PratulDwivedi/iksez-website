@@ -207,13 +207,13 @@ export function AdminSidebar({ tenant, profile }: { tenant: SidebarTenant; profi
   const [opening, setOpening] = React.useState(false);
   const menuRef = React.useRef<HTMLDivElement>(null);
 
-  // Whichever group contains the current route starts expanded; the rest
-  // start collapsed. Keyed by group name since that's the only stable
-  // identifier groups have in adminMenu.json.
+  // All groups start expanded so the full nav is visible up front. Keyed by
+  // group name since that's the only stable identifier groups have in
+  // adminMenu.json.
   const [expandedGroups, setExpandedGroups] = React.useState<Set<string>>(() => {
     const initial = new Set<string>();
     for (const item of adminMenu) {
-      if (isMenuGroup(item) && groupHasActiveChild(pathname, item)) {
+      if (isMenuGroup(item)) {
         initial.add(item.name);
       }
     }
