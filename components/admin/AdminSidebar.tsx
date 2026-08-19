@@ -249,7 +249,6 @@ export function AdminSidebar({ tenant, profile }: { tenant: SidebarTenant; profi
 
   const displayName = profile.fullName || profile.userName || 'User';
   const initials = initialsFor(displayName);
-  const tenantInitial = tenant.name ? tenant.name[0].toUpperCase() : '?';
 
   return (
     <>
@@ -270,10 +269,17 @@ export function AdminSidebar({ tenant, profile }: { tenant: SidebarTenant; profi
         <div className="flex items-center gap-2.5 px-3 py-2.5 border-b border-slate-200 dark:border-slate-800 shrink-0">
           <div className="w-9 h-9 rounded-xl overflow-hidden shrink-0 flex items-center justify-center bg-primary-500/10 text-primary-600 dark:text-primary-500 font-bold text-sm">
             {tenant.logoUrl?.startsWith('http') ? (
+              // Per-tenant logo, when one is set (tenant.data.logo_url).
               // eslint-disable-next-line @next/next/no-img-element
               <img src={tenant.logoUrl} alt={tenant.name} className="w-full h-full object-cover" />
             ) : (
-              tenantInitial
+              // Falls back to this site's own app logo (same asset as
+              // Header.tsx and the admin login page) instead of a bare
+              // initial letter — object-contain since it's a wide
+              // logotype, not a square mark, so it shouldn't be cropped
+              // like a per-tenant avatar would be.
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src="/images/logo.png" alt={tenant.name} className="w-full h-full object-contain p-1" />
             )}
           </div>
           <div className="min-w-0 flex-1">
