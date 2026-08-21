@@ -12,23 +12,9 @@ type NavItem = {
 };
 
 const NAV: NavItem[] = [
-  {
-    label: "About us",
-    href: "/about-us/",
-    submenu: [
-      { label: "Overview", href: "/about-us/" },
-      { label: "Management Team", href: "/board-of-directors/" },
-    ],
-  },
+  { label: "About us", href: "/about-us/" },
   { label: "Agropark", href: "/agropark/" },
-  {
-    label: "Benefits",
-    href: "/tax/",
-    submenu: [
-      { label: "Tax", href: "/tax/" },
-      { label: "Strategic", href: "/strategic/" },
-    ],
-  },
+  { label: "Benefits", href: "/benefits/" },
   { label: "Business Opportunities", href: "/invitation-for-investors/" },
   { label: "Infrastructure", href: "/industrial/" },
   { label: "Master Plan", href: "/master-plan/" },

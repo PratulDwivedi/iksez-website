@@ -37,7 +37,7 @@ export async function generateMetadata({ searchParams }: PageProps): Promise<Met
   return {
     title: "Blog | IFFCO Kisan SEZ",
     description:
-      "Updates, investor announcements, and community initiatives from IFFCO Kisan SEZ — India's Integrated Agropark SEZ at SPSR Nellore.",
+      "Articles and insights about IFFCO Kisan SEZ — India's Integrated Agropark SEZ at SPSR Nellore.",
     alternates: { canonical: "/blog/" },
     robots: q ? { index: false, follow: true } : undefined,
   };
@@ -51,7 +51,7 @@ export default async function BlogPage({ searchParams }: PageProps) {
 
   return (
     <>
-      <PageHero title="Blog" subtitle="News, updates and insights from IFFCO Kisan SEZ" banner="/images/media-banner.webp" />
+      <PageHero title="Blog" subtitle="Articles and insights from IFFCO Kisan SEZ" banner="/images/media-banner.webp" />
 
       <section className="section" style={{ paddingTop: "var(--sp-9)" }}>
         <div className="container">

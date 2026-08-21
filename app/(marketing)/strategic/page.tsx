@@ -21,7 +21,7 @@ export default function Strategic() {
       <section className="section section--tight">
         <div className="container">
           <div className="chip-row" data-reveal="">
-            <Link className="btn btn--outline btn--sm" href="/tax/">
+            <Link className="btn btn--outline btn--sm" href="/benefits/">
               Tax
             </Link>
             <Link className="btn btn--brand btn--sm" href="/strategic/">

@@ -30,9 +30,11 @@ const nextConfig: NextConfig = {
     // with); now a real 308 redirect since we have one.
     const LEGACY_ROUTES: Record<string, string> = {
       "/about-us.html": "/about-us/",
+      "/strategic/": "/benefits/",
+      "/tax/": "/benefits/",
       "/board-of-directors.html": "/board-of-directors/",
       "/agropark.html": "/agropark/",
-      "/tax.html": "/tax/",
+      "/tax.html": "/benefits/",
       "/strategic.html": "/strategic/",
       "/invitation-for-investors.html": "/invitation-for-investors/",
       "/industrial.html": "/industrial/",

@@ -59,7 +59,7 @@ export default function Footer() {
                 <Link href="/agropark/">Agropark</Link>
               </li>
               <li>
-                <Link href="/tax/">Benefits</Link>
+                <Link href="/benefits/">Benefits</Link>
               </li>
               <li>
                 <Link href="/invitation-for-investors/">Business Opportunities</Link>
@@ -87,9 +87,6 @@ export default function Footer() {
               </li>
               <li>
                 <Link href="/blog/">Blog</Link>
-              </li>
-              <li>
-                <Link href="/board-of-directors/">Management Team</Link>
               </li>
               <li>
                 <a href="/images/EC-Compliance-Report-2025.pdf" target="_blank" rel="noopener">

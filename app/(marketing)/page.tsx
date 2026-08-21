@@ -233,7 +233,7 @@ export default async function Home() {
                 connectivity and manpower.
               </p>
               <div className="card__foot">
-                <Link className="btn btn--green btn--sm" href="/tax/">
+                <Link className="btn btn--green btn--sm" href="/benefits/">
                   See All Benefits
                 </Link>
               </div>
