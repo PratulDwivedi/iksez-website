@@ -148,17 +148,6 @@ export default function SiteEffects() {
       if (e.target === box) close();
     });
 
-    const backToTop = document.createElement("button");
-    backToTop.className = "backtotop";
-    backToTop.type = "button";
-    backToTop.setAttribute("aria-label", "Back to top");
-    backToTop.innerHTML = '<svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></svg>';
-    backToTop.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
-    document.body.appendChild(backToTop);
-
-    const onScroll = () => backToTop.classList.toggle("is-visible", window.scrollY > 520);
-    window.addEventListener("scroll", onScroll, { passive: true });
-
     const onDocClick = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
 
@@ -199,11 +188,9 @@ export default function SiteEffects() {
     document.addEventListener("keydown", onKeydown);
 
     return () => {
-      window.removeEventListener("scroll", onScroll);
       document.removeEventListener("click", onDocClick);
       document.removeEventListener("keydown", onKeydown);
       box.remove();
-      backToTop.remove();
     };
   }, []);
 
