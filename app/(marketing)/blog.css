@@ -135,7 +135,7 @@
 }
 .blog-card__meta span { display: inline-flex; align-items: center; gap: .3rem; }
 .blog-card__meta svg { width: 13px; height: 13px; stroke: currentColor; fill: none; stroke-width: 2; color: var(--color-secondary); }
-.media-card .blog-card__title { margin-bottom: var(--sp-2); }
+.media-card .blog-card__title { margin-bottom: var(--sp-2); font-size: var(--fs-xl); }
 .media-card .blog-card__title a { color: var(--color-heading); }
 .media-card .blog-card__title a:hover { color: var(--color-primary); }
 .blog-card__excerpt {

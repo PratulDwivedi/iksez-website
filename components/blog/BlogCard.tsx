@@ -32,9 +32,9 @@ export function BlogCard({ post }: { post: BlogRow }) {
           </span>
         </div>
 
-        <h4 className="blog-card__title">
+        <h3 className="blog-card__title">
           <Link href={href}>{post.title}</Link>
-        </h4>
+        </h3>
 
         <p className="blog-card__excerpt">{post.excerpt}</p>
 

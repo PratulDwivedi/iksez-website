@@ -38,9 +38,9 @@ export function NewsEventCard({ item }: { item: NewsEventRow }) {
             </span>
           </div>
         )}
-        <h4 className="blog-card__title">
+        <h3 className="blog-card__title">
           <Link href={href}>{item.title}</Link>
-        </h4>
+        </h3>
         <p className="blog-card__excerpt">{getExcerpt(item)}</p>
         <div className="blog-card__foot">
           <span className="blog-card__author">
