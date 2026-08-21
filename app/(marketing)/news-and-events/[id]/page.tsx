@@ -5,7 +5,12 @@ import Link from "next/link";
 import PageHero from "@/components/PageHero";
 import CtaBand from "@/components/CtaBand";
 import { PostBody } from "@/components/blog/PostBody";
-import { getPublishedNewsEventById, getPublishedNewsEventList } from "@/lib/publicNewsEvents";
+import {
+  getPublishedNewsEventById,
+  getPublishedNewsEventBySlug,
+  getPublishedNewsEventList,
+  newsEventSlug,
+} from "@/lib/publicNewsEvents";
 
 const FIRST_PARTY_API_KEY = process.env.NEXT_PUBLIC_IKSEZ_PUBLISHABLE_KEY;
 
@@ -21,25 +26,43 @@ function formatEventDate(isoDate: string | null): string | null {
 
 export async function generateStaticParams() {
   const { data } = await getPublishedNewsEventList({ apiKey: FIRST_PARTY_API_KEY, pageSize: 1000 });
-  return data.map((item) => ({ id: String(item.id) }));
+  return data.map((item) => ({ id: newsEventSlug(item.title) }));
+}
+
+async function getNewsEventByRouteValue(value: string) {
+  return /^\d+$/.test(value)
+    ? getPublishedNewsEventById(Number(value), FIRST_PARTY_API_KEY)
+    : getPublishedNewsEventBySlug(value, FIRST_PARTY_API_KEY);
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { id } = await params;
-  const item = await getPublishedNewsEventById(Number(id), FIRST_PARTY_API_KEY);
+  const item = await getNewsEventByRouteValue(id);
 
-  return item
-    ? {
-        title: `${item.title} | IFFCO Kisan SEZ`,
-        description: item.body.find((block) => block.type === "paragraph")?.text,
-        alternates: { canonical: `/news-and-events/${item.id}/` },
-      }
-    : { title: "News and Event Not Found | IFFCO Kisan SEZ" };
+  if (!item) return { title: "News and Event Not Found | IFFCO Kisan SEZ" };
+
+  const description = item.body.find((block) => block.type === "paragraph")?.text;
+  const canonicalPath = `/news-and-events/${newsEventSlug(item.title)}/`;
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://iksezwebsite.vercel.app";
+  const imageUrl = new URL(item.gallery[0]?.url ?? "/images/media-banner.webp", siteUrl).toString();
+
+  return {
+    title: `${item.title} | IFFCO Kisan SEZ`,
+    description,
+    alternates: { canonical: canonicalPath },
+    openGraph: {
+      title: item.title,
+      description,
+      url: canonicalPath,
+      type: "article",
+      images: [{ url: imageUrl, alt: item.gallery[0]?.caption || item.title }],
+    },
+  };
 }
 
 export default async function NewsEventPage({ params }: PageProps) {
   const { id } = await params;
-  const item = await getPublishedNewsEventById(Number(id), FIRST_PARTY_API_KEY);
+  const item = await getNewsEventByRouteValue(id);
   if (!item) notFound();
 
   const eventDate = formatEventDate(item.event_date);

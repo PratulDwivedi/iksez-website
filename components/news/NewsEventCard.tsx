@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { ArrowRight, Calendar } from "lucide-react";
-import type { NewsEventRow } from "@/lib/publicNewsEvents";
+import { newsEventSlug, type NewsEventRow } from "@/lib/publicNewsEvents";
 
 function formatEventDate(isoDate: string): string {
   const [year, month, day] = isoDate.split("-");
@@ -15,7 +15,7 @@ function getExcerpt(item: NewsEventRow): string {
 
 export function NewsEventCard({ item }: { item: NewsEventRow }) {
   const cover = item.gallery[0];
-  const href = `/news-and-events/${item.id}/`;
+  const href = `/news-and-events/${newsEventSlug(item.title)}/`;
 
   return (
     <article className="media-card" data-reveal="">
@@ -47,7 +47,9 @@ export function NewsEventCard({ item }: { item: NewsEventRow }) {
             {item.gallery.length} {item.gallery.length === 1 ? "image" : "images"}
           </span>
           <Link href={href} className="blog-card__readmore">
-            Read More <ArrowRight />
+            <span className="sr-only">Read more about {item.title}</span>
+            <span aria-hidden="true">Read More</span>
+            <ArrowRight aria-hidden="true" />
           </Link>
         </div>
       </div>

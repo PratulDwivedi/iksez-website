@@ -47,6 +47,15 @@ export function sortNewsEventsByLatest(items: NewsEventRow[]): NewsEventRow[] {
   return [...items].sort((a, b) => eventTimestamp(b) - eventTimestamp(a));
 }
 
+export function newsEventSlug(title: string): string {
+  return title
+    .normalize('NFKD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
+
 function eventTimestamp(item: NewsEventRow): number {
   const value = item.event_date ? `${item.event_date}T00:00:00` : item.published_at;
   const timestamp = Date.parse(value);
@@ -117,4 +126,15 @@ export async function getPublishedNewsEventById(
   const result = await getPublishedNewsEventList({ apiKey, pageSize: 1000 });
   if (!result.is_success) return null;
   return result.data.find((item) => item.id === id) ?? null;
+}
+
+export async function getPublishedNewsEventBySlug(
+  slug: string,
+  apiKey?: string
+): Promise<NewsEventRow | null> {
+  if (!slug) return null;
+
+  const result = await getPublishedNewsEventList({ apiKey, pageSize: 1000 });
+  if (!result.is_success) return null;
+  return result.data.find((item) => newsEventSlug(item.title) === slug) ?? null;
 }
