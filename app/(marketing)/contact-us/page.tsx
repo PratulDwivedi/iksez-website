@@ -21,12 +21,6 @@ export default function ContactUs() {
       <section className="section">
         <div className="container">
           <div className="contact-layout">
-            {/* ---------- FORM ---------- */}
-            <div className="contact-card" data-reveal="">
-              <h3>Send us a message</h3>
-              <ContactForm />
-            </div>
-
             {/* ---------- DETAILS ---------- */}
             <div className="stack" data-reveal="">
               <div className="contact-card">
@@ -105,6 +99,12 @@ export default function ContactUs() {
                   </li>
                 </ul>
               </div>
+            </div>
+
+            {/* ---------- FORM ---------- */}
+            <div className="contact-card" data-reveal="">
+              <h3>Send us a message</h3>
+              <ContactForm />
             </div>
           </div>
         </div>

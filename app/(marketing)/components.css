@@ -7,7 +7,7 @@
    1. BUTTONS
    ========================================================================== */
 .btn {
-  --btn-bg: var(--color-primary);
+  --btn-bg: var(--color-secondary);
   --btn-fg: var(--color-white);
   display: inline-flex;
   align-items: center;
@@ -28,20 +28,20 @@
               background var(--dur) var(--ease), color var(--dur) var(--ease),
               border-color var(--dur) var(--ease);
 }
-.btn:hover { color: var(--btn-fg); transform: translateY(-2px); box-shadow: var(--shadow-brand); }
+.btn:hover { color: var(--btn-fg); transform: translateY(-2px); box-shadow: 0 18px 40px rgba(0, 155, 72, .3); }
 .btn:active { transform: translateY(0); }
 .btn svg { width: 1em; height: 1em; flex: none; }
 
-.btn--brand { background: var(--grad-brand); }
-.btn--green { --btn-bg: var(--color-secondary-700); }
+.btn--brand { background: var(--color-secondary); }
+.btn--green { --btn-bg: var(--color-secondary); }
 .btn--green:hover { box-shadow: 0 18px 40px rgba(0, 155, 72, .3); }
 
 .btn--outline {
   background: transparent;
-  --btn-fg: var(--color-primary);
-  border-color: var(--color-primary-200);
+  --btn-fg: var(--color-secondary);
+  border-color: rgba(0, 155, 72, .24);
 }
-.btn--outline:hover { background: var(--color-primary); --btn-fg: var(--color-white); border-color: var(--color-primary); }
+.btn--outline:hover { background: var(--color-secondary); --btn-fg: var(--color-white); border-color: var(--color-secondary); }
 
 .btn--ghost-light {
   background: rgba(255, 255, 255, .1);
@@ -560,7 +560,7 @@
 .table { width: 100%; border-collapse: collapse; min-width: 620px; }
 .table th, .table td { padding: var(--sp-4) var(--sp-5); text-align: left; vertical-align: top; }
 .table thead th {
-  background: var(--grad-brand); color: var(--color-white);
+  background: var(--color-secondary); color: var(--color-white);
   font-family: var(--font-display); font-size: var(--fs-sm); font-weight: 700;
   letter-spacing: .04em; text-transform: uppercase;
 }
@@ -697,7 +697,7 @@
    ========================================================================== */
 .contact-layout {
   display: grid; gap: var(--sp-8);
-  grid-template-columns: 1.1fr .9fr; align-items: start;
+  grid-template-columns: 1fr 1fr; align-items: start;
 }
 @media (max-width: 900px) { .contact-layout { grid-template-columns: 1fr; } }
 
@@ -721,6 +721,10 @@
 .field label {
   display: block; margin-bottom: .4rem;
   font-family: var(--font-display); font-size: var(--fs-sm); font-weight: 600; color: var(--color-neutral-700);
+}
+.field label .required {
+  color: #d92d20;
+  margin-left: .2rem;
 }
 .field input, .field textarea, .field select {
   width: 100%; padding: .85rem 1rem;

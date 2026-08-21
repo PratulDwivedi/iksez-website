@@ -35,17 +35,6 @@ export default function Footer() {
                   <path d="M18.9 5h2.6l-5.7 6.5 6.7 8.8h-5.2l-4.1-5.4-4.7 5.4H5.9l6.1-7L5.6 5h5.4l3.7 4.9L18.9 5zm-.9 13.8h1.4L9.1 6.4H7.6l10.4 12.4z" />
                 </svg>
               </a>
-              <a href="#" aria-label="Flickr">
-                <svg viewBox="0 0 24 24">
-                  <circle cx="8" cy="12" r="4" />
-                  <circle cx="16" cy="12" r="4" />
-                </svg>
-              </a>
-              <a href="#" aria-label="YouTube">
-                <svg viewBox="0 0 24 24">
-                  <path d="M22 12s0-3-.4-4.4a2.5 2.5 0 0 0-1.8-1.8C18.4 5.4 12 5.4 12 5.4s-6.4 0-8 .4A2.5 2.5 0 0 0 2.4 7.6C2 9 2 12 2 12s0 3 .4 4.4a2.5 2.5 0 0 0 1.8 1.8c1.6.4 8 .4 8 .4s6.4 0 8-.4a2.5 2.5 0 0 0 1.8-1.8C22 15 22 12 22 12zM10 15.2V8.8l5.2 3.2-5.2 3.2z" />
-                </svg>
-              </a>
             </div>
           </div>
 
@@ -117,11 +106,6 @@ export default function Footer() {
               Mobile: <a href="tel:+919652993599">+91-9652993599</a>
               <br />
               E-mail: <a href="mailto:ceooffice@iffcosez.in">ceooffice@iffcosez.in</a>
-              <br />
-              Website:{" "}
-              <a href="https://www.iksez.com" target="_blank" rel="noopener">
-                www.iksez.com
-              </a>
             </p>
           </div>
         </div>

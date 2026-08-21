@@ -43,14 +43,6 @@ export default function AboutUs() {
                 provide best in class infrastructure and services to investors so that they can
                 work in a hassle free manner focusing on their business goals.
               </p>
-              <div className="flex mt-6">
-                <Link className="btn btn--brand" href="/board-of-directors/">
-                  Management Team
-                </Link>
-                <Link className="btn btn--outline" href="/master-plan/">
-                  Master Plan
-                </Link>
-              </div>
             </div>
           </div>
         </div>

@@ -57,20 +57,28 @@ export default function ContactForm() {
     <form className="form-grid" id="contact-form" noValidate onSubmit={handleSubmit}>
       <div className="form-row">
         <div className="field">
-          <label htmlFor="cf-name">Name</label>
+          <label htmlFor="cf-name">
+            Name <span className="required" aria-hidden="true">*</span>
+          </label>
           <input type="text" id="cf-name" name="name" autoComplete="name" required />
         </div>
         <div className="field">
-          <label htmlFor="cf-email">Email</label>
+          <label htmlFor="cf-email">
+            Email <span className="required" aria-hidden="true">*</span>
+          </label>
           <input type="email" id="cf-email" name="email" autoComplete="email" required />
         </div>
       </div>
       <div className="field">
-        <label htmlFor="cf-subject">Subject</label>
+        <label htmlFor="cf-subject">
+          Subject <span className="required" aria-hidden="true">*</span>
+        </label>
         <input type="text" id="cf-subject" name="subject" required />
       </div>
       <div className="field">
-        <label htmlFor="cf-message">Message</label>
+        <label htmlFor="cf-message">
+          Message <span className="required" aria-hidden="true">*</span>
+        </label>
         <textarea id="cf-message" name="message" required></textarea>
       </div>
       <div>
