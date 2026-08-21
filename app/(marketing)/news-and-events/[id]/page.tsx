@@ -48,7 +48,7 @@ export default async function NewsEventPage({ params }: PageProps) {
     <>
       <PageHero title="News and Events" subtitle={item.title} banner="/images/media-banner.webp" />
 
-      <section className="section" style={{ paddingBottom: 0 }}>
+      <section className="section">
         <div className="container container--narrow">
           <Link href="/news-and-events/" className="blog-post__back">
             <ArrowLeft /> Back to News and Events

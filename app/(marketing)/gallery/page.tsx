@@ -46,7 +46,7 @@ export default function Gallery() {
     <>
       <PageHero title="Image Gallery" subtitle="Images from the IFFCO Kisan SEZ project and community initiatives" banner="/images/media-banner.webp" />
 
-      <section className="section" style={{ paddingTop: 0 }}>
+      <section className="section">
         <div className="container">
           <div className="gallery" data-reveal="">
             {PHOTOS.map((p, i) => (

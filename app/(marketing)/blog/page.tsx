@@ -53,7 +53,7 @@ export default async function BlogPage({ searchParams }: PageProps) {
     <>
       <PageHero title="Blog" subtitle="Articles and insights from IFFCO Kisan SEZ" banner="/images/media-banner.webp" />
 
-      <section className="section" style={{ paddingTop: "var(--sp-9)" }}>
+      <section className="section">
         <div className="container">
           {/* No data-reveal here (unlike most other content blocks): that
               rule's `will-change: opacity, transform` creates a stacking

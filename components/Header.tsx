@@ -122,6 +122,14 @@ export default function Header() {
             </ul>
 
             <div className="nav__actions">
+              <Link className="nav__admin" href="/admin/" aria-label="Open admin dashboard" title="Admin dashboard">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <rect x="3" y="3" width="7" height="7" rx="1" />
+                  <rect x="14" y="3" width="7" height="7" rx="1" />
+                  <rect x="3" y="14" width="7" height="7" rx="1" />
+                  <rect x="14" y="14" width="7" height="7" rx="1" />
+                </svg>
+              </Link>
               <ThemeToggle />
               <Link className="btn btn--brand btn--sm" href="/contact-us/">
                 Contact Us

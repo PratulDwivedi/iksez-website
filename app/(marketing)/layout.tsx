@@ -5,6 +5,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import SiteEffects from "@/components/SiteEffects";
 import ThemeScript from "@/components/ThemeScript";
+import WhatsAppButton from "@/components/WhatsAppButton";
 import { PageviewTracker } from "@/components/PageviewTracker";
 import "./globals.css";
 
@@ -46,6 +47,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <main id="main">{children}</main>
         <Footer />
         <SiteEffects />
+        <WhatsAppButton />
       </body>
     </html>
   );

@@ -32,7 +32,7 @@ export default async function NewsAndEvents() {
         banner="/images/media-banner.webp"
       />
 
-      <section className="section" style={{ paddingTop: 0 }}>
+      <section className="section">
         <div className="container">
           {!is_success ? (
             <p className="blog-error">{message}</p>

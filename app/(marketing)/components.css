@@ -159,6 +159,14 @@
 .nav__submenu a:hover { background: var(--color-primary-50); color: var(--color-primary); }
 
 .nav__actions { display: flex; align-items: center; gap: var(--sp-3); flex: none; }
+.nav__admin {
+  width: 40px; height: 40px; display: grid; place-items: center;
+  color: var(--color-text); background: var(--color-surface-muted);
+  border: 1px solid var(--color-border); border-radius: 50%;
+  transition: background var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease);
+}
+.nav__admin:hover { color: var(--color-primary); border-color: var(--color-primary-200); }
+.nav__admin svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.8; }
 
 /* Light/dark theme toggle — icons are pure CSS (react to prefers-color-scheme
    and the explicit [data-theme] override) so the correct icon shows even
@@ -333,11 +341,32 @@
    4. PAGE INTRO (inner pages)
    ========================================================================== */
 .page-intro {
-  padding-block: clamp(4.5rem, 9vw, 7.5rem) var(--sp-8);
+  min-height: clamp(220px, 24vw, 290px);
+  display: flex;
+  align-items: center;
+  padding-block: clamp(3.25rem, 5vw, 4.5rem);
   background: var(--color-bg);
+  border-bottom: 1px solid var(--color-border);
 }
 .page-intro .container { max-width: var(--container-narrow); }
 .page-intro .container { text-align: center; }
+.page-intro__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  margin-bottom: var(--sp-5);
+  padding: .55rem 1.35rem;
+  border: 1px solid color-mix(in oklch, var(--color-accent) 55%, var(--color-border));
+  border-radius: var(--radius-pill);
+  color: color-mix(in oklch, var(--color-accent) 82%, var(--color-heading));
+  background: color-mix(in oklch, var(--color-accent) 10%, var(--color-bg));
+  font-family: var(--font-display);
+  font-size: var(--fs-sm);
+  font-weight: 800;
+  letter-spacing: .14em;
+  line-height: 1;
+  text-transform: uppercase;
+}
 .page-intro h1 {
   max-width: 24ch;
   margin-inline: auto;
@@ -352,6 +381,7 @@
   font-size: var(--fs-lg);
   line-height: 1.65;
 }
+.page-intro + .section { padding-top: var(--section-y); }
 
 .breadcrumb {
   display: flex; flex-wrap: wrap; align-items: center; gap: .5rem;
@@ -689,6 +719,10 @@
   outline: none; background: var(--color-surface); border-color: var(--color-primary); box-shadow: var(--ring);
 }
 .field textarea { min-height: 150px; resize: vertical; }
+.btn:disabled { cursor: wait; opacity: .65; transform: none; box-shadow: none; }
+.form-feedback { margin: 0; font-size: var(--fs-sm); font-weight: 600; }
+.form-feedback--success { color: var(--color-secondary-700); }
+.form-feedback--error { color: #b42318; }
 
 .map-embed {
   border-radius: var(--radius-lg); overflow: hidden;
@@ -755,6 +789,26 @@
 .backtotop.is-visible { opacity: 1; visibility: visible; transform: none; }
 .backtotop svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
 
+.whatsapp-float {
+  position: fixed; right: 22px; bottom: 22px; z-index: 89;
+  width: 58px; height: 58px; display: grid; place-items: center;
+  border-radius: 50%; color: var(--color-white); background: #00b879;
+  box-shadow: 0 8px 24px rgba(0, 184, 121, .32), 0 0 0 0 rgba(0, 184, 121, .42);
+  animation: whatsapp-glow 2.4s ease-out infinite;
+  transition: transform var(--dur-fast) var(--ease), box-shadow var(--dur-fast) var(--ease);
+}
+.whatsapp-float:hover { color: var(--color-white); transform: translateY(-3px); box-shadow: 0 12px 30px rgba(0, 184, 121, .42); }
+.whatsapp-float svg { width: 31px; height: 31px; fill: currentColor; }
+@keyframes whatsapp-glow {
+  0%, 100% { box-shadow: 0 8px 24px rgba(0, 184, 121, .32), 0 0 0 0 rgba(0, 184, 121, .42); }
+  55% { box-shadow: 0 8px 24px rgba(0, 184, 121, .32), 0 0 0 12px rgba(0, 184, 121, 0); }
+}
+@media (prefers-reduced-motion: reduce) { .whatsapp-float { animation: none; } }
+@media (max-width: 640px) {
+  .whatsapp-float { right: 16px; bottom: 16px; width: 52px; height: 52px; }
+  .whatsapp-float svg { width: 28px; height: 28px; }
+}
+
 /* ==========================================================================
    18. DOC / DOWNLOAD LINK
    ========================================================================== */
@@ -798,26 +852,3 @@
 .legal-content ul { margin-bottom: var(--sp-5); }
 .legal-content address { line-height: 1.8; font-style: normal; }
 
-/* ============================================================================
-   20. LIGHT PAGE INTRO
-   ============================================================================ */
-.page-intro {
-  padding-block: clamp(4.5rem, 9vw, 7.5rem) var(--sp-8);
-  background: var(--color-bg);
-}
-.page-intro .container { max-width: var(--container-narrow); }
-.page-intro h1 {
-  max-width: 16ch;
-  margin-bottom: var(--sp-3);
-  font-size: clamp(2.4rem, 5vw, var(--fs-4xl));
-}
-.page-intro p {
-  max-width: 60ch;
-  color: var(--color-muted);
-  font-size: var(--fs-lg);
-  line-height: 1.65;
-}
-.page-intro .breadcrumb { color: var(--color-muted); }
-.page-intro .breadcrumb a { color: var(--color-muted); }
-.page-intro .breadcrumb a:hover { color: var(--color-primary); }
-.page-intro .breadcrumb [aria-current] { color: var(--color-heading); font-weight: 700; }

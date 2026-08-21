@@ -18,7 +18,7 @@ export default function Tax() {
       />
 
       {/* ================= TAX ================= */}
-      <section className="section" style={{ paddingTop: 0 }}>
+      <section className="section">
         <div className="container">
           <div className="section-head section-head--center">
             <span className="eyebrow">Tax</span>

@@ -31,7 +31,7 @@ export default function Strategic() {
         </div>
       </section>
 
-      <section className="section" style={{ paddingTop: 0 }}>
+      <section className="section">
         <div className="container">
           <div className="table-wrap" data-reveal="">
             <table className="table">
