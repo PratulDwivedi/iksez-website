@@ -33,15 +33,7 @@ const NAV: NavItem[] = [
   { label: "Infrastructure", href: "/industrial/" },
   { label: "Master Plan", href: "/master-plan/" },
   { label: "Existing units", href: "/existing-units/" },
-  {
-    label: "Media",
-    href: "/news-and-events/",
-    submenu: [
-      { label: "News and Events", href: "/news-and-events/" },
-      { label: "Image Gallery", href: "/gallery/" },
-      { label: "Blog", href: "/blog/" },
-    ],
-  },
+  { label: "Blog", href: "/blog/" },
 ];
 
 export default function Header() {
@@ -63,6 +55,7 @@ export default function Header() {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsOpen(false);
     setExpandedItem(null);
+    window.scrollTo(0, 0);
   }, [pathname]);
 
   useEffect(() => {

@@ -2,12 +2,18 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import HeroSlider from "@/components/HeroSlider";
 import CtaBand from "@/components/CtaBand";
+import { NewsEventCard } from "@/components/news/NewsEventCard";
+import { getPublishedNewsEventList, sortNewsEventsByLatest } from "@/lib/publicNewsEvents";
 
 export const metadata: Metadata = {
   title: "IFFCO Kisan SEZ | Agribusiness Special Economic Zone & Integrated Agropark",
   description:
     "IFFCO Kisan SEZ is being setup as an Agribusiness Special Economic Zone based on the concept of Integrated Agropark, with customs duty, income tax and sales tax concessions provided by the Government of India.",
 };
+
+export const revalidate = 300;
+
+const FIRST_PARTY_API_KEY = process.env.NEXT_PUBLIC_IKSEZ_PUBLISHABLE_KEY;
 
 const HERO_IMAGES = [
   "/images/1.webp",
@@ -18,7 +24,12 @@ const HERO_IMAGES = [
   "/images/6.webp",
 ];
 
-export default function Home() {
+export default async function Home() {
+  const { data: newsItems, is_success: newsLoaded } = await getPublishedNewsEventList({
+    apiKey: FIRST_PARTY_API_KEY,
+    pageSize: 3,
+  });
+
   return (
     <>
       {/* Preloaded as the likely LCP element — React 19 hoists this into
@@ -299,6 +310,29 @@ export default function Home() {
           <div className="text-center mt-8" data-reveal="">
             <Link className="btn btn--outline" href="/existing-units/">
               View existing units
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ================= NEWS AND EVENTS ================= */}
+      <section className="section section--alt">
+        <div className="container">
+          <div className="section-head section-head--center" data-reveal="">
+            <span className="eyebrow">Latest updates</span>
+            <h2>News and Events</h2>
+            <p>Stay up to date with the latest developments and initiatives at IKSEZ.</p>
+          </div>
+          {newsLoaded && newsItems.length > 0 && (
+            <div className="blog-grid">
+              {sortNewsEventsByLatest(newsItems).slice(0, 3).map((item) => (
+                <NewsEventCard key={item.id} item={item} />
+              ))}
+            </div>
+          )}
+          <div className="text-center mt-8" data-reveal="">
+            <Link className="btn btn--outline" href="/news-and-events/">
+              View all news and events
             </Link>
           </div>
         </div>

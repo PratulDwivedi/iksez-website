@@ -43,6 +43,16 @@ export interface NewsEventListParams {
   apiKey?: string;
 }
 
+export function sortNewsEventsByLatest(items: NewsEventRow[]): NewsEventRow[] {
+  return [...items].sort((a, b) => eventTimestamp(b) - eventTimestamp(a));
+}
+
+function eventTimestamp(item: NewsEventRow): number {
+  const value = item.event_date ? `${item.event_date}T00:00:00` : item.published_at;
+  const timestamp = Date.parse(value);
+  return Number.isNaN(timestamp) ? 0 : timestamp;
+}
+
 // Server-to-server RPC client, no cookies/session — identical shape to
 // lib/publicBlogs.ts's rpcClient.
 function rpcClient(apiKey?: string) {
@@ -96,4 +106,15 @@ export async function getPublishedNewsEventList(params: NewsEventListParams = {}
       paging: EMPTY_PAGING,
     };
   }
+}
+
+export async function getPublishedNewsEventById(
+  id: number,
+  apiKey?: string
+): Promise<NewsEventRow | null> {
+  if (!Number.isInteger(id) || id < 1) return null;
+
+  const result = await getPublishedNewsEventList({ apiKey, pageSize: 1000 });
+  if (!result.is_success) return null;
+  return result.data.find((item) => item.id === id) ?? null;
 }

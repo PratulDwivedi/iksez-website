@@ -20,12 +20,12 @@ export default function InvitationForInvestors() {
       {/* ================= GROUPED SECTORS ================= */}
       <section className="section">
         <div className="container">
-          <div className="section-head" data-reveal="">
+          <div className="section-head section-head--center">
             <span className="eyebrow">Agro &amp; Food Processing</span>
             <h2>Sectors with defined product lines</h2>
           </div>
 
-          <div className="accordion" data-reveal="">
+          <div className="accordion">
             <div className="accordion__item">
               <h3 style={{ margin: 0 }}>
                 <button className="accordion__btn" type="button" aria-expanded="true" aria-controls="op-1">

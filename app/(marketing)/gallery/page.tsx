@@ -1,4 +1,3 @@
-import Link from "next/link";
 import type { Metadata } from "next";
 import PageHero from "@/components/PageHero";
 import CtaBand from "@/components/CtaBand";
@@ -45,20 +44,7 @@ const PHOTOS: { full: string; thumb: string; caption: string }[] = [
 export default function Gallery() {
   return (
     <>
-      <PageHero title="Media" subtitle="Image Gallery" banner="/images/media-banner.webp" />
-
-      <section className="section section--tight">
-        <div className="container">
-          <div className="chip-row" data-reveal="">
-            <Link className="btn btn--outline btn--sm" href="/news-and-events/">
-              News and Events
-            </Link>
-            <Link className="btn btn--brand btn--sm" href="/gallery/">
-              Image Gallery
-            </Link>
-          </div>
-        </div>
-      </section>
+      <PageHero title="Image Gallery" subtitle="Images from the IFFCO Kisan SEZ project and community initiatives" banner="/images/media-banner.webp" />
 
       <section className="section" style={{ paddingTop: 0 }}>
         <div className="container">

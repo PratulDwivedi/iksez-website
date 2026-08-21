@@ -330,30 +330,28 @@
 }
 
 /* ==========================================================================
-   4. PAGE BANNER (inner pages)
+   4. PAGE INTRO (inner pages)
    ========================================================================== */
-.page-hero {
-  position: relative; isolation: isolate;
-  padding-block: clamp(3rem, 2rem + 6vw, 6rem);
-  background: var(--grad-deep);
-  overflow: hidden;
+.page-intro {
+  padding-block: clamp(4.5rem, 9vw, 7.5rem) var(--sp-8);
+  background: var(--color-bg);
 }
-.page-hero__bg {
-  position: absolute; inset: 0; z-index: -2;
-  background-size: cover; background-position: center;
-  opacity: .34; transform: scale(1.03);
+.page-intro .container { max-width: var(--container-narrow); }
+.page-intro .container { text-align: center; }
+.page-intro h1 {
+  max-width: 24ch;
+  margin-inline: auto;
+  margin-bottom: var(--sp-3);
+  font-size: clamp(2.4rem, 5vw, var(--fs-4xl));
 }
-.page-hero::before {
-  content: ""; position: absolute; inset: 0; z-index: -1;
-  background: linear-gradient(105deg, rgba(22, 24, 74, .9) 0%, rgba(30, 33, 102, .68) 55%, rgba(0, 83, 42, .55) 100%);
+.page-intro h1 .accent { color: var(--color-secondary); }
+.page-intro p {
+  max-width: 60ch;
+  margin-inline: auto;
+  color: var(--color-muted);
+  font-size: var(--fs-lg);
+  line-height: 1.65;
 }
-.page-hero::after {
-  content: ""; position: absolute; right: -120px; top: -120px; width: 420px; height: 420px;
-  border-radius: 50%; z-index: -1;
-  background: radial-gradient(circle, rgba(0, 155, 72, .35), transparent 65%);
-}
-.page-hero h1 { color: var(--color-white); margin-bottom: var(--sp-3); }
-.page-hero p { color: rgba(255, 255, 255, .84); max-width: 60ch; font-size: var(--fs-lg); }
 
 .breadcrumb {
   display: flex; flex-wrap: wrap; align-items: center; gap: .5rem;
@@ -438,9 +436,14 @@
 .media-card__figure { position: relative; overflow: hidden; aspect-ratio: 16 / 10; background: var(--color-surface-muted); }
 .media-card__figure img { width: 100%; height: 100%; object-fit: cover; transition: transform var(--dur-slow) var(--ease-out); }
 .media-card:hover .media-card__figure img { transform: scale(1.06); }
+.media-card__placeholder { width: 100%; height: 100%; background: var(--grad-brand-soft); }
 .media-card__body { padding: var(--sp-5); display: flex; flex-direction: column; flex: 1; }
+.news-detail__gallery { margin-top: var(--sp-8); }
+.news-detail__gallery h2 { font-size: var(--fs-xl); }
 .media-card__body h4 { font-size: var(--fs-base); margin-bottom: 0; line-height: 1.5; }
 .media-card__body p { font-size: var(--fs-sm); color: var(--color-muted); }
+.industrial-card__title { margin-bottom: 0; font-size: var(--fs-base); line-height: 1.45; }
+.existing-unit-card__title { margin-bottom: 0; font-size: var(--fs-base); line-height: 1.45; }
 
 /* Feature list item with check */
 .check-list { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--sp-3); }
@@ -771,3 +774,50 @@
 .doc-link__meta { display: flex; flex-direction: column; }
 .doc-link__meta strong { font-family: var(--font-display); color: var(--color-heading); font-size: var(--fs-base); }
 .doc-link__meta span { font-size: var(--fs-xs); color: var(--color-muted); }
+
+/* ============================================================================
+   19. LEGAL CONTENT
+   ============================================================================ */
+.legal-content {
+  max-width: 760px;
+  margin-inline: auto;
+  color: var(--color-neutral-700);
+}
+.legal-content__updated {
+  margin-bottom: var(--sp-8);
+  color: var(--color-muted);
+  font-size: var(--fs-sm);
+}
+.legal-content h2 {
+  margin-top: var(--sp-9);
+  margin-bottom: var(--sp-3);
+  font-size: var(--fs-xl);
+}
+.legal-content h2:first-of-type { margin-top: 0; }
+.legal-content p, .legal-content li { line-height: 1.8; }
+.legal-content ul { margin-bottom: var(--sp-5); }
+.legal-content address { line-height: 1.8; font-style: normal; }
+
+/* ============================================================================
+   20. LIGHT PAGE INTRO
+   ============================================================================ */
+.page-intro {
+  padding-block: clamp(4.5rem, 9vw, 7.5rem) var(--sp-8);
+  background: var(--color-bg);
+}
+.page-intro .container { max-width: var(--container-narrow); }
+.page-intro h1 {
+  max-width: 16ch;
+  margin-bottom: var(--sp-3);
+  font-size: clamp(2.4rem, 5vw, var(--fs-4xl));
+}
+.page-intro p {
+  max-width: 60ch;
+  color: var(--color-muted);
+  font-size: var(--fs-lg);
+  line-height: 1.65;
+}
+.page-intro .breadcrumb { color: var(--color-muted); }
+.page-intro .breadcrumb a { color: var(--color-muted); }
+.page-intro .breadcrumb a:hover { color: var(--color-primary); }
+.page-intro .breadcrumb [aria-current] { color: var(--color-heading); font-weight: 700; }

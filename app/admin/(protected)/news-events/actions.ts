@@ -36,6 +36,7 @@ export async function saveNewsEvent(
   // this tag/path unconditionally on every save is safe.
   revalidateTag('news-events-list', 'max');
   revalidatePath('/news-and-events');
+  revalidatePath('/');
 
   const savedId = (data as { id: number } | null)?.id;
   redirect(savedId ? `/admin/news-events/${savedId}/` : '/admin/news-events/');

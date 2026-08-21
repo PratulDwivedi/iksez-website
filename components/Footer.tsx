@@ -133,6 +133,7 @@ export default function Footer() {
           <p className="mb-0">
             &copy; <FooterYear /> IFFCO Kisan SEZ Limited. All rights reserved.
           </p>
+          <Link href="/privacy-policy/">Privacy Policy</Link>
         </div>
       </div>
     </footer>

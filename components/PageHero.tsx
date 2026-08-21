@@ -1,25 +1,20 @@
-import Link from "next/link";
-
 type PageHeroProps = {
   title: string;
   subtitle?: string;
-  banner: string;
+  banner?: string;
 };
 
-export default function PageHero({ title, subtitle, banner }: PageHeroProps) {
+export default function PageHero({ title, subtitle }: PageHeroProps) {
+  const words = title.split(" ");
+  const accentWord = words.pop();
+
   return (
-    <section className="page-hero">
-      <div className="page-hero__bg" style={{ backgroundImage: `url('${banner}')` }}></div>
+    <section className="page-intro">
       <div className="container">
-        <ol className="breadcrumb">
-          <li>
-            <Link href="/">Home</Link>
-          </li>
-          <li>
-            <span aria-current="page">{title}</span>
-          </li>
-        </ol>
-        <h1>{title}</h1>
+        <h1>
+          {words.length > 0 && `${words.join(" ")} `}
+          <span className="accent">{accentWord}</span>
+        </h1>
         {subtitle && <p>{subtitle}</p>}
       </div>
     </section>

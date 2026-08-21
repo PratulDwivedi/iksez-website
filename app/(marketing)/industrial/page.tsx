@@ -33,7 +33,7 @@ export default function Industrial() {
 
       <section className="section">
         <div className="container">
-          <div className="section-head" data-reveal="">
+          <div className="section-head section-head--center">
             <span className="eyebrow">Industrial</span>
             <h2>Ready Availability of Infrastructure for New Industries</h2>
           </div>
@@ -46,7 +46,7 @@ export default function Industrial() {
                   <img src={item.src} alt={item.caption} loading="lazy" />
                 </a>
                 <div className="media-card__body">
-                  <h3>{item.caption}</h3>
+                  <h3 className="industrial-card__title">{item.caption}</h3>
                 </div>
               </article>
             ))}
