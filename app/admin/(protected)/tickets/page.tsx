@@ -5,6 +5,7 @@ import { callRpc } from '@/lib/supabase/rpc';
 import { AdminPageHeader } from '@/components/admin/AdminPageHeader';
 import { TicketListTable, type TicketListRow } from '@/components/admin/TicketListTable';
 import { ApiIntegrationButton } from '@/components/admin/ApiIntegrationButton';
+import { SITE_URL } from '@/lib/siteUrl';
 
 const TICKETS_API_RESPONSE_EXAMPLE = `{
   "is_success": true,
@@ -59,7 +60,7 @@ export default async function AdminTicketsPage() {
                 { name: 'last_name, email, phone, company, priority, category, description', in: 'body', description: 'Optional strings. priority is one of low/medium/high/urgent.' },
                 { name: 'data', in: 'body', description: 'Optional freeform object for extra fields.' },
               ]}
-              requestExample={`curl -X POST "https://www.iksez.com/api/tickets" \\\n  -H "x-api-key: YOUR_PUBLISHABLE_API_KEY" \\\n  -H "Content-Type: application/json" \\\n  -d '{"subject":"Site is down","first_name":"Jordan","email":"jordan@acme.com","priority":"urgent"}'`}
+                  requestExample={`curl -X POST "${SITE_URL}/api/tickets" \\\n  -H "x-api-key: YOUR_PUBLISHABLE_API_KEY" \\\n  -H "Content-Type: application/json" \\\n  -d '{"subject":"Site is down","first_name":"Jordan","email":"jordan@acme.com","priority":"urgent"}'`}
               responseExample={TICKETS_API_RESPONSE_EXAMPLE}
               keyNote="Required — unlike the read-only blog API, there's no keyless default here, so a missing or invalid key is rejected instead of falling back to any tenant."
             />

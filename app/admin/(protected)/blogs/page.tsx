@@ -6,6 +6,7 @@ import type { BlogRow } from '@/lib/publicBlogs';
 import { AdminPageHeader } from '@/components/admin/AdminPageHeader';
 import { BlogListTable } from '@/components/admin/BlogListTable';
 import { ApiIntegrationButton } from '@/components/admin/ApiIntegrationButton';
+import { SITE_URL } from '@/lib/siteUrl';
 
 const BLOGS_API_RESPONSE_EXAMPLE = `{
   "is_success": true,
@@ -115,7 +116,7 @@ export default async function AdminBlogsPage() {
                 { name: 'page', in: 'query', description: 'Page number. Default 1.' },
                 { name: 'pageSize', in: 'query', description: 'Results per page. Default 9.' },
               ]}
-              requestExample={`curl "https://www.iksez.com/api/blogs?category=Website%20Migration&page=1" \\\n  -H "x-api-key: YOUR_PUBLISHABLE_API_KEY"`}
+                  requestExample={`curl "${SITE_URL}/api/blogs?category=Website%20Migration&page=1" \\\n  -H "x-api-key: YOUR_PUBLISHABLE_API_KEY"`}
               responseExample={BLOGS_API_RESPONSE_EXAMPLE}
               keyNote="Required — like Leads and Analytics, there's no keyless default, so a missing or invalid key is rejected instead of falling back to any tenant."
             />
@@ -127,7 +128,7 @@ export default async function AdminBlogsPage() {
               params={[
                 { name: 'x-api-key', in: 'header', description: "Your tenant's publishable API key. Required.", required: true },
               ]}
-              requestExample={`curl "https://www.iksez.com/api/blogs/tags" \\\n  -H "x-api-key: YOUR_PUBLISHABLE_API_KEY"`}
+                  requestExample={`curl "${SITE_URL}/api/blogs/tags" \\\n  -H "x-api-key: YOUR_PUBLISHABLE_API_KEY"`}
               responseExample={BLOG_TAGS_API_RESPONSE_EXAMPLE}
               keyNote="Required — like Leads and Analytics, there's no keyless default, so a missing or invalid key is rejected instead of falling back to any tenant."
             />
@@ -140,7 +141,7 @@ export default async function AdminBlogsPage() {
                 { name: 'x-api-key', in: 'header', description: "Your tenant's publishable API key. Required.", required: true },
                 { name: 'slug', in: 'path', description: 'The post\'s slug, from the "name" field in List Blogs, e.g. /api/blogs/zero-downtime-website-migration-guide.', required: true },
               ]}
-              requestExample={`curl "https://www.iksez.com/api/blogs/zero-downtime-website-migration-guide" \\\n  -H "x-api-key: YOUR_PUBLISHABLE_API_KEY"`}
+                  requestExample={`curl "${SITE_URL}/api/blogs/zero-downtime-website-migration-guide" \\\n  -H "x-api-key: YOUR_PUBLISHABLE_API_KEY"`}
               responseExample={BLOG_POST_API_RESPONSE_EXAMPLE}
               keyNote="Required — like Leads and Analytics, there's no keyless default, so a missing or invalid key is rejected instead of falling back to any tenant. Returns 404 if no published post matches the slug."
             />

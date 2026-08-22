@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import PageHero from "@/components/PageHero";
 import CtaBand from "@/components/CtaBand";
 import ContactForm from "@/components/ContactForm";
+import { SITE_URL } from "@/lib/siteUrl";
 
 export const metadata: Metadata = {
   title: "Contact us | IFFCO Kisan SEZ",
@@ -71,8 +72,8 @@ export default function ContactUs() {
                     </span>
                     <span>
                       Website:{" "}
-                      <a href="https://www.iksez.com" target="_blank" rel="noopener">
-                        www.iksez.com
+                      <a href={SITE_URL} target="_blank" rel="noopener">
+                        {new URL(SITE_URL).hostname}
                       </a>
                     </span>
                   </li>

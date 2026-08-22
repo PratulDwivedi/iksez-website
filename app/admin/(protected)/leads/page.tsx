@@ -5,6 +5,7 @@ import { callRpc } from '@/lib/supabase/rpc';
 import { AdminPageHeader } from '@/components/admin/AdminPageHeader';
 import { LeadListTable, type LeadListRow } from '@/components/admin/LeadListTable';
 import { ApiIntegrationButton } from '@/components/admin/ApiIntegrationButton';
+import { SITE_URL } from '@/lib/siteUrl';
 
 const LEADS_API_RESPONSE_EXAMPLE = `{
   "is_success": true,
@@ -68,7 +69,7 @@ export default async function AdminLeadsPage() {
                 { name: 'estimated_value', in: 'body', description: 'Optional number.' },
                 { name: 'data', in: 'body', description: 'Optional freeform object for extra fields.' },
               ]}
-              requestExample={`curl -X POST "https://www.iksez.com/api/leads" \\\n  -H "x-api-key: YOUR_PUBLISHABLE_API_KEY" \\\n  -H "Content-Type: application/json" \\\n  -d '{"first_name":"Jordan","last_name":"Rivera","email":"jordan@acme.com","lead_source":"website form"}'`}
+              requestExample={`curl -X POST "${SITE_URL}/api/leads" \\\n  -H "x-api-key: YOUR_PUBLISHABLE_API_KEY" \\\n  -H "Content-Type: application/json" \\\n  -d '{"first_name":"Jordan","last_name":"Rivera","email":"jordan@acme.com","lead_source":"website form"}'`}
               responseExample={LEADS_API_RESPONSE_EXAMPLE}
               keyNote="Required — unlike the read-only blog API, there's no keyless default here, so a missing or invalid key is rejected instead of falling back to any tenant."
             />

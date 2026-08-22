@@ -9,6 +9,7 @@ import { RefreshButton } from '@/components/admin/RefreshButton';
 import { PageviewsChart } from '@/components/admin/PageviewsChart';
 import { StatTile } from '@/components/admin/StatTile';
 import { RankedList } from '@/components/admin/RankedList';
+import { SITE_URL } from '@/lib/siteUrl';
 
 const ANALYTICS_API_RESPONSE_EXAMPLE = `{
   "is_success": true,
@@ -103,7 +104,7 @@ export default async function AdminDashboardPage({
                 { name: 'event_type, event_name', in: 'body', description: 'Optional — defaults to "pageview". Use "custom" + event_name for non-pageview events.' },
                 { name: 'data', in: 'body', description: 'Optional freeform object for extra event properties.' },
               ]}
-              requestExample={`curl -X POST "https://www.iksez.com/api/analytics" \\\n  -H "x-api-key: YOUR_PUBLISHABLE_API_KEY" \\\n  -H "Content-Type: application/json" \\\n  -d '{"path":"/pricing","title":"Pricing","referrer":"https://google.com","visitor_id":"...","session_id":"..."}'`}
+              requestExample={`curl -X POST "${SITE_URL}/api/analytics" \\\n  -H "x-api-key: YOUR_PUBLISHABLE_API_KEY" \\\n  -H "Content-Type: application/json" \\\n  -d '{"path":"/pricing","title":"Pricing","referrer":"https://google.com","visitor_id":"...","session_id":"..."}'`}
               responseExample={ANALYTICS_API_RESPONSE_EXAMPLE}
               keyNote="Required — like the Leads API, there's no keyless default, so a missing or invalid key is rejected instead of attributing the hit to any tenant. Browser/OS/device are parsed server-side from the User-Agent header, not trusted from the client."
             />
@@ -129,7 +130,6 @@ export default async function AdminDashboardPage({
             >
               <input
                 type="date"
-                name="from"
                 defaultValue={from}
                 max={to}
                 required

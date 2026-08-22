@@ -6,6 +6,7 @@ import type { TestimonialRow } from '@/lib/publicTestimonials';
 import { AdminPageHeader } from '@/components/admin/AdminPageHeader';
 import { TestimonialListTable } from '@/components/admin/TestimonialListTable';
 import { ApiIntegrationButton } from '@/components/admin/ApiIntegrationButton';
+import { SITE_URL } from '@/lib/siteUrl';
 
 const TESTIMONIALS_API_RESPONSE_EXAMPLE = `{
   "is_success": true,
@@ -66,9 +67,8 @@ export default async function AdminTestimonialsPage() {
                 { name: 'page', in: 'query', description: 'Page number. Default 1.' },
                 { name: 'pageSize', in: 'query', description: 'Results per page. Default 50.' },
               ]}
-              requestExample={`curl "https://www.iksez.com/api/testimonials?page=1" \\\n  -H "x-api-key: YOUR_PUBLISHABLE_API_KEY"`}
+              requestExample={`curl "${SITE_URL}/api/testimonials?page=1" \\\n  -H "x-api-key: YOUR_PUBLISHABLE_API_KEY"`}
               responseExample={TESTIMONIALS_API_RESPONSE_EXAMPLE}
-              keyNote="Required — like Blogs/Leads/Analytics, there's no keyless default, so a missing or invalid key is rejected instead of falling back to any tenant."
             />
             <Link
               href="/admin/testimonials/new"
@@ -79,7 +79,7 @@ export default async function AdminTestimonialsPage() {
             </Link>
           </>
         }
-      />
+        />
 
       <div className="px-3 sm:px-4 py-4">
         {error ? (

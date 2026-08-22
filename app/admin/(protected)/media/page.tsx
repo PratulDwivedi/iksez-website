@@ -4,6 +4,7 @@ import { callRpc } from '@/lib/supabase/rpc';
 import { AdminPageHeader } from '@/components/admin/AdminPageHeader';
 import { MediaLibrary, type MediaRow } from '@/components/admin/MediaLibrary';
 import { ApiIntegrationButton } from '@/components/admin/ApiIntegrationButton';
+import { SITE_URL } from '@/lib/siteUrl';
 
 const MEDIA_API_RESPONSE_EXAMPLE = `{
   "is_success": true,
@@ -54,7 +55,7 @@ export default async function AdminMediaPage() {
               { name: 'page', in: 'query', description: 'Page number. Default 1.' },
               { name: 'pageSize', in: 'query', description: 'Results per page. Default 50.' },
             ]}
-            requestExample={`curl "https://www.iksez.com/api/media?pageSize=20" \\\n  -H "x-api-key: YOUR_PUBLISHABLE_API_KEY"`}
+              requestExample={`curl "${SITE_URL}/api/media?pageSize=20" \\\n  -H "x-api-key: YOUR_PUBLISHABLE_API_KEY"`}
             responseExample={MEDIA_API_RESPONSE_EXAMPLE}
             keyNote="Optional — only PUBLIC files from this tenant are ever returned, whether or not a key is sent; private files never appear here regardless."
           />

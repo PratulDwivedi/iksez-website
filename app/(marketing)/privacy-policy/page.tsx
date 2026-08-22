@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import PageHero from "@/components/PageHero";
+import { SITE_URL } from "@/lib/siteUrl";
 
 export const metadata: Metadata = {
   title: "Privacy Policy | IFFCO Kisan SEZ",
@@ -26,7 +27,7 @@ export default function PrivacyPolicy() {
               IFFCO Kisan SEZ Limited (&quot;IKSEZ&quot;, &quot;we&quot;, &quot;our&quot;, or &quot;us&quot;) respects your privacy and
               is committed to protecting the information you share with us. This Privacy Policy
               explains how information is collected, used, and protected when you visit
-              <a href="https://www.iksez.com"> www.iksez.com</a> or contact us through the website.
+              <a href={SITE_URL}> {new URL(SITE_URL).hostname}</a> or contact us through the website.
             </p>
 
             <h2>Information We Collect</h2>
