@@ -55,6 +55,58 @@
 .btn--lg { padding: 1.05rem 2.1rem; font-size: var(--fs-base); }
 .btn--block { display: flex; width: 100%; justify-content: center; }
 
+/* ---------- Compliance documents ---------- */
+.compliance-intro { max-width: 680px; margin-bottom: var(--sp-8); }
+.compliance-list { display: grid; gap: var(--sp-5); }
+.compliance-item {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--sp-5);
+  padding: var(--sp-6);
+  border: 1px solid color-mix(in srgb, var(--color-primary) 14%, var(--color-border));
+  border-radius: var(--radius-md);
+  background: var(--color-white);
+  box-shadow: var(--shadow-sm);
+}
+.compliance-item__icon {
+  display: grid;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  color: var(--color-secondary-900);
+  background: color-mix(in srgb, var(--color-secondary) 12%, var(--color-white));
+  border-radius: var(--radius-sm);
+}
+.compliance-item__icon svg { width: 1.4rem; height: 1.4rem; }
+.compliance-item__meta {
+  display: block;
+  margin-bottom: var(--sp-2);
+  color: var(--color-secondary-900);
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.compliance-item h3 { margin-bottom: var(--sp-2); font-size: var(--fs-xl); }
+.compliance-item p { color: var(--color-muted); }
+.compliance-item__actions { display: flex; flex-wrap: wrap; gap: var(--sp-3); margin-top: var(--sp-5); }
+.compliance-detail {
+  max-width: 720px;
+  padding: var(--sp-8);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+}
+.compliance-detail .compliance-item__icon { margin-bottom: var(--sp-5); }
+.compliance-detail h1 { margin-top: var(--sp-3); }
+
+@media (max-width: 560px) {
+  .compliance-item { grid-template-columns: 1fr; gap: var(--sp-4); padding: var(--sp-5); }
+  .compliance-item__icon { width: 2.6rem; height: 2.6rem; }
+  .compliance-item__actions .btn { flex: 1 1 100%; justify-content: center; }
+}
+
 /* Text link with animated arrow */
 .link-arrow {
   display: inline-flex; align-items: center; gap: .45rem;

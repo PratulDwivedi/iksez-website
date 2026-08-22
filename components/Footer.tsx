@@ -78,14 +78,7 @@ export default function Footer() {
                 <Link href="/blog/">Blog</Link>
               </li>
               <li>
-                <a href="/images/EC-Compliance-Report-2025.pdf" target="_blank" rel="noopener">
-                  EC Compliance Report
-                </a>
-              </li>
-              <li>
-                <a href="/images/iksez-EC-complains-enviroment.pdf" target="_blank" rel="noopener">
-                  Environment Clearance
-                </a>
+                <Link href="/compliances/">Compliance Documents</Link>
               </li>
             </ul>
           </div>

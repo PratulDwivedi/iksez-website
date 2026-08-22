@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 import { getPublishedBlogList } from "@/lib/publicBlogs";
 import { getPublishedNewsEventList, newsEventSlug } from "@/lib/publicNewsEvents";
 import { SITE_URL } from "@/lib/siteUrl";
+import { complianceDocuments } from "@/lib/complianceDocuments";
 
 const FIRST_PARTY_API_KEY = process.env.NEXT_PUBLIC_IKSEZ_PUBLISHABLE_KEY;
 
@@ -14,6 +15,7 @@ const staticRoutes = [
   { path: "/benefits/", priority: 0.8, changeFrequency: "monthly" as const },
   { path: "/board-of-directors/", priority: 0.5, changeFrequency: "yearly" as const },
   { path: "/contact-us/", priority: 0.7, changeFrequency: "monthly" as const },
+  { path: "/compliances/", priority: 0.7, changeFrequency: "monthly" as const },
   { path: "/existing-units/", priority: 0.7, changeFrequency: "monthly" as const },
   { path: "/gallery/", priority: 0.6, changeFrequency: "monthly" as const },
   { path: "/industrial/", priority: 0.8, changeFrequency: "monthly" as const },
@@ -54,5 +56,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.6,
   }));
 
-  return [...staticEntries, ...blogEntries, ...newsEntries];
+  const complianceEntries = complianceDocuments.map((document) => ({
+    url: `${SITE_URL}/compliances/${document.slug}/`,
+    lastModified,
+    changeFrequency: "yearly" as const,
+    priority: 0.5,
+  }));
+
+  return [...staticEntries, ...blogEntries, ...newsEntries, ...complianceEntries];
 }
