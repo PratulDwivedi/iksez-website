@@ -53,7 +53,7 @@ export default function Header() {
       if (e.key === "Escape") setIsOpen(false);
     };
     const onResize = () => {
-      if (window.innerWidth > 1120) setIsOpen(false);
+      if (window.innerWidth > 1320) setIsOpen(false);
     };
     document.addEventListener("keydown", onKeydown);
     window.addEventListener("resize", onResize);

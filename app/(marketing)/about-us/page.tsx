@@ -87,7 +87,7 @@ export default function AboutUs() {
               </div>
               <h3>Vision</h3>
               <p className="lead" style={{ color: "var(--color-neutral-600)" }}>
-                To setup industrial infrastructure to foster industry, economic growth,
+                To set up industrial infrastructure to foster industry, economic growth,
                 sustainable economic development and create employment opportunities.
               </p>
             </article>

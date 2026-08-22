@@ -1,6 +1,7 @@
 type PageHeroProps = {
   title: string;
   subtitle?: string;
+  /** Retained for page-call compatibility; all inner pages share one hero background. */
   banner?: string;
 };
 

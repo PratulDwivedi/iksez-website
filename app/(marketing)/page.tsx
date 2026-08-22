@@ -49,7 +49,7 @@ export default async function Home() {
                 An Agribusiness SEZ , <span className="accent">Integrated Agropark</span>
               </h1>
               <p className="hero__text">
-                IFFCO Kisan SEZ is being setup as an Agribusiness Special Economic Zone based on
+                IFFCO Kisan SEZ is being set up as an Agribusiness Special Economic Zone based on
                 the concept of Integrated Agropark. It comes with various customs duty, income tax
                 and sales tax concessions provided by the Government of India to promote economic
                 activity.
@@ -61,6 +61,11 @@ export default async function Home() {
                 <Link className="btn btn--outline btn--lg" href="/about-us/">
                   About IKSEZ
                 </Link>
+              </div>
+              <div className="hero__proof" aria-label="Key investment highlights">
+                <span><strong>1,900</strong> acres SEZ</span>
+                <span><strong>8 km</strong> NH-16 frontage</span>
+                <span><strong>220 kV</strong> assured power</span>
               </div>
             </div>
 
@@ -290,18 +295,22 @@ export default async function Home() {
             <p>Many other companies of National repute are also expected to set up their units very soon.</p>
           </div>
           <div className="grid grid--4">
-            <div className="card card--flat text-center" data-reveal="">
+            <div className="card card--flat unit-card text-center" data-reveal="">
+              <span className="unit-card__mark">SG</span>
               <h3 style={{ margin: 0, fontSize: "var(--fs-base)" }}>
                 Siemens Gamesa Renewable Energy Pvt Ltd
               </h3>
             </div>
-            <div className="card card--flat text-center" data-reveal="">
+            <div className="card card--flat unit-card text-center" data-reveal="">
+              <span className="unit-card__mark">ADJ</span>
               <h3 style={{ margin: 0, fontSize: "var(--fs-base)" }}>ADJ</h3>
             </div>
-            <div className="card card--flat text-center" data-reveal="">
+            <div className="card card--flat unit-card text-center" data-reveal="">
+              <span className="unit-card__mark">AP</span>
               <h3 style={{ margin: 0, fontSize: "var(--fs-base)" }}>APTRANSCO</h3>
             </div>
-            <div className="card card--flat text-center" data-reveal="">
+            <div className="card card--flat unit-card text-center" data-reveal="">
+              <span className="unit-card__mark">HC</span>
               <h3 style={{ margin: 0, fontSize: "var(--fs-base)" }}>
                 HCCB <span className="muted" style={{ fontWeight: 500 }}>(coming up)</span>
               </h3>
