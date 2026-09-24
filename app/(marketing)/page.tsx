@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import CtaBand from "@/components/CtaBand";
+import FeatureCard from "@/components/FeatureCard";
 import { chairman, directors, managingDirector } from "@/lib/leadership";
 import { getPublishedNewsEventList, newsEventSlug, sortNewsEventsByLatest } from "@/lib/publicNewsEvents";
 
@@ -14,7 +15,7 @@ export const revalidate = 300;
 
 const FIRST_PARTY_API_KEY = process.env.NEXT_PUBLIC_IKSEZ_PUBLISHABLE_KEY;
 
-const HERO_IMAGE = "/images/1.webp";
+const HERO_IMAGE = "https://images.unsplash.com/photo-1565793298595-6a879b1d9492?auto=format&fit=crop&w=1800&q=85";
 
 function formatNewsDate(isoDate: string | null): string {
   if (!isoDate) return "";
@@ -153,48 +154,14 @@ export default async function Home() {
             </div>
           </div>
           <div className="home-feature-grid">
-            <article className="card">
-              <div className="card__icon" aria-hidden="true"><span>▥</span></div>
-              <h3>Multiproduct SEZ</h3>
-              <p>A Multiproduct Special Economic Zone (SEZ) spanning approximately 1,900 acres.</p>
-            </article>
-            <article className="card">
-              <div className="card__icon" aria-hidden="true"><span>⌂</span></div>
-              <h3>Domestic Tariff Area</h3>
-              <p>A Domestic Tariff Area (DTA) covering about 877 acres which is designated for initiatives focused on domestic Indian market.</p>
-            </article>
-            <article className="card">
-              <div className="card__icon" aria-hidden="true"><span>⌁</span></div>
-              <h3>Multimodal Connectivity</h3>
-              <p>The location is well connected by Road, Rail, Air and Sea.</p>
-            </article>
-            <article className="card">
-              <div className="card__icon" aria-hidden="true"><span>⌖</span></div>
-              <h3>NH 16 Frontage</h3>
-              <p>The site is on NH 16 with 8 km frontage and adjacent to a trunk rail link.</p>
-            </article>
-            <article className="card">
-              <div className="card__icon" aria-hidden="true"><span>◇</span></div>
-              <h3>Industrial Corridor</h3>
-              <p>The site falls in the Visakhapatnam-Chennai industrial corridor being actively developed by the state government.</p>
-            </article>
-            <article className="card">
-              <div className="card__icon" aria-hidden="true"><span>ϟ</span></div>
-              <h3>Ready Infrastructure</h3>
-              <p>The site is equipped with the major infrastructural facilities with ready availability of water, power, office space and security.</p>
-            </article>
-            <article className="card">
-              <div className="card__icon" aria-hidden="true"><span>♧</span></div>
-              <h3>Skilled Manpower</h3>
-              <p>Ready availability of skilled manpower.</p>
-            </article>
-            <article className="card card--dark" style={{ justifyContent: "center" }}>
-              <h3>Explore the full list of benefits</h3>
-              <p>Tax concessions under the SEZ Act plus strategic advantages across power, water, connectivity and manpower.</p>
-              <div className="card__foot">
-                <Link className="btn btn--green btn--sm" href="/benefits/">See All Benefits</Link>
-              </div>
-            </article>
+            <FeatureCard title="Multiproduct SEZ" icon={<span>▥</span>}>A Multiproduct Special Economic Zone (SEZ) spanning approximately 1,900 acres.</FeatureCard>
+            <FeatureCard title="Domestic Tariff Area" icon={<span>⌂</span>}>A Domestic Tariff Area (DTA) covering about 877 acres which is designated for initiatives focused on domestic Indian market.</FeatureCard>
+            <FeatureCard title="Multimodal Connectivity" icon={<span>⌁</span>}>The location is well connected by Road, Rail, Air and Sea.</FeatureCard>
+            <FeatureCard title="NH 16 Frontage" icon={<span>⌖</span>}>The site is on NH 16 with 8 km frontage and adjacent to a trunk rail link.</FeatureCard>
+            <FeatureCard title="Industrial Corridor" icon={<span>◇</span>}>The site falls in the Visakhapatnam-Chennai industrial corridor being actively developed by the state government.</FeatureCard>
+            <FeatureCard title="Ready Infrastructure" icon={<span>ϟ</span>}>The site is equipped with the major infrastructural facilities with ready availability of water, power, office space and security.</FeatureCard>
+            <FeatureCard title="Skilled Manpower" icon={<span>♧</span>}>Ready availability of skilled manpower.</FeatureCard>
+            <FeatureCard title="Explore the full list of benefits" className="card--dark" actions={<Link className="btn btn--green btn--sm" href="/benefits/">See All Benefits</Link>}>Tax concessions under the SEZ Act plus strategic advantages across power, water, connectivity and manpower.</FeatureCard>
           </div>
         </div>
       </section>

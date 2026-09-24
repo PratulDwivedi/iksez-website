@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import ThemeToggle from "./ThemeToggle";
 
 type NavItem = {
   label: string;
@@ -34,6 +33,7 @@ const NAV: NavItem[] = [
   },
   { label: "News & Media", href: "/news-and-events/" },
   { label: "Blogs", href: "/blog/" },
+  { label: "Contact Us", href: "/contact-us/" },
 ];
 
 export default function Header() {
@@ -148,23 +148,6 @@ export default function Header() {
             </ul>
 
             <div className="nav__actions">
-              <Link className="nav__admin" href="/admin/" aria-label="Open admin dashboard" title="Admin dashboard">
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <rect x="3" y="3" width="7" height="7" rx="1" />
-                  <rect x="14" y="3" width="7" height="7" rx="1" />
-                  <rect x="3" y="14" width="7" height="7" rx="1" />
-                  <rect x="14" y="14" width="7" height="7" rx="1" />
-                </svg>
-              </Link>
-              <ThemeToggle />
-              <Link className="btn btn--brand btn--sm" href="/contact-us/">
-                Contact Us
-              </Link>
-              <Link className="nav__contact" href="/contact-us/" aria-label="Contact us">
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M6.6 10.8c1.4 2.8 3.8 5.2 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.9 21 3 13.1 3 3.4c0-.6.4-1 1-1h3.4c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.4 0 .8-.2 1L6.6 10.8z" />
-                </svg>
-              </Link>
               <button
                 className="nav__toggle"
                 type="button"

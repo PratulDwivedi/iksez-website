@@ -1,5 +1,6 @@
 import Link from "next/link";
 import FooterYear from "./FooterYear";
+import ThemeToggle from "./ThemeToggle";
 
 export default function Footer() {
   return (
@@ -107,7 +108,18 @@ export default function Footer() {
           <p className="mb-0">
             &copy; <FooterYear /> IFFCO Kisan SEZ Limited. All rights reserved.
           </p>
-          <Link href="/privacy-policy/">Privacy Policy</Link>
+          <div className="footer__controls">
+            <Link href="/privacy-policy/">Privacy Policy</Link>
+            <Link className="footer__admin" href="/admin/" aria-label="Open admin dashboard" title="Admin dashboard">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <rect x="3" y="3" width="7" height="7" rx="1" />
+                <rect x="14" y="3" width="7" height="7" rx="1" />
+                <rect x="3" y="14" width="7" height="7" rx="1" />
+                <rect x="14" y="14" width="7" height="7" rx="1" />
+              </svg>
+            </Link>
+            <ThemeToggle />
+          </div>
         </div>
       </div>
     </footer>
