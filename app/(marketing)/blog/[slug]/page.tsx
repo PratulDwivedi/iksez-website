@@ -79,7 +79,7 @@ export default async function BlogPostPage({ params }: PageProps) {
               </span>
             </div>
 
-            <h1 style={{ fontSize: "var(--fs-3xl)" }}>{post.title}</h1>
+            <h1 className="blog-post__title">{post.title}</h1>
 
             <div className="blog-post__meta">
               <div className="blog-post__by">

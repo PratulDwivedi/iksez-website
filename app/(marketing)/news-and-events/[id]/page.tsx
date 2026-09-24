@@ -78,7 +78,7 @@ export default async function NewsEventPage({ params }: PageProps) {
           </Link>
 
           <div className="blog-post__head">
-            <h1 style={{ fontSize: "var(--fs-3xl)" }}>{item.title}</h1>
+            <h1 className="blog-post__title">{item.title}</h1>
             {eventDate && (
               <div className="blog-post__meta">
                 <span className="blog-post__readtime">
