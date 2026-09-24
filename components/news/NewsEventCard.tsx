@@ -30,6 +30,10 @@ export function NewsEventCard({ item }: { item: NewsEventRow }) {
       </div>
 
       <div className="media-card__body">
+        <h3 className="blog-card__title">
+          <Link href={href}>{item.title}</Link>
+        </h3>
+        <p className="blog-card__excerpt">{getExcerpt(item)}</p>
         {item.event_date && (
           <div className="blog-card__meta">
             <span>
@@ -38,10 +42,6 @@ export function NewsEventCard({ item }: { item: NewsEventRow }) {
             </span>
           </div>
         )}
-        <h3 className="blog-card__title">
-          <Link href={href}>{item.title}</Link>
-        </h3>
-        <p className="blog-card__excerpt">{getExcerpt(item)}</p>
         <div className="blog-card__foot">
           <span className="blog-card__author">
             {item.gallery.length} {item.gallery.length === 1 ? "image" : "images"}
