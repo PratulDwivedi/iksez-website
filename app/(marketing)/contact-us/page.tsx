@@ -100,6 +100,15 @@ export default function ContactUs() {
                   </li>
                 </ul>
               </div>
+
+              <div className="map-embed">
+                <iframe
+                  src="https://www.google.com/maps?q=IFFCO+Kisan+SEZ,+Racharlapadu,+Kodavaluru+Mandalam,+SPSR+Nellore,+Andhra+Pradesh&output=embed"
+                  title="IFFCO Kisan SEZ location map"
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                />
+              </div>
             </div>
 
             {/* ---------- FORM ---------- */}
