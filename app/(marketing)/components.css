@@ -1,6 +1,28 @@
 /* ==========================================================================
    IKSEZ — Reusable component library
    Every block here is self-contained: copy the markup, get the component.
+
+   CARD STANDARD (homepage feature-card is the reference — match it, don't
+   invent a new card look):
+     - Use `.card` (in `.grid`/`.grid--2`/`.grid--3`) for a titled block with
+       an optional icon. `.feature-card` is `.card` with tighter padding/body
+       text for short one-line blurbs (home "Major Features", "Vision and
+       mission") — add that class too when the card holds a single short
+       paragraph rather than a list or long copy.
+     - Icon: `.card__icon` (or `.feature-card__icon`) — a bare colored icon
+       (var(--color-secondary), ~44px), never a boxed/gradient icon badge.
+     - Title: `<h3>` inside `.card` is fixed at 18px by `.card h3` — do not
+       add a page-local font-size override; if a card needs its own title
+       class (e.g. `.existing-unit-card__title`), keep it at the same 18px
+       (or var(--fs-base)/17px is close enough) rather than the raw h3
+       default (fs-2xl, ~26-34px — reads oversized against everything else).
+     - Body text: 12-14px (`.feature-card p` is 12px, `.card p` is 14px,
+       `.check-list li` is 14px) — not the base body size (var(--fs-base),
+       17px), which reads loose compared to every other card on the site.
+     - Shape/depth: flat at rest (no shadow, var(--radius-lg) corners per
+       the shared tokens in theme.css), lift + var(--shadow) on hover. Don't
+       add inline padding/shadow overrides on a per-page basis — change the
+       shared class if the default is wrong everywhere.
    ========================================================================== */
 
 /* ==========================================================================
@@ -558,16 +580,16 @@
 }
 .card:hover { transform: translateY(-3px); box-shadow: var(--shadow); border-color: color-mix(in oklch, var(--color-primary) 34%, var(--color-border)); }
 .card:hover::before { transform: scaleX(1); }
-.card h3, .card h4 { margin-bottom: var(--sp-3); }
-.card p { color: var(--color-muted); font-size: var(--fs-base); }
+.card h3, .card h4 { margin-bottom: var(--sp-3); font-size: 18px; }
+.card p { color: var(--color-muted); font-size: 14px; }
 .card__foot { margin-top: auto; padding-top: var(--sp-5); }
 
+/* Bare colored icon — matches .feature-card__icon; this is the standard
+   icon treatment for any card, not a special case for feature-card. */
 .card__icon {
-  width: 52px; height: 52px; margin-bottom: var(--sp-4);
+  width: 44px; height: 44px; margin-bottom: var(--sp-4);
   display: grid; place-items: center; flex: none;
-  border-radius: var(--radius);
-  background: linear-gradient(135deg, var(--color-primary-50), var(--color-secondary-50)); color: var(--color-primary);
-  border: 1px solid color-mix(in oklch, var(--color-primary) 9%, transparent);
+  color: var(--color-secondary);
 }
 .card__icon svg { width: 24px; height: 24px; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
 
@@ -603,7 +625,7 @@
 /* Feature list item with check */
 .check-list { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--sp-3); }
 .check-list li {
-  position: relative; padding-left: 2.1rem; margin: 0; color: var(--color-neutral-600);
+  position: relative; padding-left: 2.1rem; margin: 0; color: var(--color-neutral-600); font-size: 14px;
 }
 .check-list li::before {
   content: ""; position: absolute; left: 0; top: .38em;

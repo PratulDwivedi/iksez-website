@@ -27,7 +27,7 @@ export default function Tax() {
           </div>
 
           <div className="grid grid--2">
-            <article className="card" data-reveal="" style={{ padding: "var(--sp-8)" }}>
+            <article className="card" data-reveal="">
               <div className="card__icon">
                 <svg viewBox="0 0 24 24">
                   <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
@@ -42,7 +42,7 @@ export default function Tax() {
               </ul>
             </article>
 
-            <article className="card" data-reveal="" style={{ padding: "var(--sp-8)" }}>
+            <article className="card" data-reveal="">
               <div className="card__icon">
                 <svg viewBox="0 0 24 24">
                   <rect x="2" y="7" width="14" height="12" rx="2" />
