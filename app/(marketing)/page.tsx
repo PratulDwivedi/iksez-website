@@ -15,7 +15,7 @@ export const revalidate = 300;
 
 const FIRST_PARTY_API_KEY = process.env.NEXT_PUBLIC_IKSEZ_PUBLISHABLE_KEY;
 
-const HERO_IMAGE = "https://images.unsplash.com/photo-1565793298595-6a879b1d9492?auto=format&fit=crop&w=1800&q=85";
+const HERO_IMAGE = "/images/home_bg.png";
 
 function formatNewsDate(isoDate: string | null): string {
   if (!isoDate) return "";

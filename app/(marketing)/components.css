@@ -326,7 +326,7 @@
   padding-block: 0;
   background:
     linear-gradient(90deg, rgba(7, 18, 48, .88), rgba(7, 18, 48, .55) 43%, rgba(7, 18, 48, .08) 75%),
-    url("https://images.unsplash.com/photo-1565793298595-6a879b1d9492?auto=format&fit=crop&w=1800&q=85") center / cover;
+    url("/images/home_bg.png") center / cover;
   color: var(--color-white);
   overflow: hidden;
 }
@@ -489,14 +489,15 @@
   margin-inline: auto;
   margin-bottom: var(--sp-3);
   color: var(--color-white);
-  font-size: clamp(2.4rem, 5vw, var(--fs-4xl));
+  font-size: clamp(1.75rem, 1.2rem + 2vw, 2.5rem);
+  letter-spacing: -1px;
 }
 .page-intro h1 .accent { color: var(--color-white); }
 .page-intro p {
   max-width: 60ch;
   margin-inline: auto;
   color: var(--color-white);
-  font-size: var(--fs-lg);
+  font-size: 16px;
   line-height: 1.65;
 }
 .page-intro + .section { padding-top: var(--section-y); }
