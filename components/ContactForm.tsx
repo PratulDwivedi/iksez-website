@@ -60,30 +60,40 @@ export default function ContactForm() {
           <label htmlFor="cf-name">
             Name <span className="required" aria-hidden="true">*</span>
           </label>
-          <input type="text" id="cf-name" name="name" autoComplete="name" required />
+          <input type="text" id="cf-name" name="name" autoComplete="name" placeholder="Your full name" required />
         </div>
         <div className="field">
           <label htmlFor="cf-email">
             Email <span className="required" aria-hidden="true">*</span>
           </label>
-          <input type="email" id="cf-email" name="email" autoComplete="email" required />
+          <input type="email" id="cf-email" name="email" autoComplete="email" placeholder="you@company.com" required />
         </div>
       </div>
       <div className="field">
         <label htmlFor="cf-subject">
           Subject <span className="required" aria-hidden="true">*</span>
         </label>
-        <input type="text" id="cf-subject" name="subject" required />
+        <input type="text" id="cf-subject" name="subject" placeholder="How can we help?" required />
       </div>
       <div className="field">
         <label htmlFor="cf-message">
           Message <span className="required" aria-hidden="true">*</span>
         </label>
-        <textarea id="cf-message" name="message" required></textarea>
+        <textarea id="cf-message" name="message" placeholder="Tell us about your requirement..." required></textarea>
       </div>
       <div>
         <button className="btn btn--brand btn--lg" type="submit" disabled={isSubmitting}>
-          {isSubmitting ? "Sending..." : "Send message"}
+          {isSubmitting ? (
+            "Sending..."
+          ) : (
+            <>
+              Send message
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M22 2 11 13" />
+                <path d="M22 2 15 22l-4-9-9-4 20-7z" />
+              </svg>
+            </>
+          )}
         </button>
       </div>
       {feedback && (
@@ -92,6 +102,16 @@ export default function ContactForm() {
           role="status"
           aria-live="polite"
         >
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            {feedback.type === "success" ? (
+              <path d="M20 6 9 17l-5-5" />
+            ) : (
+              <>
+                <circle cx="12" cy="12" r="9" />
+                <path d="M12 8v5M12 16h.01" />
+              </>
+            )}
+          </svg>
           {feedback.message}
         </p>
       )}
