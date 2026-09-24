@@ -1,9 +1,7 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import HeroSlider from "@/components/HeroSlider";
 import CtaBand from "@/components/CtaBand";
-import { NewsEventCard } from "@/components/news/NewsEventCard";
-import { getPublishedNewsEventList, sortNewsEventsByLatest } from "@/lib/publicNewsEvents";
+import { getPublishedNewsEventList, newsEventSlug, sortNewsEventsByLatest } from "@/lib/publicNewsEvents";
 
 export const metadata: Metadata = {
   title: "IFFCO Kisan SEZ | Agribusiness Special Economic Zone & Integrated Agropark",
@@ -15,14 +13,13 @@ export const revalidate = 300;
 
 const FIRST_PARTY_API_KEY = process.env.NEXT_PUBLIC_IKSEZ_PUBLISHABLE_KEY;
 
-const HERO_IMAGES = [
-  "/images/1.webp",
-  "/images/2.webp",
-  "/images/3.webp",
-  "/images/4.webp",
-  "/images/5.webp",
-  "/images/6.webp",
-];
+const HERO_IMAGE = "/images/1.webp";
+
+function formatNewsDate(isoDate: string | null): string {
+  if (!isoDate) return "";
+  const [year, month, day] = isoDate.split("-");
+  return `${day}.${month}.${year}`;
+}
 
 export default async function Home() {
   const { data: newsItems, is_success: newsLoaded } = await getPublishedNewsEventList({
@@ -35,7 +32,7 @@ export default async function Home() {
       {/* Preloaded as the likely LCP element — React 19 hoists this into
           <head>, so the browser fetches it before it even parses the CSS
           that references it as a background-image. */}
-      <link rel="preload" as="image" href={HERO_IMAGES[0]} fetchPriority="high" />
+      <link rel="preload" as="image" href={HERO_IMAGE} fetchPriority="high" />
 
       {/* ================= HERO ================= */}
       <section className="hero">
@@ -45,12 +42,9 @@ export default async function Home() {
               <span className="hero__eyebrow">
                 <span className="dot"></span> Notified Multi Product SEZ
               </span>
-              <h1>
-                An Agribusiness SEZ , <span className="accent">Integrated Agropark</span>
-              </h1>
+              <h1>An Agribusiness SEZ , Integrated Agropark</h1>
               <p className="hero__text">
                 IFFCO Kisan SEZ is being set up as an Agribusiness Special Economic Zone based on
-                the concept of Integrated Agropark. It comes with various customs duty, income tax
                 and sales tax concessions provided by the Government of India to promote economic
                 activity.
               </p>
@@ -62,287 +56,168 @@ export default async function Home() {
                   About IKSEZ
                 </Link>
               </div>
-              <div className="hero__proof" aria-label="Key investment highlights">
-                <span><strong>1,900</strong> acres SEZ</span>
-                <span><strong>8 km</strong> NH-16 frontage</span>
-                <span><strong>220 kV</strong> assured power</span>
-              </div>
             </div>
 
-            <HeroSlider images={HERO_IMAGES} />
+            <aside className="hero__updates" aria-label="Latest news and events">
+              <div className="hero__updates-head">
+                <div>
+                  <span className="eyebrow">Latest updates</span>
+                  <h2>News &amp; Events</h2>
+                </div>
+                <Link className="link-arrow" href="/news-and-events/">View all</Link>
+              </div>
+              {newsLoaded && newsItems.length > 0 ? (
+                <div className="hero__update-list">
+                  {sortNewsEventsByLatest(newsItems).slice(0, 3).map((item) => (
+                    <Link className="hero__update" href={`/news-and-events/${newsEventSlug(item.title)}/`} key={item.id}>
+                      {item.gallery[0] ? (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img src={item.gallery[0].url} alt="" loading="lazy" />
+                      ) : (
+                        <span className="hero__update-thumb" aria-hidden="true" />
+                      )}
+                      <span>
+                        <strong>{item.title}</strong>
+                        <small>{formatNewsDate(item.event_date)}</small>
+                      </span>
+                    </Link>
+                  ))}
+                </div>
+              ) : (
+                <p className="hero__updates-empty">No news or events posted yet.</p>
+              )}
+            </aside>
           </div>
         </div>
       </section>
 
-      {/* ================= KEY NUMBERS ================= */}
-      <section className="section section--tight">
+      {/* ================= ABOUT + STATS ================= */}
+      <section id="about" className="home-about">
         <div className="container">
-          <div className="stats" data-reveal="">
-            <div className="stat">
-              <div className="stat__value">
-                <span data-count="1900" data-suffix="">
-                  1,900
-                </span>
-              </div>
-              <p className="stat__label">Acres of Multiproduct Special Economic Zone</p>
+          <div className="home-about__grid">
+            <div className="home-about__copy">
+              <h2>About IFFCO Kisan SEZ</h2>
+              <p>IFFCO Kisan SEZ is a premier integrated agro-industrial park designed to foster value addition, employment and sustainable growth in the agriculture sector. With world-class infrastructure.</p>
+              <Link className="home-reference__btn home-reference__btn--green" href="/about-us/">Read More →</Link>
             </div>
-            <div className="stat">
-              <div className="stat__value">
-                <span data-count="877">877</span>
-              </div>
-              <p className="stat__label">Acres of Domestic Tariff Area (DTA)</p>
-            </div>
-            <div className="stat">
-              <div className="stat__value">
-                <span data-count="8">8</span> km
-              </div>
-              <p className="stat__label">Frontage on National Highway&nbsp;16</p>
-            </div>
-            <div className="stat">
-              <div className="stat__value">
-                <span data-count="220">220</span> kV
-              </div>
-              <p className="stat__label">Power Station for power supply</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ================= ABOUT ================= */}
-      <section className="section">
-        <div className="container">
-          <div className="split">
-            <div className="split__figure" data-reveal="">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/images/img1.webp" alt="IFFCO Kisan SEZ" loading="lazy" />
-            </div>
-            <div data-reveal="">
-              <div className="section-head">
-                <span className="eyebrow">About</span>
-                <h2>A unique initiative of IFFCO</h2>
-              </div>
-              <p className="lead">
-                IFFCO Kisan SEZ is being setup as an Agribusiness Special Economic Zone based on
-                the concept of Integrated Agropark. It comes with various customs duty, income tax
-                and sales tax concessions provided by the Government of India to promote economic
-                activity.
-              </p>
-              <div className="mt-6">
-                <Link className="btn btn--outline" href="/about-us/">
-                  Read About IKSEZ
-                </Link>
-              </div>
+            <div className="home-stats">
+              <div><span className="home-stat__icon">♧</span><strong>1,900</strong><small>Acres of Multiproduct<br />Special Economic Zone</small></div>
+              <div><span className="home-stat__icon">⌁</span><strong>877</strong><small>Acres of Domestic Tariff<br />Area (DTA)</small></div>
+              <div><span className="home-stat__icon">▥</span><strong>8 km</strong><small>Frontage on National<br />Highway 16</small></div>
+              <div><span className="home-stat__icon">⌂</span><strong>220 kV</strong><small>Power Station for<br />power supply</small></div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ================= MAJOR FEATURES ================= */}
-      <section className="section section--alt">
+      <section id="zones" className="home-reference-section home-reference-section--alt">
         <div className="container">
-          <div className="section-head section-head--center" data-reveal="">
-            <span className="eyebrow">Major Features</span>
-            <h2>Why investors choose IKSEZ</h2>
+          <div className="home-section-head">
+            <div>
+              <div className="home-reference__kicker">Our Zones</div>
+              <h2>Two strategic zones, one integrated vision</h2>
+            </div>
           </div>
-
-          <div className="grid grid--3">
-            <article className="card" data-reveal="">
-              <div className="card__icon">
-                <svg viewBox="0 0 24 24">
-                  <rect x="3" y="3" width="18" height="18" rx="2" />
-                  <path d="M3 9h18M9 21V9" />
-                </svg>
+          <div className="home-zone-grid">
+            <article className="home-zone-card">
+              <div className="home-zone-card__image home-zone-card__image--sez" />
+              <div className="home-zone-card__body">
+                <h3>SEZ</h3>
+                <div className="home-zone-card__sub">Special Economic Zone</div>
+                <p>A dedicated zone for export-oriented units with world-class infrastructure, customs benefits and seamless logistics support.</p>
+                <Link href="/zone/sez/">Explore SEZ →</Link>
               </div>
+            </article>
+            <article className="home-zone-card">
+              <div className="home-zone-card__image home-zone-card__image--dtz" />
+              <div className="home-zone-card__body">
+                <h3>DTZ</h3>
+                <div className="home-zone-card__sub">Domestic Tariff Zone</div>
+                <p>Designed for domestic market industries with flexible operations and a conducive business environment.</p>
+                <Link href="/zone/dtz/">Explore DTZ →</Link>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="leadership" className="home-reference-section">
+        <div className="container">
+          <div className="home-section-head">
+            <div>
+              <div className="home-reference__kicker">Leadership</div>
+              <h2>Guided by vision. Committed to growth.</h2>
+            </div>
+          </div>
+          <div className="home-leader-grid">
+            <article className="home-leader-card">
+              <img src="/images/board-of-directors/rakesh2.jpg" alt="Chairman" />
+              <div><small>CHAIRMAN</small><h3>Chairman</h3><p>IFFCO Kisan SEZ</p></div>
+            </article>
+            <article className="home-leader-card">
+              <img src="/images/board-of-directors/rakesh.jpg" alt="Managing Director" />
+              <div><small>MANAGING DIRECTOR</small><h3>Managing Director</h3><p>IFFCO Kisan SEZ</p></div>
+            </article>
+          </div>
+          <div className="home-director-grid">
+            <Link className="home-director-card" href="/board-of-directors/"><img src="/images/board-of-directors/awasthi.jpg" alt="Director" /><span><strong>Director</strong><small>View Profile →</small></span></Link>
+            <Link className="home-director-card" href="/board-of-directors/"><img src="/images/board-of-directors/manish.jpg" alt="Director" /><span><strong>Director</strong><small>View Profile →</small></span></Link>
+            <Link className="home-director-card" href="/board-of-directors/"><img src="/images/board-of-directors/rajashekharaiah.jpg" alt="Director" /><span><strong>Director</strong><small>View Profile →</small></span></Link>
+          </div>
+        </div>
+      </section>
+
+      <section className="home-reference-section home-reference-section--alt home-features">
+        <div className="container">
+          <div className="home-section-head">
+            <div>
+              <div className="home-reference__kicker">Major Features</div>
+              <h2>Why investors choose IKSEZ</h2>
+            </div>
+          </div>
+          <div className="home-feature-grid">
+            <article className="card">
+              <div className="card__icon" aria-hidden="true"><span>▥</span></div>
               <h3>Multiproduct SEZ</h3>
               <p>A Multiproduct Special Economic Zone (SEZ) spanning approximately 1,900 acres.</p>
             </article>
-
-            <article className="card" data-reveal="">
-              <div className="card__icon">
-                <svg viewBox="0 0 24 24">
-                  <path d="M3 21h18M5 21V8l7-5 7 5v13M9 21v-6h6v6" />
-                </svg>
-              </div>
+            <article className="card">
+              <div className="card__icon" aria-hidden="true"><span>⌂</span></div>
               <h3>Domestic Tariff Area</h3>
-              <p>
-                A Domestic Tariff Area (DTA) covering about 877 acres which is designated for
-                initiatives focused on domestic Indian market.
-              </p>
+              <p>A Domestic Tariff Area (DTA) covering about 877 acres which is designated for initiatives focused on domestic Indian market.</p>
             </article>
-
-            <article className="card" data-reveal="">
-              <div className="card__icon">
-                <svg viewBox="0 0 24 24">
-                  <circle cx="12" cy="12" r="9" />
-                  <path d="M3 12h18M12 3c2.5 2.7 3.8 5.7 3.8 9s-1.3 6.3-3.8 9c-2.5-2.7-3.8-5.7-3.8-9S9.5 5.7 12 3z" />
-                </svg>
-              </div>
+            <article className="card">
+              <div className="card__icon" aria-hidden="true"><span>⌁</span></div>
               <h3>Multimodal Connectivity</h3>
               <p>The location is well connected by Road, Rail, Air and Sea.</p>
             </article>
-
-            <article className="card" data-reveal="">
-              <div className="card__icon">
-                <svg viewBox="0 0 24 24">
-                  <path d="M4 19h16M6 19V9l6-5 6 5v10" />
-                  <path d="M10 19v-5h4v5" />
-                </svg>
-              </div>
+            <article className="card">
+              <div className="card__icon" aria-hidden="true"><span>⌖</span></div>
               <h3>NH 16 Frontage</h3>
               <p>The site is on NH 16 with 8 km frontage and adjacent to a trunk rail link.</p>
             </article>
-
-            <article className="card" data-reveal="">
-              <div className="card__icon">
-                <svg viewBox="0 0 24 24">
-                  <path d="M12 2 3 7v6c0 5 3.8 8.5 9 9 5.2-.5 9-4 9-9V7l-9-5z" />
-                  <path d="m9 12 2 2 4-4" />
-                </svg>
-              </div>
+            <article className="card">
+              <div className="card__icon" aria-hidden="true"><span>◇</span></div>
               <h3>Industrial Corridor</h3>
-              <p>
-                The site falls in the Visakhapatnam-Chennai industrial corridor being actively
-                developed by the state government.
-              </p>
+              <p>The site falls in the Visakhapatnam-Chennai industrial corridor being actively developed by the state government.</p>
             </article>
-
-            <article className="card" data-reveal="">
-              <div className="card__icon">
-                <svg viewBox="0 0 24 24">
-                  <path d="M13 2 4 14h7l-1 8 9-12h-7l1-8z" />
-                </svg>
-              </div>
+            <article className="card">
+              <div className="card__icon" aria-hidden="true"><span>ϟ</span></div>
               <h3>Ready Infrastructure</h3>
-              <p>
-                The site is equipped with the major infrastructural facilities with ready
-                availability of water, power, office space and security.
-              </p>
+              <p>The site is equipped with the major infrastructural facilities with ready availability of water, power, office space and security.</p>
             </article>
-
-            <article className="card" data-reveal="">
-              <div className="card__icon">
-                <svg viewBox="0 0 24 24">
-                  <path d="M17 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
-                  <circle cx="9.5" cy="7" r="4" />
-                  <path d="M22 21v-2a4 4 0 0 0-3-3.9" />
-                </svg>
-              </div>
+            <article className="card">
+              <div className="card__icon" aria-hidden="true"><span>♧</span></div>
               <h3>Skilled Manpower</h3>
               <p>Ready availability of skilled manpower.</p>
             </article>
-
-            <article className="card card--dark" data-reveal="" style={{ justifyContent: "center" }}>
+            <article className="card card--dark" style={{ justifyContent: "center" }}>
               <h3>Explore the full list of benefits</h3>
-              <p>
-                Tax concessions under the SEZ Act plus strategic advantages across power, water,
-                connectivity and manpower.
-              </p>
+              <p>Tax concessions under the SEZ Act plus strategic advantages across power, water, connectivity and manpower.</p>
               <div className="card__foot">
-                <Link className="btn btn--green btn--sm" href="/benefits/">
-                  See All Benefits
-                </Link>
+                <Link className="btn btn--green btn--sm" href="/benefits/">See All Benefits</Link>
               </div>
             </article>
-          </div>
-        </div>
-      </section>
-
-      {/* ================= OPPORTUNITIES TEASER ================= */}
-      <section className="section">
-        <div className="container">
-          <div className="split split--reverse">
-            <div className="split__figure" data-reveal="">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="/images/agropark-image.webp"
-                alt="The Agropark concept at IFFCO Kisan SEZ"
-                loading="lazy"
-              />
-            </div>
-            <div data-reveal="">
-              <div className="section-head">
-                <span className="eyebrow">The Agropark Concept</span>
-                <h2>Demand driven integration of agricultural activity</h2>
-              </div>
-              <p>
-                An Agropark is a systems innovation of metropolitan agro production, processing
-                and logistics. As part of an Intelligent Agro-logistic Network, it enables a
-                demand driven combination and integration of various agricultural activities.
-              </p>
-              <div className="chip-row mt-6">
-                <span className="chip chip--green">Processed Fruits &amp; Vegetables</span>
-                <span className="chip chip--green">Aquaculture</span>
-                <span className="chip chip--green">Dairy Processing</span>
-                <span className="chip chip--green">Renewable Energy</span>
-                <span className="chip chip--green">Warehouses &amp; Logistics</span>
-              </div>
-              <div className="mt-6">
-                <Link className="link-arrow" href="/agropark/">
-                  Explore the Agropark
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ================= EXISTING UNITS ================= */}
-      <section className="section section--soft">
-        <div className="container">
-          <div className="section-head section-head--center" data-reveal="">
-            <span className="eyebrow">Existing units</span>
-            <h2>Already operating at IKSEZ</h2>
-            <p>Many other companies of National repute are also expected to set up their units very soon.</p>
-          </div>
-          <div className="grid grid--4">
-            <div className="card card--flat unit-card text-center" data-reveal="">
-              <span className="unit-card__mark">SG</span>
-              <h3 style={{ margin: 0, fontSize: "var(--fs-base)" }}>
-                Siemens Gamesa Renewable Energy Pvt Ltd
-              </h3>
-            </div>
-            <div className="card card--flat unit-card text-center" data-reveal="">
-              <span className="unit-card__mark">ADJ</span>
-              <h3 style={{ margin: 0, fontSize: "var(--fs-base)" }}>ADJ</h3>
-            </div>
-            <div className="card card--flat unit-card text-center" data-reveal="">
-              <span className="unit-card__mark">AP</span>
-              <h3 style={{ margin: 0, fontSize: "var(--fs-base)" }}>APTRANSCO</h3>
-            </div>
-            <div className="card card--flat unit-card text-center" data-reveal="">
-              <span className="unit-card__mark">HC</span>
-              <h3 style={{ margin: 0, fontSize: "var(--fs-base)" }}>
-                HCCB <span className="muted" style={{ fontWeight: 500 }}>(coming up)</span>
-              </h3>
-            </div>
-          </div>
-          <div className="text-center mt-8" data-reveal="">
-            <Link className="btn btn--outline" href="/existing-units/">
-              View existing units
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* ================= NEWS AND EVENTS ================= */}
-      <section className="section section--alt">
-        <div className="container">
-          <div className="section-head section-head--center" data-reveal="">
-            <span className="eyebrow">Latest updates</span>
-            <h2>News and Events</h2>
-            <p>Stay up to date with the latest developments and initiatives at IKSEZ.</p>
-          </div>
-          {newsLoaded && newsItems.length > 0 && (
-            <div className="blog-grid">
-              {sortNewsEventsByLatest(newsItems).slice(0, 3).map((item) => (
-                <NewsEventCard key={item.id} item={item} />
-              ))}
-            </div>
-          )}
-          <div className="text-center mt-8" data-reveal="">
-            <Link className="btn btn--outline" href="/news-and-events/">
-              View all news and events
-            </Link>
           </div>
         </div>
       </section>

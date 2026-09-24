@@ -2,9 +2,9 @@ import Link from "next/link";
 
 export default function CtaBand() {
   return (
-    <section className="section section--tight">
-      <div className="container">
-        <div className="cta-band" data-reveal="">
+    <section className="cta-section">
+      <div className="cta-band" data-reveal="">
+        <div className="container cta-band__inner">
           <span className="eyebrow">Invest with IKSEZ</span>
           <h2>Ready to set up at IFFCO Kisan SEZ?</h2>
           <p>

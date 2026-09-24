@@ -15,7 +15,7 @@ export default function Footer() {
                 <span className="brand__tag">Integrated Agropark</span>
               </span>
             </div>
-            <p>
+            <p className="footer__description">
               IFFCO Kisan SEZ is being setup as an Agribusiness Special Economic Zone based on the
               concept of Integrated Agropark.
             </p>
@@ -86,7 +86,7 @@ export default function Footer() {
           <div>
             <p className="footer__title">Get in touch</p>
             <p>
-              <strong style={{ color: "#fff" }}>IFFCO Kisan SEZ Limited</strong>
+              <strong style={{ color: "#17234d" }}>IFFCO Kisan SEZ Limited</strong>
             </p>
             <address className="footer__address">
               Project Office, Village &amp; Post: Racharlapadu,

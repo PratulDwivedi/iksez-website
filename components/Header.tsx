@@ -12,14 +12,28 @@ type NavItem = {
 };
 
 const NAV: NavItem[] = [
-  { label: "About us", href: "/about-us/" },
-  { label: "Agropark", href: "/agropark/" },
-  { label: "Benefits", href: "/benefits/" },
-  { label: "Business Opportunities", href: "/invitation-for-investors/" },
-  { label: "Infrastructure", href: "/industrial/" },
-  { label: "Master Plan", href: "/master-plan/" },
-  { label: "Existing units", href: "/existing-units/" },
-  { label: "Blog", href: "/blog/" },
+  { label: "About Us", href: "/about-us/" },
+  { label: "Leadership", href: "/board-of-directors/" },
+  {
+    label: "Zones",
+    href: "/zone/sez/",
+    submenu: [
+      { label: "SEZ", href: "/zone/sez/" },
+      { label: "DTZ", href: "/zone/dtz/" },
+    ],
+  },
+  {
+    label: "Reports & Policies",
+    href: "/reports-policies/",
+    submenu: [
+      { label: "Annual Reports", href: "/reports-policies/#annual-reports" },
+      { label: "CSR", href: "/reports-policies/#csr" },
+      { label: "Policies", href: "/reports-policies/#policies" },
+      { label: "Compliances", href: "/compliances/" },
+    ],
+  },
+  { label: "News & Media", href: "/news-and-events/" },
+  { label: "Blogs", href: "/blog/" },
 ];
 
 export default function Header() {
@@ -71,6 +85,18 @@ export default function Header() {
 
   return (
     <>
+      <div className="topbar">
+        <div className="container topbar__inner">
+          <div className="topbar__meta">
+            <a href="tel:+9118001234567">+91-9652993599</a>
+            <a href="mailto:ceooffice@iffcosez.in">ceooffice@iffcosez.in</a>
+          </div>
+          <div className="topbar__languages" aria-label="Language selection">
+            <span className="is-active">English</span>
+            <span aria-label="Telugu language coming soon">తెలుగు</span>
+          </div>
+        </div>
+      </div>
       <header className={`site-header${isStuck ? " is-stuck" : ""}`}>
         <div className="container">
           <nav className="nav" aria-label="Primary">
