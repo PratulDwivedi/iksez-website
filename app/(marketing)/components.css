@@ -860,12 +860,13 @@
 .home-zone-card__sub { color: #009b4d; font-size: 11px; font-weight: 700; }
 .home-zone-card__body p { color: #66718d; font-size: 12px; line-height: 1.65; }
 .home-zone-card__body a { color: #252b78; font-size: 11px; font-weight: 800; }
-.home-leader-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; margin-bottom: 20px; }
-.home-leader-card { display: flex; align-items: center; gap: 18px; padding: 20px; background: #f7f9fc; border: 1px solid #e5e9f2; border-radius: 5px; }
-.home-leader-card img { width: 92px; height: 92px; object-fit: cover; border-radius: 5px; background: #dde3ee; }
+.home-leader-grid { display: grid; grid-template-columns: 1fr; gap: 18px; margin-bottom: 20px; }
+.home-leader-card { position: relative; min-height: 300px; overflow: hidden; display: block; border: 1px solid #e5e9f2; border-radius: 5px; background: #dde3ee; }
+.home-leader-card img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.home-leader-card > div { position: absolute; z-index: 1; left: 20px; bottom: 20px; max-width: min(560px, calc(100% - 40px)); padding: 16px 20px; background: rgba(255, 255, 255, .95); }
 .home-leader-card small { color: #009b4d; font-size: 10px; font-weight: 700; }
-.home-leader-card h3 { margin: 6px 0; color: #111b55; font-size: 15px; }
-.home-leader-card p { margin: 0; color: #66718d; font-size: 11px; }
+.home-leader-card h3 { margin: 6px 0; color: #111b55; font-size: 18px; }
+.home-leader-card p { display: -webkit-box; overflow: hidden; margin: 0; color: #66718d; font-size: 12px; line-height: 1.5; -webkit-box-orient: vertical; -webkit-line-clamp: 3; }
 .home-director-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
 .home-director-card { display: flex; align-items: center; gap: 14px; padding: 16px; border: 1px solid #e5e9f2; border-radius: 5px; }
 .home-director-card img { width: 62px; height: 62px; object-fit: cover; border-radius: 5px; }
@@ -896,6 +897,22 @@
 .home-features .card--dark { background: #111b55; border-color: #111b55; }
 .home-features .card--dark h3 { color: #fff; }
 .home-features .card--dark p { color: rgba(255, 255, 255, .78); }
+.leadership-profile-grid { display: grid; grid-template-columns: 1fr; gap: var(--sp-7); }
+.leadership-profile { position: relative; min-height: 360px; overflow: hidden; display: block; border: 1px solid var(--color-border); border-radius: var(--radius-sm); background: var(--color-surface-muted); }
+.leadership-profile img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; object-position: center; background: #f4f1eb; }
+.leadership-profile > div { position: absolute; z-index: 1; left: 24px; bottom: 24px; max-width: min(600px, calc(100% - 48px)); padding: 18px 22px; background: rgba(255, 255, 255, .95); }
+.leadership-profile--chairman > div { right: 24px; left: auto; text-align: right; }
+.leadership-profile--managing-director > div { left: 24px; }
+.leadership-profile .chip { margin-bottom: var(--sp-3); }
+.leadership-profile h2 { margin-bottom: var(--sp-3); font-size: var(--fs-xl); }
+.leadership-profile p { color: var(--color-muted); font-size: var(--fs-sm); line-height: 1.65; }
+.leadership-directors { margin-top: var(--sp-11); }
+.leadership-director { display: flex; flex-direction: column; gap: var(--sp-4); padding: var(--sp-5); background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-sm); }
+.leadership-director img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: var(--radius-sm); background: var(--color-surface-muted); }
+.leadership-director h3 { margin-bottom: var(--sp-2); font-size: var(--fs-lg); }
+.leadership-director strong { display: block; margin-bottom: var(--sp-2); color: var(--color-secondary-700); font-size: var(--fs-xs); }
+.leadership-director p { margin-bottom: var(--sp-2); color: var(--color-muted); font-size: var(--fs-sm); line-height: 1.55; }
+.leadership-directors__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 @media (max-width: 1000px) {
   .home-zone-grid { grid-template-columns: 1fr; }
   .home-zone-card { grid-template-columns: 44% 56%; }
@@ -904,9 +921,14 @@
 @media (max-width: 720px) {
   .home-reference-section { padding: 50px 0; }
   .home-leader-grid, .home-director-grid { grid-template-columns: 1fr; }
+  .home-director-card { max-width: none; }
   .home-zone-card { grid-template-columns: 1fr; }
   .home-zone-card__image { min-height: 180px; }
   .home-feature-grid { grid-template-columns: 1fr; }
+  .leadership-profile { min-height: 320px; }
+  .leadership-profile > div { left: 14px; right: 14px; bottom: 14px; max-width: none; padding: 14px 16px; }
+  .leadership-profile--chairman > div { left: 14px; right: 14px; text-align: left; }
+  .leadership-directors__grid { grid-template-columns: 1fr; }
 }
 
 /* ==========================================================================

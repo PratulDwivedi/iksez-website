@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import CtaBand from "@/components/CtaBand";
+import { chairman, directors, managingDirector } from "@/lib/leadership";
 import { getPublishedNewsEventList, newsEventSlug, sortNewsEventsByLatest } from "@/lib/publicNewsEvents";
 
 export const metadata: Metadata = {
@@ -141,31 +142,7 @@ export default async function Home() {
         </div>
       </section>
 
-      <section id="leadership" className="home-reference-section">
-        <div className="container">
-          <div className="home-section-head">
-            <div>
-              <div className="home-reference__kicker">Leadership</div>
-              <h2>Guided by vision. Committed to growth.</h2>
-            </div>
-          </div>
-          <div className="home-leader-grid">
-            <article className="home-leader-card">
-              <img src="/images/board-of-directors/rakesh2.jpg" alt="Chairman" />
-              <div><small>CHAIRMAN</small><h3>Chairman</h3><p>IFFCO Kisan SEZ</p></div>
-            </article>
-            <article className="home-leader-card">
-              <img src="/images/board-of-directors/rakesh.jpg" alt="Managing Director" />
-              <div><small>MANAGING DIRECTOR</small><h3>Managing Director</h3><p>IFFCO Kisan SEZ</p></div>
-            </article>
-          </div>
-          <div className="home-director-grid">
-            <Link className="home-director-card" href="/board-of-directors/"><img src="/images/board-of-directors/awasthi.jpg" alt="Director" /><span><strong>Director</strong><small>View Profile →</small></span></Link>
-            <Link className="home-director-card" href="/board-of-directors/"><img src="/images/board-of-directors/manish.jpg" alt="Director" /><span><strong>Director</strong><small>View Profile →</small></span></Link>
-            <Link className="home-director-card" href="/board-of-directors/"><img src="/images/board-of-directors/rajashekharaiah.jpg" alt="Director" /><span><strong>Director</strong><small>View Profile →</small></span></Link>
-          </div>
-        </div>
-      </section>
+      
 
       <section className="home-reference-section home-reference-section--alt home-features">
         <div className="container">
