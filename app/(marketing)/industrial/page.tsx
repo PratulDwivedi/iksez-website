@@ -33,7 +33,7 @@ export default function Industrial() {
 
       <section className="section">
         <div className="container">
-          <div className="section-head section-head--center">
+          <div className="section-head">
             <span className="eyebrow">Industrial</span>
             <h2>Ready Availability of Infrastructure for New Industries</h2>
           </div>

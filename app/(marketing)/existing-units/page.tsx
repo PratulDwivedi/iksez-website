@@ -19,7 +19,7 @@ export default function ExistingUnits() {
 
       <section className="section">
         <div className="container">
-          <div className="section-head section-head--center">
+          <div className="section-head">
             <span className="eyebrow">Operating at IKSEZ</span>
             <h2>Companies on site</h2>
           </div>
@@ -67,7 +67,7 @@ export default function ExistingUnits() {
 
       <section className="section section--alt">
         <div className="container">
-          <div className="section-head section-head--center">
+          <div className="section-head">
             <span className="eyebrow">On site</span>
             <h2>From the units</h2>
           </div>

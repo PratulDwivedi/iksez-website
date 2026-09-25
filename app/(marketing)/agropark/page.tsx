@@ -43,7 +43,7 @@ export default function Agropark() {
       {/* ================= COMPONENTS ================= */}
       <section className="section section--alt">
         <div className="container">
-          <div className="section-head section-head--center" data-reveal="">
+          <div className="section-head" data-reveal="">
             <span className="eyebrow">Components of Agropark</span>
             <h2>Part of an Intelligent Agro-logistics Network</h2>
           </div>

@@ -20,7 +20,7 @@ export default function Tax() {
       {/* ================= TAX ================= */}
       <section className="section">
         <div className="container">
-          <div className="section-head section-head--center">
+          <div className="section-head">
             <span className="eyebrow">Tax</span>
             <h2>Multi-Product SEZ</h2>
             <p>All prevailing tax exemptions as per the SEZ Act and the other policies of the Government.</p>
@@ -65,7 +65,7 @@ export default function Tax() {
       {/* ================= STRATEGIC ADVANTAGES ================= */}
       <section className="section section--alt">
         <div className="container">
-          <div className="section-head section-head--center">
+          <div className="section-head">
             <span className="eyebrow">Strategic</span>
             <h2>Advantages of locating at IKSEZ</h2>
             <p>Area by area, the advantages that come with locating at IFFCO Kisan SEZ.</p>

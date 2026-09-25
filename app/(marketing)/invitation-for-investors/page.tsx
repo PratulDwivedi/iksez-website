@@ -38,7 +38,7 @@ export default function InvitationForInvestors() {
       {/* ================= GROUPED SECTORS ================= */}
       <section className="section">
         <div className="container">
-          <div className="section-head section-head--center">
+          <div className="section-head">
             <span className="eyebrow">Agro &amp; Food Processing</span>
             <h2>Sectors with defined product lines</h2>
           </div>
@@ -101,7 +101,7 @@ export default function InvitationForInvestors() {
       {/* ================= ALL OTHER SECTORS ================= */}
       <section className="section section--alt">
         <div className="container">
-          <div className="section-head section-head--center" data-reveal="">
+          <div className="section-head" data-reveal="">
             <span className="eyebrow">More sectors</span>
             <h2>Open for investment</h2>
           </div>
