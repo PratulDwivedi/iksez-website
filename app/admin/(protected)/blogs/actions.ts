@@ -6,6 +6,8 @@ import { createClient } from '@/lib/supabase/server';
 import { callRpc } from '@/lib/supabase/rpc';
 import { textToBlocks } from '@/lib/blogBody';
 import { textToFaqs } from '@/lib/blogFaq';
+import { translationLocales, translationField } from '@/lib/blogTranslations';
+import { localeLabels } from '@/lib/i18n/config';
 
 export async function saveBlogPost(
   _prevState: { error: string | null },
@@ -17,6 +19,17 @@ export async function saveBlogPost(
   const readMinutesRaw = formData.get('read_minutes') as string;
   const categoryIdRaw = formData.get('category_id') as string;
   const faqs = textToFaqs((formData.get('faqs') as string) ?? '');
+
+  // Validate every translation tab before writing anything, so a half-filled
+  // translation can't leave the English post saved and the translation not.
+  const translations = translationLocales.map((locale) => readTranslation(formData, locale));
+  for (const t of translations) {
+    if (t.filled && (!t.title || !t.excerpt || t.body.length === 0)) {
+      return {
+        error: `${localeLabels[t.locale].english} translation needs a title, excerpt and body — or clear all of its fields to remove it.`,
+      };
+    }
+  }
 
   const { data, error } = await callRpc(supabase, 'fn_save_website_blog', {
     p_id: idRaw ? Number(idRaw) : null,
@@ -46,6 +59,37 @@ export async function saveBlogPost(
     return { error };
   }
 
+  // fn_save_website_blog returns the saved row wrapped in a one-element array.
+  const savedRow = Array.isArray(data) ? data[0] : data;
+  const savedId = (savedRow as { id: number } | null)?.id;
+
+  let translationError: string | null = null;
+  if (savedId) {
+    for (const t of translations) {
+      const result = t.filled
+        ? await callRpc(supabase, 'fn_save_website_blog_translation', {
+            p_blog_id: savedId,
+            p_locale: t.locale,
+            p_title: t.title,
+            p_excerpt: t.excerpt,
+            p_cover_alt: t.coverAlt || null,
+            p_body: t.body,
+            p_data: { faqs: t.faqs },
+            p_published: t.published,
+          })
+        : t.existed
+          ? await callRpc(supabase, 'fn_delete_website_blog_translation', {
+              p_blog_id: savedId,
+              p_locale: t.locale,
+            })
+          : { error: null };
+      if (result.error) {
+        translationError = `Post saved, but the ${localeLabels[t.locale].english} translation wasn't: ${result.error}`;
+        break;
+      }
+    }
+  }
+
   revalidatePath('/admin/blogs');
 
   // This action is shared by every tenant's admin (multi-tenant Supabase
@@ -62,11 +106,43 @@ export async function saveBlogPost(
   // stale-while-revalidate window), which is what we want here.
   revalidateTag('blog-list', 'max');
   revalidateTag('blog-detail', 'max');
-  revalidatePath('/blog');
-  revalidatePath('/blog/[slug]', 'page');
+  // Marketing routes live under app/(marketing)/[lang]/ and are reached via
+  // a proxy.ts rewrite, so revalidatePath needs the route file path
+  // ("/[lang]/...", every locale at once), not the public URL.
+  revalidatePath('/[lang]/blog', 'page');
+  revalidatePath('/[lang]/blog/[slug]', 'page');
 
-  const savedId = (data as { id: number } | null)?.id;
+  if (translationError) {
+    // An existing post stays on the form with the error, keeping the typed
+    // translation. A new post has to move to its edit page — resubmitting the
+    // "new" form would try to create the (already created) slug again.
+    if (idRaw || !savedId) return { error: translationError };
+    redirect(`/admin/blogs/${savedId}/?error=${encodeURIComponent(translationError)}`);
+  }
+
   redirect(savedId ? `/admin/blogs/${savedId}/` : '/admin/blogs/');
+}
+
+function readTranslation(formData: FormData, locale: (typeof translationLocales)[number]) {
+  const get = (field: string) => ((formData.get(translationField(locale, field)) as string) ?? '').trim();
+  const title = get('title');
+  const excerpt = get('excerpt');
+  const coverAlt = get('cover_alt');
+  const bodyText = get('body');
+  const faqsText = get('faqs');
+
+  return {
+    locale,
+    title,
+    excerpt,
+    coverAlt,
+    body: textToBlocks(bodyText),
+    faqs: textToFaqs(faqsText),
+    published: formData.get(translationField(locale, 'published')) === 'on',
+    existed: get('existed') === '1',
+    // Any typed content counts; the published checkbox alone doesn't.
+    filled: Boolean(title || excerpt || coverAlt || bodyText || faqsText),
+  };
 }
 
 function splitCsv(value: string | null | undefined): string[] {

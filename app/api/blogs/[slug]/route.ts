@@ -30,7 +30,9 @@ export async function GET(
   }
 
   const { slug } = await params;
-  const result = await getPublishedBlogBySlug(slug, apiKey);
+  // Optional ?lang=te, same semantics as /api/blogs.
+  const locale = new URL(request.url).searchParams.get('lang') ?? undefined;
+  const result = await getPublishedBlogBySlug(slug, apiKey, locale);
 
   if (!result.is_success) {
     return NextResponse.json(

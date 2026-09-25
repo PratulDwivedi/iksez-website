@@ -38,6 +38,12 @@ export interface BlogRow {
   published_at: string;
   created_at: string;
   updated_at: string;
+  // Only present when the row was fetched with a locale (see BlogListParams
+  // .locale): the language title/excerpt/body/data are actually in, and
+  // whether that's an English fallback because the post has no published
+  // translation for the requested locale.
+  locale?: string;
+  is_fallback?: boolean;
 }
 
 export interface BlogListPaging {
@@ -73,6 +79,12 @@ export interface BlogListParams {
   // src/app/api/blogs/route.ts) so fn_get_website_blogs resolves *their*
   // tenant instead of defaulting to IFFCO Kisan SEZ's.
   apiKey?: string;
+  // Content language (e.g. 'te'). Omitted or 'en' = the post's own English
+  // columns, exactly as before translations existed. Any other locale gets
+  // that language's published translation per post, falling back to English
+  // (is_fallback: true) for posts that don't have one — see
+  // supabase/migrations/*_fn_get_website_blogs_add_locale.sql.
+  locale?: string;
 }
 
 // No cookies/session here (this is server-to-server RPC, not a browser
@@ -97,6 +109,18 @@ function rpcClient(apiKey?: string) {
 
 const EMPTY_PAGING: BlogListPaging = { total_records: 0, page_size: 0, page_index: 0 };
 
+// English is the posts' own columns, so it's normalized to null: English
+// callers share one cache entry and send exactly the pre-translation RPC
+// arguments (no p_locale at all).
+function contentLocale(locale: string | undefined): string | null {
+  const normalized = locale?.trim().toLowerCase();
+  return normalized && normalized !== 'en' ? normalized : null;
+}
+
+function rpcLocale(locale: string | null): { p_locale?: string } {
+  return locale ? { p_locale: locale } : {};
+}
+
 // Cross-request cache for the list RPC — this is the round trip that made
 // /blog take 2-3s on every visit (there was no caching at any layer before
 // this; `force-dynamic` on the page only forces per-request *rendering*, it
@@ -116,7 +140,8 @@ const fetchBlogList = unstable_cache(
     tags: string[] | null,
     page: number,
     pageSize: number,
-    apiKey: string | null
+    apiKey: string | null,
+    locale: string | null
   ): Promise<BlogListResult> => {
     const supabase = rpcClient(apiKey ?? undefined);
     const { data: envelope, error } = await supabase.rpc('fn_get_website_blogs', {
@@ -126,6 +151,7 @@ const fetchBlogList = unstable_cache(
       p_tags: tags,
       p_page_index: page,
       p_page_size: pageSize,
+      ...rpcLocale(locale),
     });
     if (error) throw error;
     return envelope as BlogListResult;
@@ -149,7 +175,8 @@ export async function getPublishedBlogList(params: BlogListParams = {}): Promise
       tags,
       page,
       pageSize,
-      params.apiKey ?? null
+      params.apiKey ?? null,
+      contentLocale(params.locale)
     );
     return {
       is_success: raw.is_success,
@@ -245,11 +272,12 @@ export interface BlogPostResult {
 // publish, so the long TTL is just a safety net, not the freshness
 // mechanism.
 const fetchBlogBySlug = unstable_cache(
-  async (slug: string, apiKey: string | null): Promise<BlogListResult> => {
+  async (slug: string, apiKey: string | null, locale: string | null): Promise<BlogListResult> => {
     const supabase = rpcClient(apiKey ?? undefined);
     const { data: envelope, error } = await supabase.rpc('fn_get_website_blogs', {
       p_name: slug,
       p_published: true,
+      ...rpcLocale(locale),
     });
     if (error) throw error;
     return envelope as BlogListResult;
@@ -267,9 +295,9 @@ const fetchBlogBySlug = unstable_cache(
 // (e.g. 401) instead of a generic thrown error, which is what
 // /api/blogs/[slug]/route.ts needs to return the correct HTTP status.
 export const getPublishedBlogBySlug = cache(
-  async (slug: string, apiKey?: string): Promise<BlogPostResult> => {
+  async (slug: string, apiKey?: string, locale?: string): Promise<BlogPostResult> => {
     try {
-      const raw = await fetchBlogBySlug(slug, apiKey ?? null);
+      const raw = await fetchBlogBySlug(slug, apiKey ?? null, contentLocale(locale));
       const post = raw.is_success ? (raw.data?.[0] ?? null) : null;
       return {
         is_success: raw.is_success,

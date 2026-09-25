@@ -1,12 +1,14 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { ChevronDown, Search, X } from 'lucide-react';
+import { format } from '@/lib/i18n/format';
 
 interface TagFilterProps {
   allTags: string[];
   selectedTags: string[];
+  labels: { button: string; selected: string; search: string; empty: string; clear: string };
 }
 
 // The rest of /blog/'s filter bar (category tabs, search box) is plain
@@ -15,8 +17,10 @@ interface TagFilterProps {
 // state that plain links can't give us, so this one piece is a client
 // component; it still drives the same URL query-param model (tags=) so the
 // result stays bookmarkable/shareable.
-export function TagFilter({ allTags, selectedTags }: TagFilterProps) {
+export function TagFilter({ allTags, selectedTags, labels }: TagFilterProps) {
   const router = useRouter();
+  // /blog/ or /te/blog/ — stays on the current language's listing.
+  const pathname = usePathname();
   const searchParams = useSearchParams();
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState('');
@@ -44,7 +48,7 @@ export function TagFilter({ allTags, selectedTags }: TagFilterProps) {
     } else {
       sp.delete('tags');
     }
-    router.push(`/blog/?${sp.toString()}`);
+    router.push(`${pathname}?${sp.toString()}`);
   }
 
   function toggleTag(tag: string) {
@@ -62,7 +66,7 @@ export function TagFilter({ allTags, selectedTags }: TagFilterProps) {
         className={`blog-tagfilter__btn${selectedTags.length > 0 ? ' has-selection' : ''}`}
       >
         <span className="truncate">
-          {selectedTags.length > 0 ? `Tags (${selectedTags.length})` : 'Filter by tag'}
+          {selectedTags.length > 0 ? format(labels.selected, { count: selectedTags.length }) : labels.button}
         </span>
         <ChevronDown size={14} />
       </button>
@@ -75,14 +79,14 @@ export function TagFilter({ allTags, selectedTags }: TagFilterProps) {
               type="text"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="Search tags..."
+              placeholder={labels.search}
               autoFocus
             />
           </div>
 
           <div className="blog-tagfilter__list">
             {filteredTags.length === 0 ? (
-              <p className="blog-tagfilter__empty">No tags match.</p>
+              <p className="blog-tagfilter__empty">{labels.empty}</p>
             ) : (
               filteredTags.map((tag) => (
                 <label key={tag} className="blog-tagfilter__item">
@@ -99,7 +103,7 @@ export function TagFilter({ allTags, selectedTags }: TagFilterProps) {
 
           {selectedTags.length > 0 && (
             <button type="button" onClick={() => applyTags([])} className="blog-tagfilter__clear">
-              <X size={12} /> Clear tags
+              <X size={12} /> {labels.clear}
             </button>
           )}
         </div>

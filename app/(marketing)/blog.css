@@ -190,6 +190,17 @@
 .blog-post__back:hover { color: var(--color-primary); }
 .blog-post__back svg { width: 15px; height: 15px; stroke: currentColor; fill: none; stroke-width: 2.4; }
 
+/* Shown on /te/blog/x/ when the post has no Telugu translation yet. */
+.blog-post__lang-notice {
+  margin: var(--sp-4) 0 0;
+  padding: var(--sp-3) var(--sp-4);
+  border-left: 3px solid var(--color-secondary);
+  border-radius: var(--radius);
+  background: color-mix(in oklch, var(--color-secondary) 8%, transparent);
+  font-size: var(--fs-sm);
+  color: var(--color-text);
+}
+
 .blog-post__head { margin-top: var(--sp-5); }
 /* Matches the H1 scale used site-wide by PageHero (components.css
    .page-hero h1, 29px) — a detail-page title shouldn't be larger than

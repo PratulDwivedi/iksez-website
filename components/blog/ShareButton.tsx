@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { Check, Share2 } from 'lucide-react';
 
-export function ShareButton() {
+export function ShareButton({ labels }: { labels: { share: string; linkCopied: string } }) {
   const [copied, setCopied] = useState(false);
 
   const handleShare = async () => {
@@ -16,7 +16,7 @@ export function ShareButton() {
   return (
     <button type="button" onClick={handleShare} className="blog-post__share">
       {copied ? <Check size={14} /> : <Share2 size={14} />}
-      {copied ? 'Link copied!' : 'Share'}
+      {copied ? labels.linkCopied : labels.share}
     </button>
   );
 }

@@ -8,7 +8,8 @@ import { BlogCard } from "@/components/blog/BlogCard";
 import { BlogPagination } from "@/components/blog/BlogPagination";
 import { TagFilter } from "@/components/blog/TagFilter";
 import { getPublishedBlogCategories, getPublishedBlogList, getPublishedBlogTags } from "@/lib/publicBlogs";
-import { getLocale } from "@/lib/i18n/getDictionary";
+import { getDictionary, getLocale, type Dictionary } from "@/lib/i18n/getDictionary";
+import { localizePath, type Locale } from "@/lib/i18n/config";
 import { localeAlternates } from "@/lib/i18n/metadata";
 
 export const dynamic = "force-dynamic";
@@ -19,14 +20,15 @@ export const dynamic = "force-dynamic";
 // See /admin/settings ("Publishable API Key" card) to generate/reset it.
 const FIRST_PARTY_API_KEY = process.env.NEXT_PUBLIC_IKSEZ_PUBLISHABLE_KEY;
 
-function buildHref(params: { q?: string; category?: string; tags?: string[]; page?: number }) {
+function buildHref(lang: Locale, params: { q?: string; category?: string; tags?: string[]; page?: number }) {
   const sp = new URLSearchParams();
   if (params.q) sp.set("q", params.q);
   if (params.category && params.category !== "All") sp.set("category", params.category);
   if (params.tags && params.tags.length > 0) sp.set("tags", params.tags.join(","));
   if (params.page && params.page > 1) sp.set("page", String(params.page));
   const qs = sp.toString();
-  return qs ? `/blog/?${qs}` : "/blog/";
+  const base = localizePath("/blog/", lang);
+  return qs ? `${base}?${qs}` : base;
 }
 
 interface PageProps {
@@ -36,11 +38,11 @@ interface PageProps {
 export async function generateMetadata({ searchParams }: PageProps): Promise<Metadata> {
   const { q } = await searchParams;
   const lang = await getLocale();
+  const { blog: t } = await getDictionary(lang);
 
   return {
-    title: "Blog | IFFCO Kisan SEZ",
-    description:
-      "Articles and insights about IFFCO Kisan SEZ — India's Integrated Agropark SEZ at SPSR Nellore.",
+    title: t.metaTitle,
+    description: t.metaDescription,
     alternates: localeAlternates("/blog/", lang),
     robots: q ? { index: false, follow: true } : undefined,
   };
@@ -51,10 +53,12 @@ export default async function BlogPage({ searchParams }: PageProps) {
   const pageNum = Math.max(Number(page) || 1, 1);
   const activeCategory = category && category !== "All" ? category : "All";
   const activeTags = tags ? tags.split(",").map((t) => t.trim()).filter(Boolean) : [];
+  const lang = await getLocale();
+  const { blog: t } = await getDictionary(lang);
 
   return (
     <>
-      <PageHero title="Blog" subtitle="Articles and insights from IFFCO Kisan SEZ" banner="/images/media-banner.webp" />
+      <PageHero title={t.heroTitle} subtitle={t.heroSubtitle} banner="/images/media-banner.webp" />
 
       <section className="section">
         <div className="container">
@@ -65,18 +69,18 @@ export default async function BlogPage({ searchParams }: PageProps) {
           <div className="blog-toolbar">
             <div className="blog-toolbar__row">
               <Suspense fallback={<div className="blog-cats-skel" />}>
-                <CategoryTabs active={activeCategory} query={q} tags={activeTags} />
+                <CategoryTabs lang={lang} labels={t} active={activeCategory} query={q} tags={activeTags} />
               </Suspense>
 
               <Suspense fallback={<div className="blog-tagfilter-skel" />}>
-                <TagFilterField selectedTags={activeTags} />
+                <TagFilterField labels={t.tagFilter} selectedTags={activeTags} />
               </Suspense>
 
-              <form action="/blog/" method="GET" className="blog-search">
+              <form action={localizePath("/blog/", lang)} method="GET" className="blog-search">
                 {activeCategory !== "All" && <input type="hidden" name="category" value={activeCategory} />}
                 {activeTags.length > 0 && <input type="hidden" name="tags" value={activeTags.join(",")} />}
                 <Search />
-                <input type="text" name="q" defaultValue={q} placeholder="Search articles..." />
+                <input type="text" name="q" defaultValue={q} placeholder={t.searchPlaceholder} />
               </form>
             </div>
 
@@ -85,7 +89,7 @@ export default async function BlogPage({ searchParams }: PageProps) {
                 {activeTags.map((tag) => (
                   <Link
                     key={tag}
-                    href={buildHref({ q, category: activeCategory, tags: activeTags.filter((t) => t !== tag) })}
+                    href={buildHref(lang, { q, category: activeCategory, tags: activeTags.filter((x) => x !== tag) })}
                     className="chip"
                   >
                     {tag}
@@ -103,7 +107,14 @@ export default async function BlogPage({ searchParams }: PageProps) {
               key={`${q ?? ""}|${activeCategory}|${activeTags.join(",")}|${pageNum}`}
               fallback={<BlogGridSkeleton />}
             >
-              <BlogResults query={q ?? ""} category={activeCategory} selectedTags={activeTags} page={pageNum} />
+              <BlogResults
+                lang={lang}
+                labels={t}
+                query={q ?? ""}
+                category={activeCategory}
+                selectedTags={activeTags}
+                page={pageNum}
+              />
             </Suspense>
           </div>
         </div>
@@ -114,7 +125,19 @@ export default async function BlogPage({ searchParams }: PageProps) {
   );
 }
 
-async function CategoryTabs({ active, query, tags }: { active: string; query?: string; tags: string[] }) {
+async function CategoryTabs({
+  lang,
+  labels,
+  active,
+  query,
+  tags,
+}: {
+  lang: Locale;
+  labels: Dictionary["blog"];
+  active: string;
+  query?: string;
+  tags: string[];
+}) {
   const { data: categories } = await getPublishedBlogCategories(FIRST_PARTY_API_KEY);
   if (categories.length === 0) return null;
 
@@ -125,19 +148,27 @@ async function CategoryTabs({ active, query, tags }: { active: string; query?: s
       {allCategories.map((cat) => (
         <Link
           key={cat}
-          href={buildHref({ q: query, category: cat, tags })}
+          href={buildHref(lang, { q: query, category: cat, tags })}
           className={`blog-cat${active === cat ? " is-active" : ""}`}
         >
-          {cat}
+          {/* "All" is the URL value; only its label is translated. Category
+              names come from the backend (quick_lists) and stay as-is. */}
+          {cat === "All" ? labels.allCategories : cat}
         </Link>
       ))}
     </div>
   );
 }
 
-async function TagFilterField({ selectedTags }: { selectedTags: string[] }) {
+async function TagFilterField({
+  labels,
+  selectedTags,
+}: {
+  labels: Dictionary["blog"]["tagFilter"];
+  selectedTags: string[];
+}) {
   const { data: allTags } = await getPublishedBlogTags(FIRST_PARTY_API_KEY);
-  return <TagFilter allTags={allTags} selectedTags={selectedTags} />;
+  return <TagFilter allTags={allTags} selectedTags={selectedTags} labels={labels} />;
 }
 
 function BlogGridSkeleton() {
@@ -158,19 +189,22 @@ function BlogGridSkeleton() {
 }
 
 interface BlogResultsProps {
+  lang: Locale;
+  labels: Dictionary["blog"];
   query: string;
   category: string;
   selectedTags: string[];
   page: number;
 }
 
-async function BlogResults({ query, category, selectedTags, page }: BlogResultsProps) {
+async function BlogResults({ lang, labels, query, category, selectedTags, page }: BlogResultsProps) {
   const result = await getPublishedBlogList({
     search: query || undefined,
     category: category !== "All" ? category : undefined,
     tags: selectedTags,
     page,
     apiKey: FIRST_PARTY_API_KEY,
+    locale: lang,
   });
 
   const { data: posts, paging, is_success, message } = result;
@@ -182,14 +216,14 @@ async function BlogResults({ query, category, selectedTags, page }: BlogResultsP
   }
 
   if (posts.length === 0) {
-    return <p className="blog-empty">No articles match your filters yet.</p>;
+    return <p className="blog-empty">{labels.empty}</p>;
   }
 
   return (
     <>
       <div className="blog-grid">
         {posts.map((post) => (
-          <BlogCard key={post.id} post={post} />
+          <BlogCard key={post.id} post={post} lang={lang} labels={labels} />
         ))}
       </div>
 
@@ -197,7 +231,8 @@ async function BlogResults({ query, category, selectedTags, page }: BlogResultsP
         <BlogPagination
           currentPage={currentPage}
           totalPages={totalPages}
-          buildHref={(p) => buildHref({ q: query, category, tags: selectedTags, page: p })}
+          buildHref={(p) => buildHref(lang, { q: query, category, tags: selectedTags, page: p })}
+          labels={labels}
         />
       </div>
     </>

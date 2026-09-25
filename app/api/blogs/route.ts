@@ -35,6 +35,9 @@ export async function GET(request: NextRequest) {
     page: Number(searchParams.get('page')) || undefined,
     pageSize: Number(searchParams.get('pageSize')) || undefined,
     apiKey,
+    // Optional ?lang=te — translated title/excerpt/body where a published
+    // translation exists, English otherwise (see BlogRow.is_fallback).
+    locale: searchParams.get('lang') ?? undefined,
   });
   return NextResponse.json(result, { status: result.status_code || 200 });
 }

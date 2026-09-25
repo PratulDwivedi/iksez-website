@@ -3,11 +3,18 @@ import { getPublishedBlogList } from "@/lib/publicBlogs";
 import { getPublishedNewsEventList, newsEventSlug } from "@/lib/publicNewsEvents";
 import { SITE_URL } from "@/lib/siteUrl";
 import { complianceDocuments } from "@/lib/complianceDocuments";
-import { indexedLocales, localeTags, localizePath } from "@/lib/i18n/config";
+import { defaultLocale, indexedLocales, localeTags, localizePath, type Locale } from "@/lib/i18n/config";
 
 const FIRST_PARTY_API_KEY = process.env.NEXT_PUBLIC_IKSEZ_PUBLISHABLE_KEY;
 
 export const dynamic = "force-dynamic";
+
+// A sitemap entry keyed by locale-neutral path, before it's expanded into
+// one URL per locale it exists in.
+type SitemapSource = Omit<MetadataRoute.Sitemap[number], "url" | "alternates"> & {
+  path: string;
+  locales?: readonly Locale[];
+};
 
 const staticRoutes = [
   { path: "/", priority: 1, changeFrequency: "weekly" as const },
@@ -31,10 +38,22 @@ const staticRoutes = [
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const lastModified = new Date();
-  const [blogResult, newsResult] = await Promise.all([
+  const translatedLocales = indexedLocales.filter((l) => l !== defaultLocale);
+  const [blogResult, newsResult, ...translatedBlogResults] = await Promise.all([
     getPublishedBlogList({ apiKey: FIRST_PARTY_API_KEY, pageSize: 1000 }),
     getPublishedNewsEventList({ apiKey: FIRST_PARTY_API_KEY, pageSize: 1000 }),
+    ...translatedLocales.map((locale) => getPublishedBlogList({ apiKey: FIRST_PARTY_API_KEY, pageSize: 1000, locale })),
   ]);
+
+  // A post only gets a URL in a non-English locale if it has a published
+  // translation there — an English fallback page is canonical to the English
+  // URL (see blog/[slug]/page.tsx), so it doesn't belong in the sitemap.
+  const translatedSlugs = new Map<Locale, Set<string>>(
+    translatedLocales.map((locale, i) => [
+      locale,
+      new Set(translatedBlogResults[i].data.filter((post) => !post.is_fallback).map((post) => post.name)),
+    ]),
+  );
 
   // Locale-neutral paths; expanded to one URL per indexed locale below.
   const staticEntries = staticRoutes.map((route) => ({
@@ -46,6 +65,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const blogEntries = blogResult.data.map((post) => ({
     path: `/blog/${post.name}/`,
+    locales: indexedLocales.filter((l) => l === defaultLocale || translatedSlugs.get(l)?.has(post.name)),
     lastModified: new Date(post.updated_at || post.published_at),
     changeFrequency: "monthly" as const,
     priority: 0.6,
@@ -68,16 +88,20 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Only locales cleared for indexing (see indexedLocales) are listed, each
   // with hreflang alternates pointing at its other-language versions.
   const absoluteUrl = (path: string) => `${SITE_URL}${path}`;
-  return [...staticEntries, ...blogEntries, ...newsEntries, ...complianceEntries].flatMap(
-    ({ path, ...entry }) =>
-      indexedLocales.map((locale) => ({
-        ...entry,
-        url: absoluteUrl(localizePath(path, locale)),
-        alternates: {
-          languages: Object.fromEntries(
-            indexedLocales.map((l) => [localeTags[l], absoluteUrl(localizePath(path, l))]),
-          ),
-        },
-      })),
+  // Entries without their own `locales` exist in every indexed locale.
+  const entries: SitemapSource[] = [
+    ...staticEntries,
+    ...blogEntries,
+    ...newsEntries,
+    ...complianceEntries,
+  ];
+  return entries.flatMap(({ path, locales = indexedLocales, ...entry }) =>
+    locales.map((locale) => ({
+      ...entry,
+      url: absoluteUrl(localizePath(path, locale)),
+      alternates: {
+        languages: Object.fromEntries(locales.map((l) => [localeTags[l], absoluteUrl(localizePath(path, l))])),
+      },
+    })),
   );
 }

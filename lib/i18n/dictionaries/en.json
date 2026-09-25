@@ -64,5 +64,39 @@
     "lead": "The page may have moved. Try one of the links below, or head back to the homepage.",
     "home": "Back to Home",
     "contact": "Contact us"
+  },
+  "blog": {
+    "metaTitle": "Blog | IFFCO Kisan SEZ",
+    "metaDescription": "Articles and insights about IFFCO Kisan SEZ — India's Integrated Agropark SEZ at SPSR Nellore.",
+    "heroTitle": "Blog",
+    "heroSubtitle": "Articles and insights from IFFCO Kisan SEZ",
+    "allCategories": "All",
+    "searchPlaceholder": "Search articles...",
+    "empty": "No articles match your filters yet.",
+    "readArticle": "Read Article",
+    "byAuthor": "By {author}",
+    "readTime": "{minutes} min read",
+    "backToBlog": "Back to Blog",
+    "share": "Share",
+    "linkCopied": "Link copied!",
+    "faqTitle": "Frequently Asked Questions",
+    "englishOnlyNotice": "This article isn’t available in Telugu yet, so it’s shown in English.",
+    "paginationLabel": "Blog pagination",
+    "previous": "Previous",
+    "next": "Next",
+    "tagFilter": {
+      "button": "Filter by tag",
+      "selected": "Tags ({count})",
+      "search": "Search tags...",
+      "empty": "No tags match.",
+      "clear": "Clear tags"
+    },
+    "notFound": {
+      "eyebrow": "Error 404",
+      "title": "Article not found",
+      "lead": "The article you’re looking for may have been moved or unpublished.",
+      "home": "Home"
+    },
+    "articleNotFoundMetaTitle": "Article Not Found | IFFCO Kisan SEZ"
   }
 }

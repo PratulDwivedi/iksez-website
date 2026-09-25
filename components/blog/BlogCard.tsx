@@ -3,12 +3,23 @@ import Link from 'next/link';
 import { Calendar, Clock, ArrowRight } from 'lucide-react';
 import type { BlogRow } from '@/lib/publicBlogs';
 import { formatBlogDate, blogReadTime } from '@/lib/blogDisplay';
+import { format } from '@/lib/i18n/format';
+import { localizePath, type Locale } from '@/lib/i18n/config';
+import type { Dictionary } from '@/lib/i18n/getDictionary';
 
-export function BlogCard({ post }: { post: BlogRow }) {
-  const href = `/blog/${post.name}/`;
+type BlogCardProps = {
+  post: BlogRow;
+  lang: Locale;
+  labels: Dictionary['blog'];
+};
+
+export function BlogCard({ post, lang, labels }: BlogCardProps) {
+  const href = localizePath(`/blog/${post.name}/`, lang);
 
   return (
-    <article className="media-card">
+    // An untranslated post shown on a non-English page keeps lang="en" on its
+    // own text, so screen readers and hyphenation treat it as English.
+    <article className="media-card" lang={post.is_fallback ? 'en' : undefined}>
       <div className="media-card__figure blog-card__figure">
         <span className="blog-card__cat">{post.category}</span>
         <Image
@@ -21,14 +32,14 @@ export function BlogCard({ post }: { post: BlogRow }) {
       </div>
 
       <div className="media-card__body">
-        <div className="blog-card__meta">
+        <div className="blog-card__meta" lang={lang}>
           <span>
             <Calendar />
-            {formatBlogDate(post.published_at)}
+            {formatBlogDate(post.published_at, lang)}
           </span>
           <span>
             <Clock />
-            {blogReadTime(post.read_minutes)}
+            {blogReadTime(post.read_minutes, labels.readTime)}
           </span>
         </div>
 
@@ -38,10 +49,10 @@ export function BlogCard({ post }: { post: BlogRow }) {
 
         <p className="blog-card__excerpt">{post.excerpt}</p>
 
-        <div className="blog-card__foot">
-          <span className="blog-card__author">By {post.author_name}</span>
+        <div className="blog-card__foot" lang={lang}>
+          <span className="blog-card__author">{format(labels.byAuthor, { author: post.author_name })}</span>
           <Link href={href} className="blog-card__readmore">
-            Read Article <ArrowRight />
+            {labels.readArticle} <ArrowRight />
           </Link>
         </div>
       </div>
