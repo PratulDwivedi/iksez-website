@@ -815,17 +815,6 @@
   font-size: 14px;
   line-height: 1.8;
 }
-.home-reference__btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  padding: 14px 22px;
-  border-radius: var(--radius-sm);
-  font-size: 13px;
-  font-weight: 700;
-}
-.home-reference__btn--green { background: var(--color-secondary); color: #fff; }
-.home-reference__btn--green:hover { background: var(--color-secondary-700); color: #fff; }
 .home-stats {
   display: grid;
   grid-template-columns: repeat(4, 1fr);

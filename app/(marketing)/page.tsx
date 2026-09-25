@@ -100,7 +100,7 @@ export default async function Home() {
             <div className="home-about__copy">
               <h2>About IFFCO Kisan SEZ</h2>
               <p>IFFCO Kisan SEZ is a premier integrated agro-industrial park designed to foster value addition, employment and sustainable growth in the agriculture sector. With world-class infrastructure.</p>
-              <Link className="home-reference__btn home-reference__btn--green" href="/about-us/">Read More →</Link>
+              <Link className="btn btn--green" href="/about-us/">Read More →</Link>
             </div>
             <div className="home-stats">
               <div><span className="home-stat__icon">♧</span><strong>1,900</strong><small>Acres of Multiproduct<br />Special Economic Zone</small></div>
