@@ -230,6 +230,9 @@
 .blog-post-body h2 { font-size: var(--fs-xl); margin-top: var(--sp-7); }
 .blog-post-body p:has(+ h2), .blog-post-body :last-child { margin-bottom: 0; }
 .blog-post-body p + p { margin-top: 0; }
+.blog-post-body :is(ul, ol) { padding-left: 1.5rem; }
+.blog-post-body li + li { margin-top: var(--sp-2); }
+.blog-post-body li::marker { color: var(--color-secondary); }
 .blog-post-body code {
   padding: .15em .4em; border-radius: 5px;
   background: var(--color-surface-muted); color: var(--color-primary-700);

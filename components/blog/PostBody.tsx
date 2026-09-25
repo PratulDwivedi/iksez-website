@@ -1,4 +1,4 @@
-import { parseMarkdownTable, type BlogBlock, type TableAlign } from '@/lib/blogBody';
+import { parseList, parseMarkdownTable, type BlogBlock, type TableAlign } from '@/lib/blogBody';
 import { renderInlineMarkdown } from '@/lib/inlineMarkdown';
 
 // Public-site renderer for website_blogs.body — a separate component from
@@ -42,6 +42,18 @@ export function PostBody({ blocks }: { blocks: BlogBlock[] }) {
                 </tbody>
               </table>
             </div>
+          );
+        }
+
+        const list = parseList(block.text);
+        if (list) {
+          const List = list.ordered ? 'ol' : 'ul';
+          return (
+            <List key={index}>
+              {list.items.map((item, i) => (
+                <li key={i}>{renderInlineMarkdown(item)}</li>
+              ))}
+            </List>
           );
         }
 

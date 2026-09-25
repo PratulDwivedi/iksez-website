@@ -51,6 +51,39 @@ export function textToBlocks(text: string): BlogBlock[] {
     });
 }
 
+// A paragraph block whose every line is a list item renders as a list:
+// "- item" / "* item" -> <ul>, "1. item" / "1) item" -> <ol>. Detected at
+// render time rather than stored as its own block type, so posts already
+// written with "- " lines (in any language) render as lists with no data
+// migration, and the admin textarea round-trips them unchanged. A paragraph
+// mixing list and non-list lines stays a plain paragraph.
+export interface ParsedList {
+  ordered: boolean;
+  items: string[];
+}
+
+const UNORDERED_ITEM_RE = /^[-*]\s+(.*)$/;
+const ORDERED_ITEM_RE = /^\d+[.)]\s+(.*)$/;
+
+export function parseList(text: string): ParsedList | null {
+  const lines = text
+    .split(/\r?\n/)
+    .map((l) => l.trim())
+    .filter(Boolean);
+  if (lines.length === 0) return null;
+
+  for (const [re, ordered] of [
+    [UNORDERED_ITEM_RE, false],
+    [ORDERED_ITEM_RE, true],
+  ] as const) {
+    const items = lines.map((line) => re.exec(line)?.[1]);
+    if (items.every((item): item is string => item !== undefined)) {
+      return { ordered, items };
+    }
+  }
+  return null;
+}
+
 export type TableAlign = 'left' | 'center' | 'right' | null;
 
 export interface ParsedTable {

@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { parseMarkdownTable, type BlogBlock, type TableAlign } from '@/lib/blogBody';
+import { parseList, parseMarkdownTable, type BlogBlock, type TableAlign } from '@/lib/blogBody';
 import { renderInlineMarkdown } from '@/lib/inlineMarkdown';
 
 // Shared block renderer for website_blogs.body — used by both the live post
@@ -59,6 +59,18 @@ export function BlogBody({ blocks }: { blocks: BlogBlock[] }) {
                 </tbody>
               </table>
             </div>
+          );
+        }
+
+        const list = parseList(block.text);
+        if (list) {
+          const List = list.ordered ? 'ol' : 'ul';
+          return (
+            <List key={index} className={`${list.ordered ? 'list-decimal' : 'list-disc'} pl-6 space-y-2`}>
+              {list.items.map((item, i) => (
+                <li key={i}>{renderInlineMarkdown(item)}</li>
+              ))}
+            </List>
           );
         }
 

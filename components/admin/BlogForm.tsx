@@ -484,7 +484,7 @@ function TranslationPane({
             defaultValue={blocksToText(translation?.body)}
             name={field('body')}
             required={false}
-            help="Same format as English: blank line between paragraphs, ### for a subheading."
+            help="Same format as English: blank line between paragraphs, ### for a subheading, - or 1. at the start of lines for a list."
           />
         </TranslateRow>
       </CollapsibleSection>
@@ -563,6 +563,8 @@ function BodyEditor({
             <>
               blank line between paragraphs, prefix a line with{' '}
               <code className="text-primary-600 dark:text-primary-500 normal-case">### </code> for a subheading.{' '}
+              Start lines with <code className="text-primary-600 dark:text-primary-500 normal-case">- </code> or{' '}
+              <code className="text-primary-600 dark:text-primary-500 normal-case">1. </code> for a list.{' '}
               Inline <code className="text-primary-600 dark:text-primary-500 normal-case">**bold**</code>,{' '}
               <code className="text-primary-600 dark:text-primary-500 normal-case">*italic*</code>,{' '}
               <code className="text-primary-600 dark:text-primary-500 normal-case">`code`</code>, and pipe tables (
