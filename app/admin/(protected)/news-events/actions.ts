@@ -35,8 +35,11 @@ export async function saveNewsEvent(
   // Next.js app only ever renders IFFCO Kisan SEZ's own tenant, so busting
   // this tag/path unconditionally on every save is safe.
   revalidateTag('news-events-list', 'max');
-  revalidatePath('/news-and-events');
-  revalidatePath('/');
+  // Marketing routes live under app/(marketing)/[lang]/ and are reached via
+  // a proxy.ts rewrite, so revalidatePath needs the route file path
+  // ("/[lang]/...", every locale at once), not the public URL.
+  revalidatePath('/[lang]/news-and-events', 'page');
+  revalidatePath('/[lang]', 'page');
 
   const savedId = (data as { id: number } | null)?.id;
   redirect(savedId ? `/admin/news-events/${savedId}/` : '/admin/news-events/');

@@ -40,7 +40,10 @@ export async function saveTestimonial(
   // explicitly), so busting this tag/path on every save is safe regardless of
   // which tenant saved — it can never revive stale or cross-tenant data.
   revalidateTag('testimonial-list', 'max');
-  revalidatePath('/');
+  // Marketing routes live under app/(marketing)/[lang]/ and are reached via
+  // a proxy.ts rewrite, so revalidatePath needs the route file path
+  // ("/[lang]/...", every locale at once), not the public URL.
+  revalidatePath('/[lang]', 'page');
 
   const savedId = (data as { id: number } | null)?.id;
   redirect(savedId ? `/admin/testimonials/${savedId}/` : '/admin/testimonials/');
