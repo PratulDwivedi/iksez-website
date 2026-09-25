@@ -23,6 +23,10 @@ export async function saveNewsEvent(
     p_body: textToBlocks((formData.get('body') as string) ?? ''),
     p_gallery: textToGallery((formData.get('gallery') as string) ?? ''),
     p_published: formData.get('published') === 'on',
+    // Explicit null, never omitted: the function's p_published_at defaults to
+    // now(), so leaving it out reset the publish date on every edit. With
+    // null it keeps the existing date on update and uses now() on insert.
+    p_published_at: null,
   });
 
   if (error) {

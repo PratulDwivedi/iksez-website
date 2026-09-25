@@ -46,6 +46,10 @@ export async function saveBlogPost(
     p_read_minutes: readMinutesRaw ? Number(readMinutesRaw) : 5,
     p_body: textToBlocks((formData.get('body') as string) ?? ''),
     p_published: formData.get('published') === 'on',
+    // Explicit null, never omitted: the function's p_published_at defaults to
+    // now(), so leaving it out reset the publish date on every edit. With
+    // null it keeps the existing date on update and uses now() on insert.
+    p_published_at: null,
     // Always pass p_data (never null) so clearing the FAQ textarea actually
     // clears data.faqs on save — fn_save_website_blog's update branch does
     // `data = COALESCE(p_data, wb.data)`, so a null here would silently
