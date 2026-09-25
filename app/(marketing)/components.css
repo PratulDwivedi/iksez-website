@@ -29,7 +29,7 @@
    1. BUTTONS
    ========================================================================== */
 .btn {
-  --btn-bg: var(--color-secondary-900);
+  --btn-bg: var(--color-secondary);
   --btn-fg: var(--color-white);
   display: inline-flex;
   align-items: center;
@@ -55,8 +55,8 @@
 .btn:active { transform: translateY(0); }
 .btn svg { width: 1em; height: 1em; flex: none; }
 
-.btn--brand { background: var(--color-secondary-900); }
-.btn--green { --btn-bg: var(--color-secondary-900); }
+.btn--brand { background: var(--color-secondary); }
+.btn--green { --btn-bg: var(--color-secondary); }
 .btn--green:hover { box-shadow: 0 18px 40px rgba(0, 155, 72, .3); }
 
 .btn--outline {
