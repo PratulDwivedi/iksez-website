@@ -539,8 +539,7 @@
    5. SECTION HEADING
    ========================================================================== */
 .section-head { max-width: 720px; margin-bottom: var(--sp-8); }
-.section-head h2 { max-width: 18ch; }
-.section-head--center h2 { margin-inline: auto; }
+.section-head--center h2 { margin-inline: auto; max-width: 18ch; }
 .section-head--center { margin-inline: auto; text-align: center; }
 
 .eyebrow {
