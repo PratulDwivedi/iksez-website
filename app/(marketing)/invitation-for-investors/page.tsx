@@ -1,6 +1,24 @@
 import type { Metadata } from "next";
+import {
+  Atom,
+  BatteryCharging,
+  Beef,
+  Boxes,
+  Factory,
+  FlaskConical,
+  Laptop,
+  Leaf,
+  Milk,
+  Pill,
+  Recycle,
+  Sun,
+  Tractor,
+  Warehouse,
+  Wheat,
+} from "lucide-react";
 import PageHero from "@/components/PageHero";
 import CtaBand from "@/components/CtaBand";
+import FeatureCard from "@/components/FeatureCard";
 
 export const metadata: Metadata = {
   title: "Business Opportunities | IFFCO Kisan SEZ",
@@ -89,57 +107,55 @@ export default function InvitationForInvestors() {
           </div>
 
           <div className="grid grid--4">
-            <div className="card" data-reveal="">
-              <h3>Meat &amp; Poultry</h3>
-            </div>
-            <div className="card" data-reveal="">
-              <h3>Dairy Processing</h3>
-            </div>
-            <div className="card" data-reveal="">
-              <h3>Medicinal &amp; Aromatic plants</h3>
-            </div>
-            <div className="card" data-reveal="">
-              <h3>Feed Manufacturing</h3>
-            </div>
-            <div className="card" data-reveal="">
-              <h3>
-                Nutraceuticals &amp; Food Additives (ex. Pectin)
-              </h3>
-            </div>
-            <div className="card" data-reveal="">
-              <h3>Spices</h3>
-            </div>
-            <div className="card" data-reveal="">
-              <h3>Agri Implements and Automobiles</h3>
-            </div>
-            <div className="card" data-reveal="">
-              <h3>Renewable Energy</h3>
-            </div>
-            <div className="card" data-reveal="">
-              <h3>
-                Electric Mobility and Associated Products and Batteries
-              </h3>
-            </div>
-            <div className="card" data-reveal="">
-              <h3>Circular Economy</h3>
-            </div>
-            <div className="card" data-reveal="">
-              <h3>Nano and Other Innovative Technologies</h3>
-            </div>
-            <div className="card" data-reveal="">
-              <h3>Other Light and Heavy Engineering Industries</h3>
-            </div>
-            <div className="card" data-reveal="">
-              <h3>IT/BPO</h3>
-            </div>
-            <div className="card" data-reveal="">
-              <h3>Warehouses and Logistics.</h3>
-            </div>
-            <div className="card card--dark" data-reveal="">
-              <h3>
-                Any other manufacturing/services industries feasible at IKSEZ location
-              </h3>
-            </div>
+            <FeatureCard title="Meat & Poultry" icon={<Beef />}>
+              Processing and value-addition units for meat and poultry products.
+            </FeatureCard>
+            <FeatureCard title="Dairy Processing" icon={<Milk />}>
+              Milk processing, packaging and dairy product manufacturing.
+            </FeatureCard>
+            <FeatureCard title="Medicinal & Aromatic plants" icon={<Leaf />}>
+              Cultivation and processing of medicinal, herbal and aromatic plant produce.
+            </FeatureCard>
+            <FeatureCard title="Feed Manufacturing" icon={<Wheat />}>
+              Manufacturing of animal and poultry feed for the surrounding agricultural belt.
+            </FeatureCard>
+            <FeatureCard title="Nutraceuticals & Food Additives (ex. Pectin)" icon={<Pill />}>
+              Nutraceutical and food-additive units, including pectin extraction from fruit waste.
+            </FeatureCard>
+            <FeatureCard title="Spices" icon={<FlaskConical />}>
+              Processing, grading and packaging of spices for domestic and export markets.
+            </FeatureCard>
+            <FeatureCard title="Agri Implements and Automobiles" icon={<Tractor />}>
+              Manufacturing of agricultural implements, machinery and automotive components.
+            </FeatureCard>
+            <FeatureCard title="Renewable Energy" icon={<Sun />}>
+              Solar, wind and other renewable energy generation and equipment manufacturing.
+            </FeatureCard>
+            <FeatureCard title="Electric Mobility and Associated Products and Batteries" icon={<BatteryCharging />}>
+              EV manufacturing, batteries and components for electric mobility.
+            </FeatureCard>
+            <FeatureCard title="Circular Economy" icon={<Recycle />}>
+              Recycling, waste-to-value and other circular economy initiatives.
+            </FeatureCard>
+            <FeatureCard title="Nano and Other Innovative Technologies" icon={<Atom />}>
+              Nanotechnology and other innovative, high-value manufacturing units.
+            </FeatureCard>
+            <FeatureCard title="Other Light and Heavy Engineering Industries" icon={<Factory />}>
+              Light and heavy engineering units serving domestic and export demand.
+            </FeatureCard>
+            <FeatureCard title="IT/BPO" icon={<Laptop />}>
+              IT and business process outsourcing operations backed by ready office infrastructure.
+            </FeatureCard>
+            <FeatureCard title="Warehouses and Logistics" icon={<Warehouse />}>
+              Warehousing, cold storage and logistics leveraging NH-16 and port connectivity.
+            </FeatureCard>
+            <FeatureCard
+              title="Any other manufacturing/services industries feasible at IKSEZ location"
+              icon={<Boxes />}
+              className="card--dark"
+            >
+              Open to any other manufacturing or services industry suited to the IKSEZ location.
+            </FeatureCard>
           </div>
         </div>
       </section>
