@@ -8,6 +8,9 @@ import { PostBody } from "@/components/blog/PostBody";
 import { ShareButton } from "@/components/blog/ShareButton";
 import { getPublishedBlogBySlug, getPublishedBlogList } from "@/lib/publicBlogs";
 import { formatBlogDate, blogReadTime } from "@/lib/blogDisplay";
+import { getLocale } from "@/lib/i18n/getDictionary";
+import { localizePath } from "@/lib/i18n/config";
+import { localeAlternates } from "@/lib/i18n/metadata";
 
 // Individual posts have no per-request dynamic input (no searchParams —
 // unlike /blog's list page, which needs force-dynamic for its search/tag
@@ -37,16 +40,17 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     return { title: "Article Not Found | IFFCO Kisan SEZ" };
   }
 
-  const canonicalPath = `/blog/${post.name}/`;
+  const lang = await getLocale();
+  const path = `/blog/${post.name}/`;
 
   return {
     title: `${post.title} | IFFCO Kisan SEZ`,
     description: post.excerpt,
-    alternates: { canonical: canonicalPath },
+    alternates: localeAlternates(path, lang),
     openGraph: {
       title: post.title,
       description: post.excerpt,
-      url: canonicalPath,
+      url: localizePath(path, lang),
       type: "article",
       images: [{ url: post.cover_url, alt: post.cover_alt || post.title }],
     },

@@ -1,8 +1,19 @@
+import { Fragment } from "react";
 import Link from "next/link";
 import FooterYear from "./FooterYear";
 import ThemeToggle from "./ThemeToggle";
+import { localizePath, type Locale } from "@/lib/i18n/config";
+import type { Dictionary } from "@/lib/i18n/getDictionary";
 
-export default function Footer() {
+type FooterProps = {
+  lang: Locale;
+  common: Dictionary["common"];
+  labels: Dictionary["footer"];
+};
+
+export default function Footer({ lang, common, labels }: FooterProps) {
+  const href = (path: string) => localizePath(path, lang);
+
   return (
     <footer className="site-footer">
       <div className="container">
@@ -10,16 +21,13 @@ export default function Footer() {
           <div>
             <div className="footer__brand">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/images/logo.png" alt="IFFCO Kisan SEZ logo" width={130} height={52} />
+              <img src="/images/logo.png" alt={common.logoAlt} width={130} height={52} />
               <span className="brand__text">
-                <span className="brand__name">IFFCO Kisan SEZ</span>
-                <span className="brand__tag">Integrated Agropark</span>
+                <span className="brand__name">{common.brandName}</span>
+                <span className="brand__tag">{common.brandTag}</span>
               </span>
             </div>
-            <p className="footer__description">
-              IFFCO Kisan SEZ is being setup as an Agribusiness Special Economic Zone based on the
-              concept of Integrated Agropark.
-            </p>
+            <p className="footer__description">{labels.description}</p>
             <div className="footer__social">
               <a
                 href="https://www.facebook.com/IKSEZ.PR"
@@ -40,77 +48,78 @@ export default function Footer() {
           </div>
 
           <div>
-            <p className="footer__title">Explore</p>
+            <p className="footer__title">{labels.exploreTitle}</p>
             <ul className="footer__links">
               <li>
-                <Link href="/about-us/">About us</Link>
+                <Link href={href("/about-us/")}>{labels.links.about}</Link>
               </li>
               <li>
-                <Link href="/agropark/">Agropark</Link>
+                <Link href={href("/agropark/")}>{labels.links.agropark}</Link>
               </li>
               <li>
-                <Link href="/benefits/">Benefits</Link>
+                <Link href={href("/benefits/")}>{labels.links.benefits}</Link>
               </li>
               <li>
-                <Link href="/invitation-for-investors/">Business Opportunities</Link>
+                <Link href={href("/invitation-for-investors/")}>{labels.links.businessOpportunities}</Link>
               </li>
               <li>
-                <Link href="/industrial/">Infrastructure</Link>
+                <Link href={href("/industrial/")}>{labels.links.infrastructure}</Link>
               </li>
             </ul>
           </div>
 
           <div>
-            <p className="footer__title">Information</p>
+            <p className="footer__title">{labels.informationTitle}</p>
             <ul className="footer__links">
               <li>
-                <Link href="/master-plan/">Master Plan</Link>
+                <Link href={href("/master-plan/")}>{labels.links.masterPlan}</Link>
               </li>
               <li>
-                <Link href="/existing-units/">Existing units</Link>
+                <Link href={href("/existing-units/")}>{labels.links.existingUnits}</Link>
               </li>
               <li>
-                <Link href="/news-and-events/">News and Events</Link>
+                <Link href={href("/news-and-events/")}>{labels.links.newsEvents}</Link>
               </li>
               <li>
-                <Link href="/gallery/">Image Gallery</Link>
+                <Link href={href("/gallery/")}>{labels.links.gallery}</Link>
               </li>
               <li>
-                <Link href="/blog/">Blog</Link>
+                <Link href={href("/blog/")}>{labels.links.blog}</Link>
               </li>
               <li>
-                <Link href="/compliances/">Compliance Documents</Link>
+                <Link href={href("/compliances/")}>{labels.links.compliances}</Link>
               </li>
             </ul>
           </div>
 
           <div>
-            <p className="footer__title">Get in touch</p>
+            <p className="footer__title">{labels.contactTitle}</p>
             <p>
-              <strong style={{ color: "#17234d" }}>IFFCO Kisan SEZ Limited</strong>
+              <strong style={{ color: "#17234d" }}>{labels.companyName}</strong>
             </p>
             <address className="footer__address">
-              Project Office, Village &amp; Post: Racharlapadu,
-              <br />
-              Adjacent to NH-16, Kodavaluru Mandalam,
-              <br />
-              District: SPSR Nellore, Pin Code: 524319 (A.P)
+              {labels.addressLines.map((line, i) => (
+                <Fragment key={i}>
+                  {i > 0 && <br />}
+                  {line}
+                </Fragment>
+              ))}
             </address>
             <p className="footer__address" style={{ marginTop: "1rem" }}>
-              Mobile: <a href="tel:+919652993599">+91-9652993599</a>
+              {labels.mobileLabel}: <a href="tel:+919652993599">+91-9652993599</a>
               <br />
-              E-mail: <a href="mailto:ceooffice@iffcosez.in">ceooffice@iffcosez.in</a>
+              {labels.emailLabel}: <a href="mailto:ceooffice@iffcosez.in">ceooffice@iffcosez.in</a>
             </p>
           </div>
         </div>
 
         <div className="footer__bottom">
           <p className="mb-0">
-            &copy; <FooterYear /> IFFCO Kisan SEZ Limited. All rights reserved.
+            &copy; <FooterYear /> {labels.rightsReserved}
           </p>
           <div className="footer__controls">
-            <Link href="/privacy-policy/">Privacy Policy</Link>
-            <Link className="footer__admin" href="/admin/" aria-label="Open admin dashboard" title="Admin dashboard">
+            <Link href={href("/privacy-policy/")}>{labels.links.privacyPolicy}</Link>
+            <Link className="footer__admin" href="/admin/" aria-label={labels.adminAriaLabel} title={labels.adminTitle}>
               <svg viewBox="0 0 24 24" aria-hidden="true">
                 <rect x="3" y="3" width="7" height="7" rx="1" />
                 <rect x="14" y="3" width="7" height="7" rx="1" />

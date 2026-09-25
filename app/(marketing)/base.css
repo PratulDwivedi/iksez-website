@@ -33,6 +33,14 @@ h1, h2, h3, h4, h5, h6 {
   letter-spacing: -.02em;
 }
 
+/* Telugu vowel signs stack above and below the base letter, so the tight
+   Latin line-heights clip them and negative tracking breaks up conjuncts. */
+:root:lang(te) {
+  --lh-tight: 1.4;
+  --lh-base: 1.85;
+}
+:lang(te) :is(h1, h2, h3, h4, h5, h6) { letter-spacing: 0; }
+
 h1 { font-size: var(--fs-4xl); }
 h2 { font-size: 29px; }
 h3 { font-size: var(--fs-2xl); }

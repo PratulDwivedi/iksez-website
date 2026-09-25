@@ -1,0 +1,68 @@
+{
+  "common": {
+    "skipToContent": "ప్రధాన కంటెంట్‌కు వెళ్లండి",
+    "brandName": "IFFCO Kisan SEZ",
+    "brandTag": "సమీకృత అగ్రోపార్క్",
+    "logoAlt": "IFFCO Kisan SEZ లోగో",
+    "homeAriaLabel": "IFFCO Kisan SEZ — హోమ్"
+  },
+  "languageSwitcher": {
+    "ariaLabel": "భాష ఎంపిక"
+  },
+  "header": {
+    "menu": "మెనూ",
+    "nav": {
+      "about": "మా గురించి",
+      "leadership": "నాయకత్వం",
+      "zones": "జోన్‌లు",
+      "sez": "SEZ",
+      "dtz": "DTZ",
+      "reportsPolicies": "నివేదికలు & విధానాలు",
+      "annualReports": "వార్షిక నివేదికలు",
+      "csr": "CSR",
+      "policies": "విధానాలు",
+      "compliances": "నిబంధనల పాటింపు",
+      "newsMedia": "వార్తలు & మీడియా",
+      "blogs": "బ్లాగులు",
+      "contact": "సంప్రదించండి"
+    }
+  },
+  "footer": {
+    "description": "IFFCO Kisan SEZ సమీకృత అగ్రోపార్క్ భావన ఆధారంగా వ్యవసాయ వ్యాపార ప్రత్యేక ఆర్థిక మండలిగా ఏర్పాటు చేయబడుతోంది.",
+    "exploreTitle": "అన్వేషించండి",
+    "informationTitle": "సమాచారం",
+    "contactTitle": "సంప్రదించండి",
+    "links": {
+      "about": "మా గురించి",
+      "agropark": "అగ్రోపార్క్",
+      "benefits": "ప్రయోజనాలు",
+      "businessOpportunities": "వ్యాపార అవకాశాలు",
+      "infrastructure": "మౌలిక సదుపాయాలు",
+      "masterPlan": "మాస్టర్ ప్లాన్",
+      "existingUnits": "ప్రస్తుత యూనిట్లు",
+      "newsEvents": "వార్తలు మరియు కార్యక్రమాలు",
+      "gallery": "చిత్రాల గ్యాలరీ",
+      "blog": "బ్లాగ్",
+      "compliances": "నిబంధనల పత్రాలు",
+      "privacyPolicy": "గోప్యతా విధానం"
+    },
+    "companyName": "IFFCO Kisan SEZ Limited",
+    "addressLines": [
+      "ప్రాజెక్ట్ కార్యాలయం, గ్రామం & పోస్ట్: రాచర్లపాడు,",
+      "NH-16 పక్కన, కొడవలూరు మండలం,",
+      "జిల్లా: SPSR నెల్లూరు, పిన్ కోడ్: 524319 (ఆం.ప్ర)"
+    ],
+    "mobileLabel": "మొబైల్",
+    "emailLabel": "ఈ-మెయిల్",
+    "rightsReserved": "IFFCO Kisan SEZ Limited. సర్వ హక్కులు ప్రత్యేకించబడ్డాయి.",
+    "adminAriaLabel": "అడ్మిన్ డాష్‌బోర్డ్ తెరవండి",
+    "adminTitle": "అడ్మిన్ డాష్‌బోర్డ్"
+  },
+  "notFound": {
+    "eyebrow": "లోపం 404",
+    "title": "ఆ పేజీ మాకు కనిపించలేదు",
+    "lead": "ఈ పేజీ వేరే చోటికి మార్చబడి ఉండవచ్చు. కింది లింక్‌లలో ఒకదాన్ని ప్రయత్నించండి, లేదా హోమ్‌పేజీకి తిరిగి వెళ్లండి.",
+    "home": "హోమ్‌కు తిరిగి వెళ్లండి",
+    "contact": "మమ్మల్ని సంప్రదించండి"
+  }
+}

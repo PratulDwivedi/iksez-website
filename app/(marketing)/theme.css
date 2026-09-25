@@ -73,8 +73,11 @@
   --grad-rule: linear-gradient(90deg, var(--color-primary) 0%, var(--color-secondary) 100%);
 
   /* ---- Typography ---- */
-  --font-sans: var(--font-inter), "Segoe UI", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
-  --font-display: var(--font-jakarta), var(--font-inter), "Segoe UI", -apple-system, sans-serif;
+  /* --font-telugu follows the Latin brand fonts: Latin text keeps Inter/
+     Jakarta, Telugu glyphs (which those fonts lack) fall through to Noto
+     Sans Telugu instead of an OS font that varies per device. */
+  --font-sans: var(--font-inter), var(--font-telugu), "Segoe UI", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+  --font-display: var(--font-jakarta), var(--font-inter), var(--font-telugu), "Segoe UI", -apple-system, sans-serif;
 
   --fs-xs: .75rem;
   --fs-sm: .875rem;

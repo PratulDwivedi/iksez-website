@@ -11,6 +11,9 @@ import {
   getPublishedNewsEventList,
   newsEventSlug,
 } from "@/lib/publicNewsEvents";
+import { getLocale } from "@/lib/i18n/getDictionary";
+import { localizePath } from "@/lib/i18n/config";
+import { localeAlternates } from "@/lib/i18n/metadata";
 
 const FIRST_PARTY_API_KEY = process.env.NEXT_PUBLIC_IKSEZ_PUBLISHABLE_KEY;
 
@@ -42,18 +45,19 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (!item) return { title: "News and Event Not Found | IFFCO Kisan SEZ" };
 
   const description = item.body.find((block) => block.type === "paragraph")?.text;
-  const canonicalPath = `/news-and-events/${newsEventSlug(item.title)}/`;
+  const lang = await getLocale();
+  const path = `/news-and-events/${newsEventSlug(item.title)}/`;
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://iksezwebsite.vercel.app";
   const imageUrl = new URL(item.gallery[0]?.url ?? "/images/media-banner.webp", siteUrl).toString();
 
   return {
     title: `${item.title} | IFFCO Kisan SEZ`,
     description,
-    alternates: { canonical: canonicalPath },
+    alternates: localeAlternates(path, lang),
     openGraph: {
       title: item.title,
       description,
-      url: canonicalPath,
+      url: localizePath(path, lang),
       type: "article",
       images: [{ url: imageUrl, alt: item.gallery[0]?.caption || item.title }],
     },

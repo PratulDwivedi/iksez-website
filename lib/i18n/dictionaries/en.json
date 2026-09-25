@@ -1,0 +1,68 @@
+{
+  "common": {
+    "skipToContent": "Skip to content",
+    "brandName": "IFFCO Kisan SEZ",
+    "brandTag": "Integrated Agropark",
+    "logoAlt": "IFFCO Kisan SEZ logo",
+    "homeAriaLabel": "IFFCO Kisan SEZ — Home"
+  },
+  "languageSwitcher": {
+    "ariaLabel": "Language selection"
+  },
+  "header": {
+    "menu": "Menu",
+    "nav": {
+      "about": "About Us",
+      "leadership": "Leadership",
+      "zones": "Zones",
+      "sez": "SEZ",
+      "dtz": "DTZ",
+      "reportsPolicies": "Reports & Policies",
+      "annualReports": "Annual Reports",
+      "csr": "CSR",
+      "policies": "Policies",
+      "compliances": "Compliances",
+      "newsMedia": "News & Media",
+      "blogs": "Blogs",
+      "contact": "Contact Us"
+    }
+  },
+  "footer": {
+    "description": "IFFCO Kisan SEZ is being setup as an Agribusiness Special Economic Zone based on the concept of Integrated Agropark.",
+    "exploreTitle": "Explore",
+    "informationTitle": "Information",
+    "contactTitle": "Get in touch",
+    "links": {
+      "about": "About us",
+      "agropark": "Agropark",
+      "benefits": "Benefits",
+      "businessOpportunities": "Business Opportunities",
+      "infrastructure": "Infrastructure",
+      "masterPlan": "Master Plan",
+      "existingUnits": "Existing units",
+      "newsEvents": "News and Events",
+      "gallery": "Image Gallery",
+      "blog": "Blog",
+      "compliances": "Compliance Documents",
+      "privacyPolicy": "Privacy Policy"
+    },
+    "companyName": "IFFCO Kisan SEZ Limited",
+    "addressLines": [
+      "Project Office, Village & Post: Racharlapadu,",
+      "Adjacent to NH-16, Kodavaluru Mandalam,",
+      "District: SPSR Nellore, Pin Code: 524319 (A.P)"
+    ],
+    "mobileLabel": "Mobile",
+    "emailLabel": "E-mail",
+    "rightsReserved": "IFFCO Kisan SEZ Limited. All rights reserved.",
+    "adminAriaLabel": "Open admin dashboard",
+    "adminTitle": "Admin dashboard"
+  },
+  "notFound": {
+    "eyebrow": "Error 404",
+    "title": "We couldn’t find that page",
+    "lead": "The page may have moved. Try one of the links below, or head back to the homepage.",
+    "home": "Back to Home",
+    "contact": "Contact us"
+  }
+}

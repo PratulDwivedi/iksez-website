@@ -3,40 +3,54 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import LanguageSwitcher from "./LanguageSwitcher";
+import { localizePath, type Locale } from "@/lib/i18n/config";
+import type { Dictionary } from "@/lib/i18n/getDictionary";
+
+type NavLabelKey = keyof Dictionary["header"]["nav"];
 
 type NavItem = {
-  label: string;
+  key: NavLabelKey;
   href: string;
-  submenu?: { label: string; href: string }[];
+  submenu?: { key: NavLabelKey; href: string }[];
 };
 
+// Locale-neutral hrefs; localized per render via localizePath() so the
+// Telugu site's nav stays on /te/... URLs.
 const NAV: NavItem[] = [
-  { label: "About Us", href: "/about-us/" },
-  { label: "Leadership", href: "/board-of-directors/" },
+  { key: "about", href: "/about-us/" },
+  { key: "leadership", href: "/board-of-directors/" },
   {
-    label: "Zones",
+    key: "zones",
     href: "/zone/sez/",
     submenu: [
-      { label: "SEZ", href: "/zone/sez/" },
-      { label: "DTZ", href: "/zone/dtz/" },
+      { key: "sez", href: "/zone/sez/" },
+      { key: "dtz", href: "/zone/dtz/" },
     ],
   },
   {
-    label: "Reports & Policies",
+    key: "reportsPolicies",
     href: "/reports-policies/",
     submenu: [
-      { label: "Annual Reports", href: "/reports-policies/#annual-reports" },
-      { label: "CSR", href: "/reports-policies/#csr" },
-      { label: "Policies", href: "/reports-policies/#policies" },
-      { label: "Compliances", href: "/compliances/" },
+      { key: "annualReports", href: "/reports-policies/#annual-reports" },
+      { key: "csr", href: "/reports-policies/#csr" },
+      { key: "policies", href: "/reports-policies/#policies" },
+      { key: "compliances", href: "/compliances/" },
     ],
   },
-  { label: "News & Media", href: "/news-and-events/" },
-  { label: "Blogs", href: "/blog/" },
-  { label: "Contact Us", href: "/contact-us/" },
+  { key: "newsMedia", href: "/news-and-events/" },
+  { key: "blogs", href: "/blog/" },
+  { key: "contact", href: "/contact-us/" },
 ];
 
-export default function Header() {
+type HeaderProps = {
+  lang: Locale;
+  common: Dictionary["common"];
+  labels: Dictionary["header"];
+  switcherLabel: string;
+};
+
+export default function Header({ lang, common, labels, switcherLabel }: HeaderProps) {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [isStuck, setIsStuck] = useState(false);
@@ -77,9 +91,11 @@ export default function Header() {
     };
   }, []);
 
-  // With trailingSlash routing, hrefs like "/about-us/" match usePathname()
-  // exactly — no suffix-stripping needed.
-  const isActive = (href: string) => pathname === href;
+  const href = (path: string) => localizePath(path, lang);
+
+  // With trailingSlash routing, hrefs like "/about-us/" (or "/te/about-us/")
+  // match usePathname() exactly — no suffix-stripping needed.
+  const isActive = (path: string) => pathname === href(path);
   const isParentActive = (item: NavItem) =>
     isActive(item.href) || (item.submenu?.some((s) => isActive(s.href)) ?? false);
 
@@ -91,21 +107,18 @@ export default function Header() {
             <a href="tel:+9118001234567">+91-9652993599</a>
             <a href="mailto:ceooffice@iffcosez.in">ceooffice@iffcosez.in</a>
           </div>
-          <div className="topbar__languages" aria-label="Language selection">
-            <span className="is-active">English</span>
-            <span aria-label="Telugu language coming soon">తెలుగు</span>
-          </div>
+          <LanguageSwitcher lang={lang} ariaLabel={switcherLabel} />
         </div>
       </div>
       <header className={`site-header${isStuck ? " is-stuck" : ""}`}>
         <div className="container">
           <nav className="nav" aria-label="Primary">
-            <Link className="brand" href="/" aria-label="IFFCO Kisan SEZ — Home">
+            <Link className="brand" href={href("/")} aria-label={common.homeAriaLabel}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/images/logo.png" alt="IFFCO Kisan SEZ logo" width={120} height={46} />
+              <img src="/images/logo.png" alt={common.logoAlt} width={120} height={46} />
               <span className="brand__text">
-                <span className="brand__name">IFFCO Kisan SEZ</span>
-                <span className="brand__tag">Integrated Agropark</span>
+                <span className="brand__name">{common.brandName}</span>
+                <span className="brand__tag">{common.brandTag}</span>
               </span>
             </Link>
 
@@ -117,7 +130,7 @@ export default function Header() {
                 >
                   <Link
                     className={`nav__link${isParentActive(item) ? " is-active" : ""}`}
-                    href={item.href}
+                    href={href(item.href)}
                     onClick={(e) => {
                       if (item.submenu && typeof window !== "undefined" && window.innerWidth <= 1120) {
                         e.preventDefault();
@@ -125,7 +138,7 @@ export default function Header() {
                       }
                     }}
                   >
-                    {item.label}
+                    {labels.nav[item.key]}
                     {item.submenu && (
                       <svg className="nav__caret" viewBox="0 0 12 12" aria-hidden="true">
                         <path d="M2 4.5 6 8.5 10 4.5" />
@@ -136,8 +149,8 @@ export default function Header() {
                     <ul className="nav__submenu">
                       {item.submenu.map((sub) => (
                         <li key={sub.href}>
-                          <Link href={sub.href} className={isActive(sub.href) ? "is-active" : undefined}>
-                            {sub.label}
+                          <Link href={href(sub.href)} className={isActive(sub.href) ? "is-active" : undefined}>
+                            {labels.nav[sub.key]}
                           </Link>
                         </li>
                       ))}
@@ -151,7 +164,7 @@ export default function Header() {
               <button
                 className="nav__toggle"
                 type="button"
-                aria-label="Menu"
+                aria-label={labels.menu}
                 aria-expanded={isOpen}
                 aria-controls="primary-menu"
                 onClick={() => setIsOpen((v) => !v)}

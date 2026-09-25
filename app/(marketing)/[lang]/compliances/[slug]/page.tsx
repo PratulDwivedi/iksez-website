@@ -4,6 +4,8 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import PageHero from "@/components/PageHero";
 import { complianceDocuments } from "@/lib/complianceDocuments";
+import { getLocale } from "@/lib/i18n/getDictionary";
+import { localeAlternates } from "@/lib/i18n/metadata";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -25,7 +27,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return {
     title: `${document.title} | IFFCO Kisan SEZ`,
     description: document.description,
-    alternates: { canonical: `/compliances/${document.slug}/` },
+    alternates: localeAlternates(`/compliances/${document.slug}/`, await getLocale()),
   };
 }
 

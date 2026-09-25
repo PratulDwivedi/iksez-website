@@ -8,6 +8,8 @@ import { BlogCard } from "@/components/blog/BlogCard";
 import { BlogPagination } from "@/components/blog/BlogPagination";
 import { TagFilter } from "@/components/blog/TagFilter";
 import { getPublishedBlogCategories, getPublishedBlogList, getPublishedBlogTags } from "@/lib/publicBlogs";
+import { getLocale } from "@/lib/i18n/getDictionary";
+import { localeAlternates } from "@/lib/i18n/metadata";
 
 export const dynamic = "force-dynamic";
 
@@ -33,12 +35,13 @@ interface PageProps {
 
 export async function generateMetadata({ searchParams }: PageProps): Promise<Metadata> {
   const { q } = await searchParams;
+  const lang = await getLocale();
 
   return {
     title: "Blog | IFFCO Kisan SEZ",
     description:
       "Articles and insights about IFFCO Kisan SEZ — India's Integrated Agropark SEZ at SPSR Nellore.",
-    alternates: { canonical: "/blog/" },
+    alternates: localeAlternates("/blog/", lang),
     robots: q ? { index: false, follow: true } : undefined,
   };
 }

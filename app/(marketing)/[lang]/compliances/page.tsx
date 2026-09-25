@@ -4,12 +4,16 @@ import { Download, ExternalLink, FileText } from "lucide-react";
 import PageHero from "@/components/PageHero";
 import CtaBand from "@/components/CtaBand";
 import { complianceDocuments } from "@/lib/complianceDocuments";
+import { getLocale } from "@/lib/i18n/getDictionary";
+import { localeAlternates } from "@/lib/i18n/metadata";
 
-export const metadata: Metadata = {
-  title: "Compliances | IFFCO Kisan SEZ",
-  description: "Environmental compliance reports and clearance documents from IFFCO Kisan SEZ.",
-  alternates: { canonical: "/compliances/" },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    title: "Compliances | IFFCO Kisan SEZ",
+    description: "Environmental compliance reports and clearance documents from IFFCO Kisan SEZ.",
+    alternates: localeAlternates("/compliances/", await getLocale()),
+  };
+}
 
 export default function CompliancesPage() {
   return (
