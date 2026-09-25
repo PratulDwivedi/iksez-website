@@ -23,4 +23,16 @@ export function isMenuGroup(item: AdminMenuItem): item is AdminMenuGroup {
   return 'children' in item;
 }
 
-export const adminMenu = menuData as AdminMenuItem[];
+// JSON can't hold comments, so an entry is "commented out" of the sidebar by
+// setting "hidden": true on it in adminMenu.json — works on groups and on
+// individual children.
+type Hideable<T> = T & { hidden?: boolean };
+const isVisible = (item: { hidden?: boolean }) => !item.hidden;
+
+export const adminMenu: AdminMenuItem[] = (menuData as Hideable<AdminMenuItem>[])
+  .filter(isVisible)
+  .map((item) =>
+    isMenuGroup(item)
+      ? { ...item, children: (item.children as Hideable<AdminMenuLeaf>[]).filter(isVisible) }
+      : item,
+  );

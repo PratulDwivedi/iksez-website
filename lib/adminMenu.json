@@ -7,13 +7,14 @@
   {
     "name": "Agri Dashboard",
     "route": "/admin/agri/dashboard",
-    "icon": "LayoutDashboard"
+    "icon": "LayoutDashboard",
+    "hidden": true 
   },
   {
     "name": "Content Management",
     "icon": "FolderKanban",
     "children": [
-      { "name": "Logs", "route": "/admin/logs", "icon": "ScrollText" },
+      { "name": "Logs", "route": "/admin/logs", "icon": "ScrollText", "hidden": true },
       { "name": "Blogs", "route": "/admin/blogs", "icon": "FileText" },
       { "name": "News & Events", "route": "/admin/news-events", "icon": "Newspaper" },
       { "name": "Navigation & Pages", "route": "/admin/navigation", "icon": "Menu" },
@@ -25,6 +26,7 @@
   },
   {
     "name": "Agri Business",
+    "hidden": true,
     "icon": "Sprout",
     "children": [
       { "name": "Farmers", "route": "/admin/agri/farmers", "icon": "UserRound" },
@@ -38,6 +40,7 @@
   },
   {
     "name": "User Management",
+    "hidden": true,
     "icon": "ShieldCheck",
     "children": [
       { "name": "User", "route": "/admin/users", "icon": "UserCog" },
