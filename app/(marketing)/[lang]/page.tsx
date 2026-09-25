@@ -4,6 +4,8 @@ import CtaBand from "@/components/CtaBand";
 import FeatureCard from "@/components/FeatureCard";
 import { chairman, directors, managingDirector } from "@/lib/leadership";
 import { getPublishedNewsEventList, newsEventSlug, sortNewsEventsByLatest } from "@/lib/publicNewsEvents";
+import { getPublicMediaList } from "@/lib/publicMedia";
+import { COMPANY_LOGO_TAG } from "@/lib/mediaTypes";
 
 export const metadata: Metadata = {
   title: "IFFCO Kisan SEZ | Agribusiness Special Economic Zone & Integrated Agropark",
@@ -24,10 +26,12 @@ function formatNewsDate(isoDate: string | null): string {
 }
 
 export default async function Home() {
-  const { data: newsItems, is_success: newsLoaded } = await getPublishedNewsEventList({
-    apiKey: FIRST_PARTY_API_KEY,
-    pageSize: 3,
-  });
+  const [{ data: newsItems, is_success: newsLoaded }, { data: customerLogos }] = await Promise.all([
+    getPublishedNewsEventList({ apiKey: FIRST_PARTY_API_KEY, pageSize: 3 }),
+    // Public media marked "Company logo" in admin > Media. The section is
+    // omitted entirely when there are none (or the call fails).
+    getPublicMediaList({ apiKey: FIRST_PARTY_API_KEY, tag: COMPANY_LOGO_TAG, pageSize: 100 }),
+  ]);
 
   return (
     <>
@@ -143,7 +147,40 @@ export default async function Home() {
         </div>
       </section>
 
-      
+      {customerLogos.length > 0 && (
+        <section className="home-reference-section home-customers" aria-labelledby="home-customers-title">
+          <div className="container">
+            <div className="home-section-head">
+              <div>
+                <div className="home-reference__kicker">Our Customers</div>
+                <h2 id="home-customers-title">Companies operating at IKSEZ</h2>
+              </div>
+            </div>
+            <ul className="home-customers__grid">
+              {customerLogos.map((logo) => {
+                const name = logo.alt_text ?? logo.file_name.replace(/\.[^.]+$/, "");
+                // crossOrigin: logos (often SVG) load straight from Supabase
+                // Storage, which sends no CORP header — same COEP fix as
+                // MediaLibrary.tsx. Tiles stay white in dark mode since most
+                // logos assume a light background.
+                // eslint-disable-next-line @next/next/no-img-element
+                const img = <img src={logo.url} alt={name} title={name} loading="lazy" crossOrigin="anonymous" />;
+                return (
+                  <li className="home-customers__item" key={logo.id}>
+                    {logo.link_url ? (
+                      <a href={logo.link_url} target="_blank" rel="noopener noreferrer" aria-label={`${name} (opens in a new tab)`}>
+                        {img}
+                      </a>
+                    ) : (
+                      img
+                    )}
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        </section>
+      )}
 
       <section className="home-reference-section home-reference-section--alt home-features">
         <div className="container">

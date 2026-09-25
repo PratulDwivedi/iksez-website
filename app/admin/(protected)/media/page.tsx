@@ -19,6 +19,8 @@ const MEDIA_API_RESPONSE_EXAMPLE = `{
       "size_bytes": 84213,
       "alt_text": "Laptop mockup on a desk",
       "tags": null,
+      "link_url": null,
+      "sort_order": null,
       "created_at": "2026-07-30T00:00:00+00:00"
     }
   ],

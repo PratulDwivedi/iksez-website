@@ -4,10 +4,10 @@ import React from 'react';
 import Image from 'next/image';
 import { Upload, Loader2, Trash2, Copy, Check, Search, Globe, Lock, File as FileIconLucide } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
+import { MEDIA_TYPES, getMediaType, withMediaType, type MediaType } from '@/lib/mediaTypes';
+import { MediaUploadDialog } from './MediaUploadDialog';
 
 const BUCKET = 'website-media';
-const ACCEPTED_TYPES = ['image/png', 'image/jpeg', 'image/webp', 'image/avif', 'image/svg+xml', 'image/gif'];
-const MAX_SIZE_BYTES = 10 * 1024 * 1024;
 
 export interface MediaRow {
   id: number;
@@ -19,6 +19,8 @@ export interface MediaRow {
   alt_text: string | null;
   is_public: boolean;
   tags: string[] | null;
+  link_url: string | null;
+  sort_order: number | null;
   created_at: string;
 }
 
@@ -41,106 +43,70 @@ function formatBytes(bytes: number | null): string {
 // a multi-file gallery like this.
 export function MediaLibrary({ initialMedia }: { initialMedia: MediaRow[] }) {
   const [media, setMedia] = React.useState(initialMedia);
-  const [uploadVisibility, setUploadVisibility] = React.useState<'public' | 'private'>('public');
-  const [uploading, setUploading] = React.useState(false);
+  const [uploadOpen, setUploadOpen] = React.useState(false);
+  const [typeFilter, setTypeFilter] = React.useState<MediaType | 'all'>('all');
   const [error, setError] = React.useState<string | null>(null);
   const [search, setSearch] = React.useState('');
   const [copiedId, setCopiedId] = React.useState<number | null>(null);
   const [deletingId, setDeletingId] = React.useState<number | null>(null);
   const [confirmDeleteId, setConfirmDeleteId] = React.useState<number | null>(null);
-  const fileInputRef = React.useRef<HTMLInputElement>(null);
 
-  async function handleFilesSelected(e: React.ChangeEvent<HTMLInputElement>) {
-    const files = Array.from(e.target.files ?? []);
-    if (files.length === 0) return;
-    setError(null);
-    setUploading(true);
+  // fn_save_website_media is a full upsert, so every edit resends the whole
+  // row with just the changed fields patched in.
+  async function saveItem(item: MediaRow, patch: Partial<Pick<MediaRow, 'alt_text' | 'is_public' | 'tags' | 'link_url' | 'sort_order'>>) {
+    const next = { ...item, ...patch };
     const supabase = createClient();
-
-    for (const file of files) {
-      if (!ACCEPTED_TYPES.includes(file.type)) {
-        setError(`${file.name}: unsupported file type`);
-        continue;
-      }
-      if (file.size > MAX_SIZE_BYTES) {
-        setError(`${file.name}: larger than 10MB`);
-        continue;
-      }
-
-      const ext = file.name.split('.').pop() || 'bin';
-      const path = `${crypto.randomUUID()}.${ext}`;
-
-      const { error: uploadError } = await supabase.storage.from(BUCKET).upload(path, file, {
-        cacheControl: '31536000',
-        upsert: false,
-      });
-      if (uploadError) {
-        setError(`${file.name}: ${uploadError.message}`);
-        continue;
-      }
-
-      const { data: urlData } = supabase.storage.from(BUCKET).getPublicUrl(path);
-
-      const { data: envelope, error: rpcError } = await supabase.rpc('fn_save_website_media', {
-        p_file_name: file.name,
-        p_storage_path: path,
-        p_url: urlData.publicUrl,
-        p_mime_type: file.type,
-        p_size_bytes: file.size,
-        p_is_public: uploadVisibility === 'public',
-      });
-
-      const result = envelope as RpcEnvelope<MediaRow[]> | null;
-      if (rpcError || !result?.is_success) {
-        setError(`${file.name}: ${rpcError?.message ?? result?.message ?? 'save failed'}`);
-        continue;
-      }
-
-      setMedia((prev) => [result.data[0], ...prev]);
-    }
-
-    setUploading(false);
-    if (fileInputRef.current) fileInputRef.current.value = '';
-  }
-
-  async function handleToggleVisibility(item: MediaRow) {
-    const supabase = createClient();
-    const nextIsPublic = !item.is_public;
     const { data: envelope, error: rpcError } = await supabase.rpc('fn_save_website_media', {
       p_id: item.id,
-      p_file_name: item.file_name,
-      p_storage_path: item.storage_path,
-      p_url: item.url,
-      p_mime_type: item.mime_type,
-      p_size_bytes: item.size_bytes,
-      p_alt_text: item.alt_text,
-      p_is_public: nextIsPublic,
-      p_tags: item.tags,
+      p_file_name: next.file_name,
+      p_storage_path: next.storage_path,
+      p_url: next.url,
+      p_mime_type: next.mime_type,
+      p_size_bytes: next.size_bytes,
+      p_alt_text: next.alt_text,
+      p_is_public: next.is_public,
+      p_tags: next.tags,
+      p_link_url: next.link_url,
+      p_sort_order: next.sort_order,
     });
     const result = envelope as RpcEnvelope<MediaRow[]> | null;
     if (rpcError || !result?.is_success) {
       setError(result?.message ?? rpcError?.message ?? 'Update failed');
       return;
     }
-    setMedia((prev) => prev.map((m) => (m.id === item.id ? { ...m, is_public: nextIsPublic } : m)));
+    setError(null);
+    setMedia((prev) => prev.map((m) => (m.id === item.id ? next : m)));
   }
 
-  async function handleAltTextBlur(item: MediaRow, value: string) {
+  function handleToggleVisibility(item: MediaRow) {
+    return saveItem(item, { is_public: !item.is_public });
+  }
+
+  function handleTypeChange(item: MediaRow, type: MediaType) {
+    return saveItem(item, { tags: withMediaType(item.tags, type) });
+  }
+
+  function handleAltTextBlur(item: MediaRow, value: string) {
     const nextAlt = value.trim() || null;
     if (nextAlt === item.alt_text) return;
-    const supabase = createClient();
-    await supabase.rpc('fn_save_website_media', {
-      p_id: item.id,
-      p_file_name: item.file_name,
-      p_storage_path: item.storage_path,
-      p_url: item.url,
-      p_mime_type: item.mime_type,
-      p_size_bytes: item.size_bytes,
-      p_alt_text: nextAlt,
-      p_is_public: item.is_public,
-      p_tags: item.tags,
-    });
-    setMedia((prev) => prev.map((m) => (m.id === item.id ? { ...m, alt_text: nextAlt } : m)));
+    return saveItem(item, { alt_text: nextAlt });
+  }
+
+  function handleLinkUrlBlur(item: MediaRow, value: string) {
+    const nextLink = value.trim() || null;
+    if (nextLink === item.link_url) return;
+    if (nextLink && !/^https?:\/\//i.test(nextLink)) {
+      setError(`${item.file_name}: website link must start with http:// or https://`);
+      return;
+    }
+    return saveItem(item, { link_url: nextLink });
+  }
+
+  function handleSortOrderBlur(item: MediaRow, value: string) {
+    const nextOrder = value.trim() === '' ? null : Math.trunc(Number(value));
+    if (nextOrder !== null && !Number.isFinite(nextOrder)) return;
+    if (nextOrder === item.sort_order) return;
+    return saveItem(item, { sort_order: nextOrder });
   }
 
   async function handleDelete(item: MediaRow) {
@@ -163,7 +129,14 @@ export function MediaLibrary({ initialMedia }: { initialMedia: MediaRow[] }) {
     setTimeout(() => setCopiedId(null), 2000);
   }
 
-  const filtered = media.filter((m) => {
+  // Same order as fn_get_website_media (and the home page): sort order first,
+  // unnumbered items after, newest first — re-applied here so an edited
+  // sort order moves the card straight away.
+  const filtered = [...media].sort(
+    (a, b) =>
+      (a.sort_order ?? Infinity) - (b.sort_order ?? Infinity) || b.created_at.localeCompare(a.created_at),
+  ).filter((m) => {
+    if (typeFilter !== 'all' && getMediaType(m.tags) !== typeFilter) return false;
     if (!search.trim()) return true;
     const q = search.toLowerCase();
     return m.file_name.toLowerCase().includes(q) || (m.alt_text ?? '').toLowerCase().includes(q);
@@ -183,51 +156,43 @@ export function MediaLibrary({ initialMedia }: { initialMedia: MediaRow[] }) {
           />
         </div>
 
-        <div className="flex items-center gap-0.5 rounded-lg border border-slate-200 dark:border-slate-800 p-0.5 shrink-0">
-          <button
-            type="button"
-            onClick={() => setUploadVisibility('public')}
-            className={`inline-flex items-center gap-1 px-2.5 py-1.5 rounded-md text-[11px] font-bold transition-colors ${
-              uploadVisibility === 'public'
-                ? 'bg-primary-600 text-white'
-                : 'text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'
-            }`}
-          >
-            <Globe className="w-3 h-3" />
-            Public
-          </button>
-          <button
-            type="button"
-            onClick={() => setUploadVisibility('private')}
-            className={`inline-flex items-center gap-1 px-2.5 py-1.5 rounded-md text-[11px] font-bold transition-colors ${
-              uploadVisibility === 'private'
-                ? 'bg-primary-600 text-white'
-                : 'text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'
-            }`}
-          >
-            <Lock className="w-3 h-3" />
-            Private
-          </button>
-        </div>
-
-        <label
-          className={`shrink-0 inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-primary-600 hover:bg-primary-500 text-white font-bold text-xs shadow-md transition-colors cursor-pointer ${
-            uploading ? 'opacity-60 pointer-events-none' : ''
-          }`}
+        <select
+          value={typeFilter}
+          onChange={(e) => setTypeFilter(e.target.value as MediaType | 'all')}
+          aria-label="Filter by type"
+          className="shrink-0 px-2.5 py-2 rounded-xl text-xs border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 focus:outline-none focus:border-primary-500"
         >
-          {uploading ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Upload className="w-3.5 h-3.5" />}
+          <option value="all">All types</option>
+          {MEDIA_TYPES.map((t) => (
+            <option key={t.value} value={t.value}>
+              {t.label}
+            </option>
+          ))}
+        </select>
+
+        <button
+          type="button"
+          onClick={() => setUploadOpen(true)}
+          className="shrink-0 inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-primary-600 hover:bg-primary-500 text-white font-bold text-xs shadow-md transition-colors"
+        >
+          <Upload className="w-3.5 h-3.5" />
           Upload
-          <input
-            ref={fileInputRef}
-            type="file"
-            multiple
-            accept={ACCEPTED_TYPES.join(',')}
-            onChange={handleFilesSelected}
-            disabled={uploading}
-            className="hidden"
-          />
-        </label>
+        </button>
       </div>
+
+      {typeFilter === 'company-logo' && (
+        <p className="text-[11px] text-slate-500 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-2.5">
+          Public company logos appear in the &ldquo;Our Customers&rdquo; strip on the home page. Put the company name in
+          the alt text, an optional website link, and an order number (lower shows first). Transparent PNG or SVG
+          files work best.
+        </p>
+      )}
+
+      <MediaUploadDialog
+        isOpen={uploadOpen}
+        onClose={() => setUploadOpen(false)}
+        onUploaded={(row) => setMedia((prev) => [row, ...prev])}
+      />
 
       {error && (
         <p className="text-xs font-semibold text-red-500 bg-red-500/10 border border-red-500/20 rounded-xl px-4 py-3">
@@ -260,7 +225,7 @@ export function MediaLibrary({ initialMedia }: { initialMedia: MediaRow[] }) {
                     alt={item.alt_text ?? item.file_name}
                     fill
                     crossOrigin="anonymous"
-                    className="object-cover"
+                    className={getMediaType(item.tags) === 'company-logo' ? 'object-contain p-3' : 'object-cover'}
                   />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center text-slate-300 dark:text-slate-700">
@@ -287,13 +252,48 @@ export function MediaLibrary({ initialMedia }: { initialMedia: MediaRow[] }) {
                   {item.file_name}
                 </p>
                 <p className="text-[10px] text-slate-400">{formatBytes(item.size_bytes)}</p>
+                <select
+                  value={getMediaType(item.tags)}
+                  onChange={(e) => handleTypeChange(item, e.target.value as MediaType)}
+                  aria-label="Media type"
+                  className="w-full px-1 py-1 rounded-md text-[10px] border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 focus:outline-none focus:border-primary-500"
+                >
+                  {MEDIA_TYPES.map((t) => (
+                    <option key={t.value} value={t.value}>
+                      {t.label}
+                    </option>
+                  ))}
+                </select>
                 <input
                   type="text"
-                  placeholder="Alt text"
+                  placeholder={getMediaType(item.tags) === 'company-logo' ? 'Company name (alt text)' : 'Alt text'}
+                  aria-label="Alt text"
                   defaultValue={item.alt_text ?? ''}
                   onBlur={(e) => handleAltTextBlur(item, e.target.value)}
                   className="w-full px-1.5 py-1 rounded-md text-[10px] border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 focus:outline-none focus:border-primary-500"
                 />
+                {getMediaType(item.tags) === 'company-logo' && (
+                  <div className="flex items-center gap-1">
+                    <input
+                      type="url"
+                      placeholder="Website link"
+                      aria-label="Website link"
+                      defaultValue={item.link_url ?? ''}
+                      onBlur={(e) => handleLinkUrlBlur(item, e.target.value)}
+                      className="min-w-0 flex-1 px-1.5 py-1 rounded-md text-[10px] border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 focus:outline-none focus:border-primary-500"
+                    />
+                    <input
+                      type="number"
+                      step={1}
+                      placeholder="Order"
+                      aria-label="Sort order (lower shows first)"
+                      title="Sort order — lower shows first; blank goes last"
+                      defaultValue={item.sort_order ?? ''}
+                      onBlur={(e) => handleSortOrderBlur(item, e.target.value)}
+                      className="w-14 shrink-0 px-1.5 py-1 rounded-md text-[10px] border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 focus:outline-none focus:border-primary-500"
+                    />
+                  </div>
+                )}
                 <div className="flex items-center gap-1">
                   <button
                     type="button"

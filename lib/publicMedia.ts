@@ -13,6 +13,8 @@ export interface PublicMediaItem {
   size_bytes: number | null;
   alt_text: string | null;
   tags: string[] | null;
+  link_url: string | null;
+  sort_order: number | null;
   created_at: string;
 }
 
