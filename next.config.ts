@@ -45,7 +45,22 @@ const nextConfig: NextConfig = {
       "/contact-us.html": "/contact-us/",
     };
 
-    return Object.entries(LEGACY_ROUTES).map(([source, destination]) => ({
+    // Compliances moved from a coded page (and PDFs in public/images) into
+    // the admin-managed Reports & Policies section (website_nav_items).
+    // The two PDFs' paths below are their document items there, which
+    // redirect on to the uploaded file.
+    const COMPLIANCE_ROUTES: Record<string, string> = {
+      "/compliances/ec-compliance-report-2025/": "/reports-policies/compliances/ec-compliance-report/",
+      "/compliances/environment-clearance/": "/reports-policies/compliances/environment-clearance/",
+      "/compliances/": "/reports-policies/compliances/",
+      "/te/compliances/ec-compliance-report-2025/": "/te/reports-policies/compliances/ec-compliance-report/",
+      "/te/compliances/environment-clearance/": "/te/reports-policies/compliances/environment-clearance/",
+      "/te/compliances/": "/te/reports-policies/compliances/",
+      "/images/EC-Compliance-Report-2025.pdf": "/reports-policies/compliances/ec-compliance-report/",
+      "/images/iksez-EC-complains-enviroment.pdf": "/reports-policies/compliances/environment-clearance/",
+    };
+
+    return Object.entries({ ...LEGACY_ROUTES, ...COMPLIANCE_ROUTES }).map(([source, destination]) => ({
       source,
       destination,
       permanent: true,

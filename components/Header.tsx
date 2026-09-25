@@ -2,59 +2,68 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type MouseEvent, type ReactNode } from "react";
 import LanguageSwitcher from "./LanguageSwitcher";
 import { localizePath, type Locale } from "@/lib/i18n/config";
 import type { Dictionary } from "@/lib/i18n/getDictionary";
-
-type NavLabelKey = keyof Dictionary["header"]["nav"];
-
-type NavItem = {
-  key: NavLabelKey;
-  href: string;
-  submenu?: { key: NavLabelKey; href: string }[];
-};
-
-// Locale-neutral hrefs; localized per render via localizePath() so the
-// Telugu site's nav stays on /te/... URLs.
-const NAV: NavItem[] = [
-  { key: "about", href: "/about-us/" },
-  { key: "leadership", href: "/board-of-directors/" },
-  {
-    key: "zones",
-    href: "/zone/sez/",
-    submenu: [
-      { key: "sez", href: "/zone/sez/" },
-      { key: "dtz", href: "/zone/dtz/" },
-    ],
-  },
-  {
-    key: "reportsPolicies",
-    href: "/reports-policies/",
-    submenu: [
-      { key: "annualReports", href: "/reports-policies/#annual-reports" },
-      { key: "csr", href: "/reports-policies/#csr" },
-      { key: "policies", href: "/reports-policies/#policies" },
-      { key: "compliances", href: "/compliances/" },
-    ],
-  },
-  { key: "newsMedia", href: "/news-and-events/" },
-  { key: "blogs", href: "/blog/" },
-  { key: "contact", href: "/contact-us/" },
-];
+import type { HeaderNavItem } from "@/lib/headerNav";
 
 type HeaderProps = {
   lang: Locale;
   common: Dictionary["common"];
   labels: Dictionary["header"];
+  // Resolved by the [lang] layout from website_nav_items (or its built-in
+  // fallback menu) — labels already in this page's language, hrefs already
+  // localized.
+  nav: HeaderNavItem[];
   switcherLabel: string;
 };
 
-export default function Header({ lang, common, labels, switcherLabel }: HeaderProps) {
+// The slide-in mobile menu (components.css switches to it at 1320px), where
+// a parent's tap expands its children instead of following its link.
+function isMobileMenu() {
+  return typeof window !== "undefined" && window.innerWidth <= 1320;
+}
+
+// Plain <a> for external links, new-tab links and PDF documents; <Link> for
+// everything that's a client-side navigation within the site.
+function NavAnchor({
+  item,
+  className,
+  onClick,
+  children,
+}: {
+  item: HeaderNavItem;
+  className?: string;
+  onClick?: (e: MouseEvent<HTMLAnchorElement>) => void;
+  children: ReactNode;
+}) {
+  if (item.anchor) {
+    return (
+      <a
+        className={className}
+        href={item.href}
+        onClick={onClick}
+        target={item.newTab ? "_blank" : undefined}
+        rel={item.newTab ? "noopener" : undefined}
+      >
+        {children}
+      </a>
+    );
+  }
+  return (
+    <Link className={className} href={item.href} onClick={onClick}>
+      {children}
+    </Link>
+  );
+}
+
+export default function Header({ lang, common, labels, nav, switcherLabel }: HeaderProps) {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [isStuck, setIsStuck] = useState(false);
   const [expandedItem, setExpandedItem] = useState<string | null>(null);
+  const [expandedSub, setExpandedSub] = useState<string | null>(null);
 
   useEffect(() => {
     const onScroll = () => setIsStuck(window.scrollY > 8);
@@ -69,6 +78,7 @@ export default function Header({ lang, common, labels, switcherLabel }: HeaderPr
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsOpen(false);
     setExpandedItem(null);
+    setExpandedSub(null);
     window.scrollTo(0, 0);
   }, [pathname]);
 
@@ -95,9 +105,10 @@ export default function Header({ lang, common, labels, switcherLabel }: HeaderPr
 
   // With trailingSlash routing, hrefs like "/about-us/" (or "/te/about-us/")
   // match usePathname() exactly — no suffix-stripping needed.
-  const isActive = (path: string) => pathname === href(path);
-  const isParentActive = (item: NavItem) =>
-    isActive(item.href) || (item.submenu?.some((s) => isActive(s.href)) ?? false);
+  const isActive = (item: HeaderNavItem) =>
+    pathname === item.href || (item.matchPrefix && pathname.startsWith(item.href));
+  const isParentActive = (item: HeaderNavItem) =>
+    isActive(item) || (item.children?.some(isActive) ?? false);
 
   return (
     <>
@@ -123,37 +134,71 @@ export default function Header({ lang, common, labels, switcherLabel }: HeaderPr
             </Link>
 
             <ul className={`nav__menu${isOpen ? " is-open" : ""}`} id="primary-menu">
-              {NAV.map((item) => (
+              {nav.map((item) => (
                 <li
-                  className={`nav__item${expandedItem === item.href ? " is-expanded" : ""}`}
-                  key={item.href}
+                  className={`nav__item${expandedItem === item.key ? " is-expanded" : ""}`}
+                  key={item.key}
                 >
-                  <Link
+                  <NavAnchor
+                    item={item}
                     className={`nav__link${isParentActive(item) ? " is-active" : ""}`}
-                    href={href(item.href)}
                     onClick={(e) => {
-                      if (item.submenu && typeof window !== "undefined" && window.innerWidth <= 1120) {
+                      if (item.children && isMobileMenu()) {
                         e.preventDefault();
-                        setExpandedItem((cur) => (cur === item.href ? null : item.href));
+                        setExpandedItem((cur) => (cur === item.key ? null : item.key));
                       }
                     }}
                   >
-                    {labels.nav[item.key]}
-                    {item.submenu && (
+                    {item.label}
+                    {item.children && (
                       <svg className="nav__caret" viewBox="0 0 12 12" aria-hidden="true">
                         <path d="M2 4.5 6 8.5 10 4.5" />
                       </svg>
                     )}
-                  </Link>
-                  {item.submenu && (
+                  </NavAnchor>
+                  {item.children && (
                     <ul className="nav__submenu">
-                      {item.submenu.map((sub) => (
-                        <li key={sub.href}>
-                          <Link href={href(sub.href)} className={isActive(sub.href) ? "is-active" : undefined}>
-                            {labels.nav[sub.key]}
-                          </Link>
-                        </li>
-                      ))}
+                      {item.children.map((sub) =>
+                        sub.children ? (
+                          // Third level: a flyout beside the dropdown on
+                          // desktop, an expandable group in the mobile menu.
+                          <li
+                            key={sub.key}
+                            className={`nav__subitem${expandedSub === sub.key ? " is-expanded" : ""}`}
+                          >
+                            <NavAnchor
+                              item={sub}
+                              className={isParentActive(sub) ? "is-active" : undefined}
+                              onClick={(e) => {
+                                if (isMobileMenu()) {
+                                  e.preventDefault();
+                                  setExpandedSub((cur) => (cur === sub.key ? null : sub.key));
+                                }
+                              }}
+                            >
+                              {sub.label}
+                              <svg className="nav__caret nav__caret--side" viewBox="0 0 12 12" aria-hidden="true">
+                                <path d="M2 4.5 6 8.5 10 4.5" />
+                              </svg>
+                            </NavAnchor>
+                            <ul className="nav__submenu nav__submenu--flyout">
+                              {sub.children.map((leaf) => (
+                                <li key={leaf.key}>
+                                  <NavAnchor item={leaf} className={isActive(leaf) ? "is-active" : undefined}>
+                                    {leaf.label}
+                                  </NavAnchor>
+                                </li>
+                              ))}
+                            </ul>
+                          </li>
+                        ) : (
+                          <li key={sub.key}>
+                            <NavAnchor item={sub} className={isActive(sub) ? "is-active" : undefined}>
+                              {sub.label}
+                            </NavAnchor>
+                          </li>
+                        ),
+                      )}
                     </ul>
                   )}
                 </li>

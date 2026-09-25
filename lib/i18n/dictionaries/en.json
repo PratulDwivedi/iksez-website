@@ -98,5 +98,15 @@
       "home": "Home"
     },
     "articleNotFoundMetaTitle": "Article Not Found | IFFCO Kisan SEZ"
+  },
+  "cmsPage": {
+    "home": "Home",
+    "sections": "Sections",
+    "documents": "Documents",
+    "viewPdf": "View PDF",
+    "openSection": "Open",
+    "englishPdf": "English PDF",
+    "pdf": "PDF",
+    "englishOnlyNotice": "This page isn’t available in Telugu yet, so it’s shown in English."
   }
 }

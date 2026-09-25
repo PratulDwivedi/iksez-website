@@ -98,5 +98,15 @@
       "home": "హోమ్"
     },
     "articleNotFoundMetaTitle": "వ్యాసం కనిపించలేదు | IFFCO Kisan SEZ"
+  },
+  "cmsPage": {
+    "home": "హోమ్",
+    "sections": "విభాగాలు",
+    "documents": "పత్రాలు",
+    "viewPdf": "PDF చూడండి",
+    "openSection": "తెరవండి",
+    "englishPdf": "ఆంగ్ల PDF",
+    "pdf": "PDF",
+    "englishOnlyNotice": "ఈ పేజీ ఇంకా తెలుగులో అందుబాటులో లేదు, కాబట్టి ఆంగ్లంలో చూపబడుతోంది."
   }
 }

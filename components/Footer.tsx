@@ -87,7 +87,7 @@ export default function Footer({ lang, common, labels }: FooterProps) {
                 <Link href={href("/blog/")}>{labels.links.blog}</Link>
               </li>
               <li>
-                <Link href={href("/compliances/")}>{labels.links.compliances}</Link>
+                <Link href={href("/reports-policies/compliances/")}>{labels.links.compliances}</Link>
               </li>
             </ul>
           </div>

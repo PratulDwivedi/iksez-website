@@ -37,6 +37,7 @@ import {
   Globe,
   ExternalLink,
   Loader2,
+  Menu as MenuIcon,
   type LucideIcon,
 } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
@@ -84,6 +85,7 @@ const ICONS: Record<string, LucideIcon> = {
   Lock,
   User,
   Settings,
+  Menu: MenuIcon,
 };
 
 function iconFor(name: string): LucideIcon {

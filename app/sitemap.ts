@@ -2,7 +2,8 @@ import type { MetadataRoute } from "next";
 import { getPublishedBlogList } from "@/lib/publicBlogs";
 import { getPublishedNewsEventList, newsEventSlug } from "@/lib/publicNewsEvents";
 import { SITE_URL } from "@/lib/siteUrl";
-import { complianceDocuments } from "@/lib/complianceDocuments";
+import { getPublishedNav } from "@/lib/publicNav";
+import type { NavNode } from "@/lib/navTree";
 import { defaultLocale, indexedLocales, localeTags, localizePath, type Locale } from "@/lib/i18n/config";
 
 const FIRST_PARTY_API_KEY = process.env.NEXT_PUBLIC_IKSEZ_PUBLISHABLE_KEY;
@@ -23,7 +24,6 @@ const staticRoutes = [
   { path: "/benefits/", priority: 0.8, changeFrequency: "monthly" as const },
   { path: "/board-of-directors/", priority: 0.5, changeFrequency: "yearly" as const },
   { path: "/contact-us/", priority: 0.7, changeFrequency: "monthly" as const },
-  { path: "/compliances/", priority: 0.7, changeFrequency: "monthly" as const },
   { path: "/existing-units/", priority: 0.7, changeFrequency: "monthly" as const },
   { path: "/gallery/", priority: 0.6, changeFrequency: "monthly" as const },
   { path: "/industrial/", priority: 0.8, changeFrequency: "monthly" as const },
@@ -39,9 +39,10 @@ const staticRoutes = [
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const lastModified = new Date();
   const translatedLocales = indexedLocales.filter((l) => l !== defaultLocale);
-  const [blogResult, newsResult, ...translatedBlogResults] = await Promise.all([
+  const [blogResult, newsResult, nav, ...translatedBlogResults] = await Promise.all([
     getPublishedBlogList({ apiKey: FIRST_PARTY_API_KEY, pageSize: 1000 }),
     getPublishedNewsEventList({ apiKey: FIRST_PARTY_API_KEY, pageSize: 1000 }),
+    getPublishedNav(defaultLocale),
     ...translatedLocales.map((locale) => getPublishedBlogList({ apiKey: FIRST_PARTY_API_KEY, pageSize: 1000, locale })),
   ]);
 
@@ -78,11 +79,21 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.6,
   }));
 
-  const complianceEntries = complianceDocuments.map((document) => ({
-    path: `/compliances/${document.slug}/`,
-    lastModified,
-    changeFrequency: "yearly" as const,
-    priority: 0.5,
+  // Admin-managed CMS pages (website_nav_items of kind "page"). Documents
+  // are PDFs behind a redirect and links point at routes listed elsewhere.
+  const cmsPages: NavNode[] = [];
+  const collectPages = (nodes: NavNode[]) => {
+    for (const node of nodes) {
+      if (node.kind === "page") cmsPages.push(node);
+      collectPages(node.children);
+    }
+  };
+  collectPages(nav?.tree ?? []);
+  const cmsEntries = cmsPages.map((node) => ({
+    path: `/${node.path}/`,
+    lastModified: new Date(node.updated_at),
+    changeFrequency: "monthly" as const,
+    priority: 0.6,
   }));
 
   // Only locales cleared for indexing (see indexedLocales) are listed, each
@@ -93,7 +104,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...staticEntries,
     ...blogEntries,
     ...newsEntries,
-    ...complianceEntries,
+    ...cmsEntries,
   ];
   return entries.flatMap(({ path, locales = indexedLocales, ...entry }) =>
     locales.map((locale) => ({

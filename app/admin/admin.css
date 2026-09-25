@@ -41,3 +41,28 @@ input[type='week'] {
 .dark input[type='week'] {
   color-scheme: dark;
 }
+
+/* Content inside the rich-text editor (components/admin/RichTextEditor.tsx).
+   Tailwind's preflight strips heading/list/table styling, so the editable
+   area gets a minimal readable version of what the public page renders. */
+.rte-content { outline: none; min-height: 14rem; font-size: 14px; line-height: 1.65; }
+.rte-content > * + * { margin-top: .75em; }
+.rte-content h2 { font-size: 1.35em; font-weight: 700; }
+.rte-content h3 { font-size: 1.15em; font-weight: 700; }
+.rte-content h4 { font-size: 1em; font-weight: 700; }
+.rte-content ul { list-style: disc; padding-left: 1.5em; }
+.rte-content ol { list-style: decimal; padding-left: 1.5em; }
+.rte-content a { color: var(--color-primary-600); text-decoration: underline; }
+.rte-content blockquote { border-left: 3px solid var(--color-primary-500); padding-left: 1em; color: var(--color-slate-500); }
+.rte-content hr { border: 0; border-top: 1px solid var(--color-slate-300); margin: 1.25em 0; }
+.rte-content img { max-width: 100%; height: auto; border-radius: .5rem; }
+.rte-content img.ProseMirror-selectednode { outline: 2px solid var(--color-primary-500); }
+.rte-content code { background: var(--color-slate-100); padding: .1em .35em; border-radius: .3em; font-size: .9em; }
+.dark .rte-content code { background: var(--color-slate-800); }
+.rte-content table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+.rte-content :is(th, td) { border: 1px solid var(--color-slate-300); padding: .4em .6em; vertical-align: top; position: relative; }
+.dark .rte-content :is(th, td) { border-color: var(--color-slate-700); }
+.rte-content th { background: var(--color-slate-100); font-weight: 700; text-align: left; }
+.dark .rte-content th { background: var(--color-slate-800); }
+.rte-content .selectedCell::after { content: ""; position: absolute; inset: 0; background: color-mix(in oklch, var(--color-primary-500) 18%, transparent); pointer-events: none; }
+.rte-content p.is-editor-empty:first-child::before { content: attr(data-placeholder); float: left; height: 0; pointer-events: none; color: var(--color-slate-400); }
