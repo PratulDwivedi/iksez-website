@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#e8ecfb"/><stop offset="1" stop-color="#f7f3e6"/>
+    </linearGradient>
+    <linearGradient id="sea" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#3a3f9e"/><stop offset="1" stop-color="#23256b"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="300" fill="url(#sky)"/>
+  <circle cx="350" cy="48" r="24" fill="#e3b54a" opacity=".85"/>
+  <!-- distant hills -->
+  <path d="M0 170 Q60 140 120 160 T240 150 T400 158 V200 H0Z" fill="#cfe6d6"/>
+  <!-- sea -->
+  <rect y="196" width="400" height="104" fill="url(#sea)"/>
+  <path d="M20 232h40M90 252h56M250 270h60M300 236h40" stroke="#6f75cf" stroke-width="2" stroke-linecap="round" opacity=".7"/>
+  <!-- quay -->
+  <rect x="0" y="186" width="210" height="14" fill="#5b5f7a"/>
+  <!-- gantry crane -->
+  <g stroke="#e3b54a" stroke-width="4" fill="none" stroke-linejoin="round">
+    <path d="M60 186V92M96 186V92M60 120h36M60 150h36M60 120l36 30M96 120l-36 30"/>
+    <path d="M40 92h150"/>
+    <path d="M78 92V70l40 22"/>
+  </g>
+  <line x1="160" y1="92" x2="160" y2="128" stroke="#3a3a4a" stroke-width="1.5"/>
+  <rect x="146" y="128" width="28" height="12" rx="1" fill="#2fa35a"/>
+  <!-- container stacks on quay -->
+  <g>
+    <rect x="112" y="162" width="36" height="12" fill="#2b2d8c"/>
+    <rect x="112" y="174" width="36" height="12" fill="#2fa35a"/>
+    <rect x="150" y="174" width="36" height="12" fill="#e3b54a"/>
+    <rect x="150" y="162" width="36" height="12" fill="#c85a4a"/>
+    <rect x="131" y="150" width="36" height="12" fill="#4b8bd0"/>
+  </g>
+  <!-- ship -->
+  <g>
+    <path d="M200 214h180l-16 30H222Z" fill="#1b1d52"/>
+    <rect x="206" y="214" width="170" height="5" fill="#c85a4a"/>
+    <rect x="336" y="176" width="28" height="38" fill="#f3f4fb"/>
+    <rect x="340" y="182" width="20" height="5" fill="#2b2d8c"/>
+    <rect x="344" y="164" width="8" height="12" fill="#5b5f7a"/>
+    <g>
+      <rect x="220" y="202" width="26" height="12" fill="#2fa35a"/>
+      <rect x="248" y="202" width="26" height="12" fill="#e3b54a"/>
+      <rect x="276" y="202" width="26" height="12" fill="#4b8bd0"/>
+      <rect x="304" y="202" width="26" height="12" fill="#c85a4a"/>
+      <rect x="234" y="190" width="26" height="12" fill="#2b2d8c"/>
+      <rect x="262" y="190" width="26" height="12" fill="#2fa35a"/>
+      <rect x="290" y="190" width="26" height="12" fill="#e3b54a"/>
+    </g>
+  </g>
+  <!-- plane -->
+  <path transform="translate(-30 26)" d="M250 60l40 6 14-10 6 2-8 12 18 3-2 4-18-1-8 12-6 0 6-13-40-9Z" fill="#2b2d8c" opacity=".8"/>
+</svg>

@@ -546,6 +546,7 @@
    scale (var(--fs-4xl)) — kept as a real H1 for document outline/SEO. */
 .page-hero h1 { font-size: 29px; }
 .page-hero .section-head { margin-bottom: 0; }
+.page-hero .section-head p { font-size: var(--fs-base); }
 /* Tighter gap between the hero and the page's first content section: the
    hero's own bottom padding plus a full section's top padding left a very
    large empty band. Coloured bands (--alt/--soft) keep their padding so
@@ -870,8 +871,8 @@
 .home-zone-card { display: grid; grid-template-columns: 44% 56%; overflow: hidden; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease); }
 .home-zone-card:hover { transform: translateY(-3px); box-shadow: var(--shadow); }
 .home-zone-card__image { min-height: 220px; background-position: center; background-size: cover; }
-.home-zone-card__image--sez { background-image: url("https://images.unsplash.com/photo-1586864387967-d02ef85d93e8?auto=format&fit=crop&w=900&q=80"); }
-.home-zone-card__image--dtz { background-image: url("https://images.unsplash.com/photo-1565793298595-6a879b1d9492?auto=format&fit=crop&w=900&q=80"); }
+.home-zone-card__image--sez { background-image: url("/images/zones/sez.svg"); }
+.home-zone-card__image--dtz { background-image: url("/images/zones/dtz.svg"); }
 .home-zone-card__body { padding: 26px; }
 .home-zone-card__body h3 { margin: 0 0 5px; color: var(--color-heading); font-size: 19px; }
 .home-zone-card__sub { color: var(--color-secondary); font-size: 11px; font-weight: 700; }
