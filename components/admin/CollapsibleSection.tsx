@@ -35,7 +35,12 @@ export function CollapsibleSection({
         <span className="text-[13px] font-bold text-slate-900 dark:text-white">{title}</span>
       </button>
 
-      {open && <div className="p-4">{children}</div>}
+      {/* Hidden, not unmounted: these sections sit inside <form>s, and an
+          unmounted input isn't submitted — collapsing a section used to
+          silently clear its fields on save. */}
+      <div className="p-4" hidden={!open}>
+        {children}
+      </div>
     </div>
   );
 }
