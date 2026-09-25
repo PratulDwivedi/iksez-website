@@ -192,9 +192,9 @@
 
 .blog-post__head { margin-top: var(--sp-5); }
 /* Matches the H1 scale used site-wide by PageHero (components.css
-   .page-intro h1) — a detail-page title shouldn't be larger than the
-   H1 used everywhere else in the app. */
-.blog-post__title { font-size: clamp(1.75rem, 1.2rem + 2vw, 2.5rem); letter-spacing: -1px; }
+   .page-hero h1, 29px) — a detail-page title shouldn't be larger than
+   the H1 used everywhere else in the app. */
+.blog-post__title { font-size: 29px; }
 .blog-post__meta-top { display: flex; align-items: center; gap: var(--sp-3); margin-bottom: var(--sp-4); }
 .blog-post__readtime { display: inline-flex; align-items: center; gap: .35rem; font-size: var(--fs-xs); color: var(--color-muted); }
 .blog-post__readtime svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; }

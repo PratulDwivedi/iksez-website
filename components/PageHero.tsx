@@ -1,23 +1,20 @@
 type PageHeroProps = {
   title: string;
   subtitle?: string;
-  /** Retained for page-call compatibility; all inner pages share one hero background. */
+  eyebrow?: string;
+  /** Retained for page-call compatibility; the flat header no longer renders a background image. */
   banner?: string;
 };
 
-export default function PageHero({ title, subtitle }: PageHeroProps) {
-  const words = title.split(" ");
-  const accentWord = words.pop();
-
+export default function PageHero({ title, subtitle, eyebrow = "IFFCO Kisan SEZ" }: PageHeroProps) {
   return (
-    <section className="page-intro">
+    <section className="section section--tight page-hero">
       <div className="container">
-        <span className="page-intro__eyebrow">IFFCO KISAN SEZ</span>
-        <h1>
-          {words.length > 0 && `${words.join(" ")} `}
-          <span className="accent">{accentWord}</span>
-        </h1>
-        {subtitle && <p>{subtitle}</p>}
+        <div className="section-head">
+          <span className="eyebrow">{eyebrow}</span>
+          <h1>{title}</h1>
+          {subtitle && <p>{subtitle}</p>}
+        </div>
       </div>
     </section>
   );

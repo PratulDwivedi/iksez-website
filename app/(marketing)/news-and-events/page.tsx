@@ -27,19 +27,13 @@ export default async function NewsAndEvents() {
   return (
     <>
       <PageHero
+        eyebrow="News & Media"
         title="News and Events"
         subtitle="Latest updates and initiatives from IFFCO Kisan SEZ"
-        banner="/images/media-banner.webp"
       />
 
-      <section className="section">
+      <section className="section section--tight">
         <div className="container">
-          <div className="section-head">
-            <span className="eyebrow">News &amp; Media</span>
-            <h2>News and Events</h2>
-            <p>Latest updates and initiatives from IFFCO Kisan SEZ</p>
-          </div>
-
           {!is_success ? (
             <p className="blog-error">{message}</p>
           ) : items.length === 0 ? (
