@@ -34,6 +34,12 @@ export default async function NewsAndEvents() {
 
       <section className="section">
         <div className="container">
+          <div className="section-head">
+            <span className="eyebrow">News &amp; Media</span>
+            <h2>News and Events</h2>
+            <p>Latest updates and initiatives from IFFCO Kisan SEZ</p>
+          </div>
+
           {!is_success ? (
             <p className="blog-error">{message}</p>
           ) : items.length === 0 ? (
