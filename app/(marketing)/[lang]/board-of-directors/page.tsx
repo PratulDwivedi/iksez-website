@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import PageHero from "@/components/PageHero";
 import CtaBand from "@/components/CtaBand";
-import LeadershipProfiles from "@/components/LeadershipProfiles";
+import { getLocale } from "@/lib/i18n/getDictionary";
+import LeadershipProfiles, { LeadershipBanners } from "@/components/LeadershipProfiles";
 
 export const metadata: Metadata = {
   title: "Management Team | IFFCO Kisan SEZ",
@@ -9,10 +9,13 @@ export const metadata: Metadata = {
     "Leadership and Board of Directors of IFFCO Kisan SEZ, based on the current IFFCO leadership profiles.",
 };
 
-export default function BoardOfDirectors() {
+export default async function BoardOfDirectors() {
+  const lang = await getLocale();
   return (
     <>
-      <PageHero title="Leadership" banner="/images/about-us-banner.webp" />
+      {/* IFFCO-style full-bleed banners open the page instead of a PageHero. */}
+      <h1 className="sr-only">Leadership</h1>
+      <LeadershipBanners lang={lang} />
 
       <section className="section">
         <div className="container">

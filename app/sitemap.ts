@@ -23,6 +23,8 @@ const staticRoutes = [
   { path: "/agropark/", priority: 0.8, changeFrequency: "monthly" as const },
   { path: "/benefits/", priority: 0.8, changeFrequency: "monthly" as const },
   { path: "/board-of-directors/", priority: 0.5, changeFrequency: "yearly" as const },
+  { path: "/board-of-directors/dileep-sanghani/", priority: 0.4, changeFrequency: "yearly" as const },
+  { path: "/board-of-directors/k-j-patel/", priority: 0.4, changeFrequency: "yearly" as const },
   { path: "/contact-us/", priority: 0.7, changeFrequency: "monthly" as const },
   { path: "/existing-units/", priority: 0.7, changeFrequency: "monthly" as const },
   { path: "/gallery/", priority: 0.6, changeFrequency: "monthly" as const },
