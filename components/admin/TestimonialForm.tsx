@@ -5,6 +5,7 @@ import { Quote, Loader2 } from 'lucide-react';
 import { saveTestimonial } from '@/app/admin/(protected)/testimonials/actions';
 import { AdminPageHeader } from './AdminPageHeader';
 import { CollapsibleSection } from './CollapsibleSection';
+import { submitWithoutReset } from './submitWithoutReset';
 
 export interface TestimonialFormRow {
   id: number;
@@ -24,6 +25,9 @@ const inputCls =
   'w-full px-3 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-[13px] focus:outline-none focus:border-primary-500 transition';
 const labelCls =
   'text-[11px] font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400 mb-1.5 block';
+
+// Same required-field mark as BlogForm.tsx / NewsEventForm.tsx.
+const Required = () => <span className="text-red-500 normal-case">&nbsp;*</span>;
 
 const FORM_ID = 'testimonial-form';
 
@@ -50,7 +54,7 @@ export function TestimonialForm({ testimonial }: { testimonial?: TestimonialForm
       />
 
       <div className="px-4 sm:px-6 py-6">
-        <form id={FORM_ID} action={formAction} className="space-y-4">
+        <form id={FORM_ID} onSubmit={submitWithoutReset(formAction)} className="space-y-4">
           {testimonial && <input type="hidden" name="id" defaultValue={testimonial.id} />}
 
           {state.error && (
@@ -61,7 +65,7 @@ export function TestimonialForm({ testimonial }: { testimonial?: TestimonialForm
 
           <CollapsibleSection title="Quote">
             <div>
-              <label className={labelCls} htmlFor="quote">Quote</label>
+              <label className={labelCls} htmlFor="quote">Quote<Required /></label>
               <textarea
                 id="quote"
                 name="quote"
@@ -77,7 +81,7 @@ export function TestimonialForm({ testimonial }: { testimonial?: TestimonialForm
             <div className="space-y-4">
               <div className="grid sm:grid-cols-2 gap-4">
                 <div>
-                  <label className={labelCls} htmlFor="author_name">Author name</label>
+                  <label className={labelCls} htmlFor="author_name">Author name<Required /></label>
                   <input id="author_name" name="author_name" required defaultValue={testimonial?.author_name} className={inputCls} />
                 </div>
                 <div>

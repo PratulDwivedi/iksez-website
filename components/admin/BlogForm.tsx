@@ -18,6 +18,7 @@ import {
   type TranslationLocale,
 } from '@/lib/blogTranslations';
 import { localeLabels } from '@/lib/i18n/config';
+import { submitWithoutReset } from './submitWithoutReset';
 
 export interface BlogFormPost {
   id: number;
@@ -115,7 +116,7 @@ export function BlogForm({
       />
 
       <div className="px-4 sm:px-6 py-6">
-        <form id={FORM_ID} action={formAction} onInvalidCapture={revealInvalidField} className="space-y-4">
+        <form id={FORM_ID} onSubmit={submitWithoutReset(formAction)} onInvalidCapture={revealInvalidField} className="space-y-4">
           {post && <input type="hidden" name="id" defaultValue={post.id} />}
 
           {state.error && (

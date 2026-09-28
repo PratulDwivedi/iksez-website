@@ -18,7 +18,7 @@ const nextConfig: NextConfig = {
     // Admin-only: blog cover images and media library thumbnails are stored
     // in this Supabase project's Storage buckets and rendered via next/image.
     remotePatterns: [
-      { protocol: "https", hostname: "wirkzblhhfrqbywrtoze.supabase.co", pathname: "/storage/v1/object/**" },
+      { protocol: "https", hostname: "llpdkkjlbdsoqwqmbpcb.supabase.co", pathname: "/storage/v1/object/**" },
     ],
   },
 

@@ -6,6 +6,7 @@ import { User, Loader2 } from 'lucide-react';
 import { saveProfile, changePassword } from '@/app/admin/(protected)/profile/actions';
 import { AdminPageHeader } from './AdminPageHeader';
 import { CollapsibleSection } from './CollapsibleSection';
+import { submitWithoutReset } from './submitWithoutReset';
 
 // Matches artificial-wit-web-apps' ProfilePage.tsx input/label typography
 // exactly (rounded-xl px-3 py-2.5 text-[13px] / text-[11px] uppercase
@@ -58,7 +59,7 @@ export function ProfileForm({ profile }: { profile: ProfileFormData }) {
       <div className="px-4 sm:px-10 py-8">
         <div className="space-y-4 max-w-2xl">
           <CollapsibleSection title="Profile">
-            <form id={PROFILE_FORM_ID} action={profileAction} className="space-y-4">
+            <form id={PROFILE_FORM_ID} onSubmit={submitWithoutReset(profileAction)} className="space-y-4">
               <div className="flex items-center gap-2 text-xs">
                 <span className="px-2.5 py-1 rounded-full bg-primary-500/10 text-primary-600 dark:text-primary-500 font-bold">
                   {profile.tenant_name}
@@ -133,7 +134,7 @@ function PasswordForm() {
     <form action={formAction} className="space-y-4" key={state.success ? 'reset' : 'form'}>
       <div className="grid sm:grid-cols-2 gap-4">
         <div>
-          <label className={labelCls} htmlFor="password">New password</label>
+          <label className={labelCls} htmlFor="password">New password<span className="text-red-500 normal-case">&nbsp;*</span></label>
           <input
             id="password"
             name="password"
@@ -146,7 +147,7 @@ function PasswordForm() {
         </div>
 
         <div>
-          <label className={labelCls} htmlFor="confirm_password">Confirm new password</label>
+          <label className={labelCls} htmlFor="confirm_password">Confirm new password<span className="text-red-500 normal-case">&nbsp;*</span></label>
           <input
             id="confirm_password"
             name="confirm_password"

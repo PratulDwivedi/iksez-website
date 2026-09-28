@@ -1,6 +1,8 @@
 import { notFound } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
-import { TestimonialForm, type TestimonialFormRow } from '@/components/admin/TestimonialForm';
+import { callRpc } from '@/lib/supabase/rpc';
+import type { TestimonialRow } from '@/lib/publicTestimonials';
+import { TestimonialForm } from '@/components/admin/TestimonialForm';
 
 export default async function EditTestimonialPage({
   params,
@@ -10,11 +12,14 @@ export default async function EditTestimonialPage({
   const { id } = await params;
   const supabase = await createClient();
 
-  const { data: testimonial } = await supabase
-    .from('website_testimonials')
-    .select('id, quote, author_name, author_role, company, avatar_url, rating, display_order, published')
-    .eq('id', Number(id))
-    .single<TestimonialFormRow>();
+  // Same tenant-scoped RPC and params as the Testimonials list page, rather
+  // than a direct table read that depends on RLS policies (and 404s without
+  // them). p_published: null so drafts are editable too.
+  const { data: testimonials } = await callRpc<TestimonialRow[]>(supabase, 'fn_get_website_testimonials', {
+    p_published: null,
+    p_page_size: 1000,
+  });
+  const testimonial = testimonials?.find((row) => row.id === Number(id));
 
   if (!testimonial) {
     notFound();

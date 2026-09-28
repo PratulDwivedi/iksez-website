@@ -7,6 +7,7 @@ import { saveTicket } from '@/app/admin/(protected)/tickets/actions';
 import { AdminPageHeader } from './AdminPageHeader';
 import { CollapsibleSection } from './CollapsibleSection';
 import type { TicketRow } from '@/lib/publicTickets';
+import { submitWithoutReset } from './submitWithoutReset';
 
 export type TicketFormTicket = Pick<
   TicketRow,
@@ -70,7 +71,7 @@ export function TicketForm({ ticket }: { ticket?: TicketFormTicket }) {
       />
 
       <div className="px-4 sm:px-6 py-6">
-        <form id={FORM_ID} action={formAction} className="space-y-4">
+        <form id={FORM_ID} onSubmit={submitWithoutReset(formAction)} className="space-y-4">
           {ticket && <input type="hidden" name="id" defaultValue={ticket.id} />}
 
           {state.error && (

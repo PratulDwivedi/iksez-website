@@ -10,6 +10,7 @@ import { createClient } from '@/lib/supabase/client';
 import { AdminPageHeader } from './AdminPageHeader';
 import { CollapsibleSection } from './CollapsibleSection';
 import { BlogBody } from '../BlogBody';
+import { submitWithoutReset } from './submitWithoutReset';
 
 export interface NewsEventFormPost {
   id: number;
@@ -53,7 +54,7 @@ export function NewsEventForm({ post }: { post?: NewsEventFormPost }) {
       />
 
       <div className="px-4 sm:px-6 py-6">
-        <form id={FORM_ID} action={formAction} className="space-y-4">
+        <form id={FORM_ID} onSubmit={submitWithoutReset(formAction)} className="space-y-4">
           {post && <input type="hidden" name="id" defaultValue={post.id} />}
 
           {state.error && (

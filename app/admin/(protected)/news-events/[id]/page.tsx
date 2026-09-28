@@ -1,6 +1,8 @@
 import { notFound } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
-import { NewsEventForm, type NewsEventFormPost } from '@/components/admin/NewsEventForm';
+import { callRpc } from '@/lib/supabase/rpc';
+import type { NewsEventRow } from '@/lib/publicNewsEvents';
+import { NewsEventForm } from '@/components/admin/NewsEventForm';
 
 export default async function EditNewsEventPage({
   params,
@@ -10,14 +12,14 @@ export default async function EditNewsEventPage({
   const { id } = await params;
   const supabase = await createClient();
 
-  // Direct table read (bypasses fn_get_website_news_events), same pattern as
-  // blogs/[id]/page.tsx — relies on RLS rather than the RPC for the
-  // single-row edit fetch.
-  const { data: post } = await supabase
-    .from('website_news_events')
-    .select('id, title, event_date, gallery, body, published')
-    .eq('id', Number(id))
-    .single<NewsEventFormPost>();
+  // Same tenant-scoped RPC and params as the News & Events list page, rather
+  // than a direct table read that depends on RLS policies (and 404s without
+  // them). p_published: null so drafts are editable too.
+  const { data: items } = await callRpc<NewsEventRow[]>(supabase, 'fn_get_website_news_events', {
+    p_published: null,
+    p_page_size: 1000,
+  });
+  const post = items?.find((item) => item.id === Number(id));
 
   if (!post) {
     notFound();

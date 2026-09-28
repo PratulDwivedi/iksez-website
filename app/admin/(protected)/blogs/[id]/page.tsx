@@ -17,18 +17,20 @@ export default async function EditBlogPostPage({
   const { error } = await searchParams;
   const supabase = await createClient();
 
-  const [{ data: post }, categories, { data: translations }] = await Promise.all([
-    supabase
-      .from('website_blogs')
-      .select(
-        'id, name, title, excerpt, category_id, cover_url, cover_alt, tags, keywords, author_name, author_role, read_minutes, body, published, data'
-      )
-      .eq('id', Number(id))
-      .single<BlogFormPost>(),
+  const [{ data: posts }, categories, { data: translations }] = await Promise.all([
+    // Via fn_get_website_blogs (tenant-scoped, SECURITY DEFINER) rather than a
+    // direct table read, which depends on RLS policies and 404s without them.
+    // p_published: null so drafts are editable too.
+    callRpc<BlogFormPost[]>(supabase, 'fn_get_website_blogs', {
+      p_id: Number(id),
+      p_published: null,
+      p_page_size: 1,
+    }),
     getQuickList(BLOG_CATEGORY_PARENT_ID),
     callRpc<BlogTranslation[]>(supabase, 'fn_get_website_blog_translations', { p_blog_id: Number(id) }),
   ]);
 
+  const post = posts?.[0];
   if (!post) {
     notFound();
   }

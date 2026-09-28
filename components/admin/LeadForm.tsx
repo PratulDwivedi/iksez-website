@@ -6,6 +6,7 @@ import { saveLead, deleteLead } from '@/app/admin/(protected)/leads/actions';
 import { AdminPageHeader } from './AdminPageHeader';
 import { CollapsibleSection } from './CollapsibleSection';
 import type { LeadRow } from '@/lib/publicLeads';
+import { submitWithoutReset } from './submitWithoutReset';
 
 export interface LeadFormLead
   extends Pick<
@@ -106,7 +107,7 @@ export function LeadForm({ lead }: { lead?: LeadFormLead }) {
       />
 
       <div className="px-4 sm:px-6 py-6">
-        <form id={FORM_ID} action={formAction} className="space-y-4">
+        <form id={FORM_ID} onSubmit={submitWithoutReset(formAction)} className="space-y-4">
           {lead && <input type="hidden" name="id" defaultValue={lead.id} />}
 
           {state.error && (
