@@ -14,7 +14,7 @@ const MEDIA_API_RESPONSE_EXAMPLE = `{
     {
       "id": 1,
       "file_name": "hero-shot.webp",
-      "url": "https://wirkzblhhfrqbywrtoze.supabase.co/storage/v1/object/public/website-media/....webp",
+      "url": "https://llpdkkjlbdsoqwqmbpcb.supabase.co/storage/v1/object/public/website-media/....webp",
       "mime_type": "image/webp",
       "size_bytes": 84213,
       "alt_text": "Laptop mockup on a desk",
