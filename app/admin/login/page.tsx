@@ -189,32 +189,6 @@ export default function AdminLoginPage() {
               {submitting && <Loader2 className="w-4 h-4 animate-spin" />}
               {submitting ? 'Signing in…' : 'Sign In'}
             </button>
-
-            <div className="relative py-1">
-              <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-slate-200 dark:border-slate-800" />
-              </div>
-              <div className="relative flex justify-center">
-                <span className="px-3 bg-white dark:bg-slate-900 text-[10px] font-bold uppercase tracking-wider text-slate-400">
-                  or
-                </span>
-              </div>
-            </div>
-
-            {/* Not wired up yet — UI placeholder only, per explicit request
-                to add this now and implement the actual SSO flow later. */}
-            <button
-              type="button"
-              disabled
-              title="Coming soon"
-              className="w-full py-3.5 rounded-xl border border-slate-200 dark:border-slate-800 text-slate-400 dark:text-slate-500 font-bold text-sm flex items-center justify-center gap-2 cursor-not-allowed"
-            >
-              <Building2 className="w-4 h-4" />
-              Sign in with SSO
-              <span className="ml-1 px-1.5 py-0.5 rounded-full text-[9px] font-extrabold uppercase tracking-wide bg-slate-100 dark:bg-slate-800">
-                Soon
-              </span>
-            </button>
           </form>
         </div>
       </div>
